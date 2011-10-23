@@ -1,0 +1,8 @@
+AuthUserFile /home/www/bmsbasket.dk/dommer/admin/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Dommerbordsadministration"
+AuthType Basic
+
+<limit GET POST>
+require valid-user
+</limit>

@@ -2,8 +2,14 @@
 
 require "connect.php";
 require "todo.class.php";
+require "config.php";
 
-// Select all the todos, ordered by position:
+if(!mysql_num_rows(mysql_query("SELECT * FROM `teams` WHERE `name` = '-'"))){
+    mysql_query("INSERT INTO `teams` (`id`, `name`) VALUES ('9999','-')");
+}
+
+// Select all the todos, ordered by positions
+
 $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` ORDER BY `date`,`time` ASC ");
 
 $todos = array();
@@ -20,7 +26,7 @@ while($row = mysql_fetch_assoc($query)){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>BMS Dommerbordsplan</title>
+<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
 
 <!-- Including the jQuery UI Human Theme -->
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
@@ -32,10 +38,11 @@ while($row = mysql_fetch_assoc($query)){
 
 <body>
 
-<h1>BMS Dommerplan</h1>
+<h1><?php echo $klubnavn; ?> Dommerplan</h1>
 
 <div id="main">
-<a href=http://www.bmsbasket.dk/dommer/sync.php>Opdater Kampprogram</a> | <a href=http://www.bmsbasket.dk/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a>
+Dommerplan | <a href=http://<?php echo $klubadresse; ?>/dommer/sync.php>Opdater Kampprogram</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/addallsources.php>Tilføj/Vis alle klubbens hold</a>
+<br><br>
 	<ul class="todoList">
 		
         <?php

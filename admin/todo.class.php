@@ -108,24 +108,6 @@ class ToDo{
 				<div class="actions">
 				
 					<div style="position:absolute; right:150px;">
-						1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
-						<select name="referee1" id="referee1Select">
-						  <option value="0">Vælg et hold</option>
-						  '.$refereeteamlist1.'
-						</select>
-						</form>
-						<br>
-						2.Dommer: <form name="refereeteam2" action="" class="refereeteam2">
-						<select name="referee2" id="referee2Select">
-                        		          <option value="0">Vælg et hold</option>
-                                		  '.$refereeteamlist2.'
-                                		 </select>
-						</form>			
-								
-						<a href="#" class="delete">Delete</a>
-						<a href="#" class="edit">Edit</a>
-					</div>
-					<div style="position:absolute; right:0px;">
 						Dommerbord: <form name="tableteam1" action="" class="tableteam1">
                                                 <select name="table1" id="table1Select">
                                                   <option value="0">Vælg et hold</option>
@@ -138,7 +120,26 @@ class ToDo{
                                                   <option value="0">Vælg et hold</option>
                                                   '.$tableteamlist2.'
                                                  </select>
-                                                 </form>
+                                                 </form>	
+								
+						<a href="#" class="delete">Delete</a>
+						<a href="#" class="edit">Edit</a>
+					</div>
+					<div style="position:absolute; right:0px;">
+						
+						1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
+						<select name="referee1" id="referee1Select">
+						  <option value="0">Vælg et hold</option>
+						  '.$refereeteamlist1.'
+						</select>
+						</form>
+						<br>
+						2.Dommer: <form name="refereeteam2" action="" class="refereeteam2">
+						<select name="referee2" id="referee2Select">
+                        		          <option value="0">Vælg et hold</option>
+                                		  '.$refereeteamlist2.'
+                                		 </select>
+						</form>		
 						<br>
 						24. Sekunder: <form name="tableteam3" action="" class="tableteam3">
 						<select name="table3" id="table3Select">

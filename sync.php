@@ -1,13 +1,40 @@
 <?php
 
 require "admin/connect.php";
+require "admin/config.php";
 
-$klubnavn = "BMS";
+if($debug==0){
+error_reporting(0);
+}
+?>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
+
+<!-- Including the jQuery UI Human Theme -->
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
+
+<!-- Our own stylesheet -->
+<link rel="stylesheet" type="text/css" href="admin/styles.css" />
+
+</head>
+
+<body>
+
+<h1><?php echo $klubnavn; ?> Dommerplan</h1>
+
+<div id="main">
+
+<a href=http://<?php echo $klubadresse; ?>/dommer/admin>Dommerplan</a> | Opdater Kampprogram | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/addallsources.php>Tilføj/Vis alle klubbens hold</a>
+
+<br><br>
+
+<?php
 
 $query="SELECT id,address,team FROM `calendars`";
-
-
 
 $calendars = mysql_query($query);
 
@@ -23,15 +50,17 @@ if (mysql_num_rows($calendars) == 0) {
 while($icals=mysql_fetch_assoc($calendars)){
 
 $currentteam=$icals['team'];
-
-print_r("<br>Syncing: $currentteam<br>");
-
+$gamechanged=0;
+ echo "<br>Opdaterer: $currentteam<br>";
+ if($debug!=0){
+ echo $icals['address'];
+ echo "<br>";
+ }
   // new dom object  
   $dom = new DOMDocument();  
   
   //load the html  
  $content        = file_get_contents($icals['address']);
- echo $icals['address'];
 $page = '
 <html>
  <head>
@@ -52,16 +81,14 @@ $page .= $content;
   $tables = $dom->getElementsByTagName('table');   
   
   //get all rows from the table  
-  echo $tables->length;
   if ( $tables->length > 1){
   $rows = $tables->item(1)->getElementsByTagName('tr');   
   }
   else{
   $rows = $tables->item(0)->getElementsByTagName('tr');
   }
-  
   // loop over the table rows  
-  foreach ($rows as $row)   
+  foreach ($rows as $row)  
   {   
     
    // get each column by tag name  
@@ -80,7 +107,6 @@ $page .= $content;
       $id=str_replace("\n", "", $id);
       $id=str_replace("\r", "", $id);
       $id=str_replace(" ", "", $id);
-      echo $id;
       
       $fulldate= $cols->item(1)->nodeValue;
       $fulldate = str_replace("\n", "", $fulldate);
@@ -108,10 +134,13 @@ $page .= $content;
       $olddate=$olddate['date'];
       $oldtime=$oldtime['time'];
       if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time){
-        print_r("Nothing Changed on '$id' <br>");
+        if($debug!=0){
+          print_r("Nothing Changed on '$id' <br>");
+        }
       }
       else{
-        print_r("Updating Existing: '$id' <br>");
+        print_r("Ændring til kamp: '$id' <br>");
+        $gamechanged=1;
         mysql_query("UPDATE games SET text='$text' WHERE id = '$id'");
         mysql_query("UPDATE games SET date='$date' WHERE id = '$id'");
         mysql_query("UPDATE games SET time='$time' WHERE id = '$id'");
@@ -119,17 +148,31 @@ $page .= $content;
       }
     }
     else{
-    mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`) VALUES ('$id', '$text', '$date', '$time','1')");
-    print_r("Adding '$id' <br>");
+    mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`) VALUES ('$id', '$text', '$date', '$time','1',9999)");
+    print_r("Tilføjer: '$id' <br>");
+    $gamechanged=1;
     } 
   }   
   else
   {
   $id=$cols->item(0)->nodeValue;
-  print_r("Game '$id' is an Away-Game.. Skipping<br>");
+  if($debug!=0){
+    print_r("Game '$id' is an Away-Game.. Skipping<br>");
+  }
   }
       
+
+
+}
+if($gamechanged==0){
+echo "Ingen Ændringer.<br><br>";
 }
 
 }
 ?>
+<br><br>
+
+</div>
+
+</body>
+</html>

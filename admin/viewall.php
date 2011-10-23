@@ -2,6 +2,7 @@
 
 require "connect.php";
 require "todo.class.php";
+require "config.php";
 
 
 // Select all the todos, ordered by position:
@@ -21,7 +22,7 @@ while($row = mysql_fetch_assoc($query)){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>BMS Dommerbordsplan</title>
+<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
 
 <!-- Including the jQuery UI Human Theme -->
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
@@ -33,7 +34,7 @@ while($row = mysql_fetch_assoc($query)){
 
 <body>
 
-<h1>BMS Dommerplan</h1>
+<h1><?php echo $klubnavn; ?> Dommerplan</h1>
 
 <div id="main">
 
