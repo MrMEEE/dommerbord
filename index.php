@@ -52,7 +52,7 @@ load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
     ?>
    <h2>Dommerbordsplan</h2>
    <br>
-   <table width=920> 
+   <table width=545> 
    <tr>
    <td>
    <a href="http://<?php echo $klubadresse; ?>/dommer/statistik.php">Statistik</a>
