@@ -28,9 +28,7 @@ error_reporting(0);
 
 <div id="main">
 
-<a href=http://<?php echo $klubadresse; ?>/dommer/admin>Dommerplan</a> | Opdater Kampprogram | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/addallsources.php>Tilføj/Vis alle klubbens hold</a>
-
-<br><br>
+<?php require("admin/menu.php"); ?>
 
 <?php
 

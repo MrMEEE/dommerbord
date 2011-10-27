@@ -64,8 +64,7 @@ function ConfirmAllChoice()
 
 <div id="main">
 
-<a href=http://<?php echo $klubadresse; ?>/dommer/admin>Dommerplan</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/sync.php>Opdater Kampprogram</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a> | Tilføj/Vis alle klubbens hold
-<br><br>
+<?php require("menu.php"); ?>
 
 <?php
 if(isset($_GET["removesource"])){

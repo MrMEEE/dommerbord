@@ -73,7 +73,7 @@ location = "http://" + klubadresse + "/dommer/admin/people.php?removeperson=1&id
 
 <div id="main">
 
-<a href=http://<?php echo $klubadresse; ?>/dommer/admin>Dommerplan</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/sync.php>Opdater Kampprogram</a> | Tilføj/Vis Hold/Personer | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/addallsources.php>Tilføj/Vis alle klubbens hold</a>
+<?php require("menu.php"); ?>
 
 <?php
 

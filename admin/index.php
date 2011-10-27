@@ -41,8 +41,8 @@ while($row = mysql_fetch_assoc($query)){
 <h1><?php echo $klubnavn; ?> Dommerplan</h1>
 
 <div id="main">
-Dommerplan | <a href=http://<?php echo $klubadresse; ?>/dommer/sync.php>Opdater Kampprogram</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/people.php>Tilføj/Vis Hold/Personer</a> | <a href=http://<?php echo $klubadresse; ?>/dommer/admin/addallsources.php>Tilføj/Vis alle klubbens hold</a>
-<br><br>
+<?php require("menu.php"); ?>
+
 	<ul class="todoList">
 		
         <?php
