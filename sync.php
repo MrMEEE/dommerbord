@@ -32,6 +32,8 @@ error_reporting(0);
 
 <?php
 
+mysql_query("UPDATE `config` set lastupdated=now() WHERE id='1'");
+
 $query="SELECT id,address,team FROM `calendars`";
 
 $calendars = mysql_query($query);
@@ -132,6 +134,7 @@ $page .= $content;
       $olddate=$olddate['date'];
       $oldtime=$oldtime['time'];
       if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time){
+        mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
         if($debug!=0){
           print_r("Nothing Changed on '$id' <br>");
         }
@@ -143,6 +146,7 @@ $page .= $content;
         mysql_query("UPDATE games SET date='$date' WHERE id = '$id'");
         mysql_query("UPDATE games SET time='$time' WHERE id = '$id'");
         mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
+        mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
       }
     }
     else{
@@ -167,6 +171,14 @@ echo "Ingen Ændringer.<br><br>";
 }
 
 }
+
+$config = mysql_fetch_assoc(mysql_query("SELECT * FROM config WHERE id = '1'"));
+
+$lastupdated = $config['lastupdated'];
+echo $lastupdated;
+
+mysql_query("UPDATE `games` set status='3' WHERE dt_added < '$lastupdated'");
+
 ?>
 <br><br>
 
@@ -174,3 +186,4 @@ echo "Ingen Ændringer.<br><br>";
 
 </body>
 </html>
+

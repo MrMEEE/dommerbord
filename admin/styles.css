@@ -48,8 +48,11 @@ ul.todoList li.changed{
 }
 ul.todoList li.ok{
 	background-color:#80FF99;
-
 }
+ul.todoList li.cancelled{
+        background-color:#000099;
+}
+
 ul.todoList li:hover{
 	border-color:#9be0f9;
 	
