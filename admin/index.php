@@ -8,9 +8,33 @@ if(!mysql_num_rows(mysql_query("SELECT * FROM `teams` WHERE `name` = '-'"))){
     mysql_query("INSERT INTO `teams` (`id`, `name`) VALUES ('9999','-')");
 }
 
-// Select all the todos, ordered by positions
+$viewgames="default";
 
-$query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` ORDER BY `date`,`time` ASC ");
+if(isset($_GET["view"])){
+    $viewgames=$_GET["view"];
+
+}
+
+
+// Select all the todos, ordered by positions
+switch ($viewgames) {
+    case "default":
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` ORDER BY `date`,`time` ASC ");
+    break;
+    case "unassigned":
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 1 ORDER BY `date`,`time` ASC ");
+    break;
+    case "moved":
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 2 ORDER BY `date`,`time` ASC ");
+    break;
+    case "cancelled":
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 3 ORDER BY `date`,`time` ASC ");
+    break;
+    case "all":
+        $query = mysql_query("SELECT * FROM `games` ORDER BY `date`,`time` ASC ");
+    break;
+
+}
 
 $todos = array();
 
@@ -42,7 +66,7 @@ while($row = mysql_fetch_assoc($query)){
 
 <div id="main">
 <?php require("menu.php"); ?>
-
+<?php require("gamemenu.php"); ?> 
 	<ul class="todoList">
 		
         <?php
@@ -64,7 +88,6 @@ while($row = mysql_fetch_assoc($query)){
 <!-- This div is used as the base for the confirmation jQuery UI POPUP. Hidden by CSS. -->
 <div id="dialog-confirm" title="Delete TODO Item?">Er du sikker på at du vil slette den kamp??</div>
 
-<a href="./viewall.php">Vis alle hjemmebanekampe</a>
 <!-- Including our scripts -->
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
