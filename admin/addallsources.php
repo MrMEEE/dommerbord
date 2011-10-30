@@ -20,8 +20,9 @@ function ConfirmChoice(teamid)
  {
   
   var klubadresse = "<?php echo $klubadresse;?>";
+  var klubpath = "<?php echo $klubpath;?>";
   
-  location = "http://" + klubadresse + "/dommer/admin/addallsources.php?removesource=1&id=" + teamid;
+  location = "http://" + klubadresse + "/" + klubpath + "/admin/addallsources.php?removesource=1&id=" + teamid;
   
   }
    
@@ -37,8 +38,9 @@ function ConfirmAllChoice()
      {
        
    var klubadresse = "<?php echo $klubadresse;?>";
+   var klubpath = "<?php echo $klubpath;?>";
            
-  location = "http://" + klubadresse + "/dommer/admin/addallsources.php?removeallsources=1";
+  location = "http://" + klubadresse + "/" + klubpath + "/admin/addallsources.php?removeallsources=1";
                
    }
                   

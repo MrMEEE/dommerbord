@@ -55,7 +55,7 @@ load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
    <table width=545> 
    <tr>
    <td>
-   <a href="http://<?php echo $klubadresse; ?>/dommer/statistik.php">Statistik</a>
+   <a href="http://<?php echo $klubadresse; ?>/<?php echo $klubpath; ?>/statistik.php">Statistik</a>
    </td>
    <td align="right">
    <form method="post" name="teamlist">

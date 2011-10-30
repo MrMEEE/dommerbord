@@ -47,8 +47,9 @@ if (answer !=0)
 {
 
 var klubadresse = "<?php echo $klubadresse;?>"
+var klubpath = "<?php echo $klubpath;?>"
 
-location = "http://" + klubadresse + "/dommer/admin/people.php?removeperson=1&id=" + personid;
+location = "http://" + klubadresse + "/" + klubpath + "/admin/people.php?removeperson=1&id=" + personid;
 
 }
 
