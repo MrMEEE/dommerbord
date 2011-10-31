@@ -20,15 +20,16 @@ if(isset($_GET["host"])){
         $failed=3;
       }else {
         // File to open
-        $file = 'connect.php';
+        $fileopen = 'connect.php.default';
         
         // Search and Replace Arrays
         $search = array('/HOST/','/USER/','/PASSWORD/','/DATABASE/');
         $replace = array($host,$bruger,$kode,$database);
         
         // Open the file
-        $lines = file($file);
-        $fh = fopen($file, 'w') or die("can't open file");
+        $lines = file($fileopen);
+        $filewrite = 'connect.php';
+        $fh = fopen($filewrite, 'w') or die("can't open file");
         // Read through the file
         for ($i = 0; $i < count($lines); $i++) {
           //$line = htmlentities($lines[$i]);

@@ -1,6 +1,4 @@
 <?php
-
-
 function getSite() {
 
  $uri = $_SERVER["REQUEST_URI"];
@@ -66,8 +64,29 @@ if (getSite() != "/configuration.php"){
 $link = $url . $link . "</a>";  
 
 }
+
+echo "$link | ";
+
+$link = "Brugere";
+$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/users.php">';
+
+if (getSite() != "/users.php"){
+
+$link = $url . $link . "</a>";
+
+}
+
+echo "$link | ";
+
+
+$link = "Logout";
+$url = '<a href="http://logout:logout@' . $klubadresse . $klubpath . '/admin/">';
+
+$link = $url . $link . "</a>";
  
 echo $link;
+
+
  
 
 ?>

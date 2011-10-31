@@ -19,17 +19,6 @@ if(isset($_GET["removeperson"])){
 
 $teamlist="";
 
-/*$result=mysql_query("select id, name from teams order by name asc");
-                while(list($id, $name)=mysql_fetch_row($result)) {
-                                $teamlist.= "<option value=\"".$id."\">".$name."</option>";
-                }
-
-Teamname<select name="team" id="referee1Select">
-        <option value="0">Vælg et hold</option>   
-        '.$teamlist.'
-        </select>
-*/
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
