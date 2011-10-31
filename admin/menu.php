@@ -1,5 +1,6 @@
 <?php
 
+
 function getSite() {
 
  $uri = $_SERVER["REQUEST_URI"];

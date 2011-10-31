@@ -34,6 +34,11 @@ if($debug==0){
 error_reporting(0);
 }
 
+if (mysql_num_rows(mysql_query("SELECT * FROM config"))==0){
+
+ mysql_query("INSERT INTO `config` (`id`,`debug`) VALUES ('1','0')");
+
+} 
 
 ?>
 
@@ -78,7 +83,18 @@ document.klubpathpost.submit();
 
 <div id="main">
 
-<?php require("menu.php"); ?>
+<?php 
+if ( ($klubadresse != "") && ($klubpath != "") && ($klubnavn != "") ){
+
+ require("menu.php"); 
+
+}else{
+
+echo '<br><br><font color="red">Sæt venligst alle indstillinger!!!</font><br><br>';
+
+}
+
+?>
 
 <?php
 
