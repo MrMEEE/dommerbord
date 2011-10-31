@@ -16,7 +16,7 @@ function getSite() {
 $link = "Dommerplan";
 $url = '<a href="http://' . $klubadresse . $klubpath . '/admin/">';
 
-if (getSite() != "/"){
+if ((getSite() != "/") && (getSite() != "/index.php")){
 
 $link = $url . $link . "</a>";
 
