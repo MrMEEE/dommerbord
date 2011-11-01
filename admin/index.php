@@ -1,9 +1,24 @@
 <?php
 
+if(!file_exists("connect.php")){
+ ob_start();
+ header( "Location: setup.php" );        
+ ob_flush();
+}
+
+
+require "config.php";
 require "connect.php";
+
+$config=mysql_fetch_assoc(mysql_query("SELECT * FROM config WHERE id = '1'"));
+if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubnavn']=="")){
+    ob_start();
+    header( "Location: configuration.php" );
+    ob_flush();
+}
+
 require "checkLogin.php";
 require "todo.class.php";
-require "config.php";
 
 if(!mysql_num_rows(mysql_query("SELECT * FROM `teams` WHERE `name` = '-'"))){
     mysql_query("INSERT INTO `teams` (`id`, `name`) VALUES ('9999','-')");

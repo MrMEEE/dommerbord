@@ -2,6 +2,7 @@
 
 require "connect.php";
 require "checkLogin.php";
+require "checkAdmin.php";
 require "config.php";
 
 ?>
@@ -70,6 +71,8 @@ function ConfirmAllChoice()
 <?php require("menu.php"); ?>
 
 <?php
+if (checkAdmin($_SESSION['username'])){
+
 if(isset($_GET["removesource"])){
     if(isset($_GET["id"])){
       $id=$_GET["id"];
@@ -121,11 +124,17 @@ if(isset($_GET["removesource"])){
    echo "Ingen nye Hold/Puljer.<br>";
   }
 }
+
+}
+
 $query = mysql_query("SELECT * FROM `calendars` ORDER BY `team`");
 
 // Filling the $todos array with new ToDo objects:
+if (checkAdmin($_SESSION['username'])){
+
 echo '<br><a href="addallsources.php?refreshsources=1">Tilføj alle klubbens hold/puljer</a><br>';
 echo '<br><a href="javascript:void(ConfirmAllChoice())">Fjern alle klubbens hold/puljer</a><br>';
+}
 echo '<br><br>Hold: <br><br>';
 
 while($row = mysql_fetch_assoc($query)){
@@ -134,8 +143,11 @@ while($row = mysql_fetch_assoc($query)){
     echo '">';
     echo $row['team'];
     echo '</a>';
+    if (checkAdmin($_SESSION['username'])){
     echo ' - ';
-    echo '<a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a><br>';    
+    echo '<a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';    
+    }
+    echo '<br>';
 }
                   
 echo '<br><br>';

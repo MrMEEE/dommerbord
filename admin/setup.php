@@ -108,4 +108,10 @@ Kode:<br>
 
 <input type="submit" value="Konfigurer">
 
+Efter installationen vil det være muligt at logge ind med:<br>
+<br>
+Bruger: Admin
+Kode: dommer
+<br>
+Denne kode kan efterfølgende ændres i bruger-håndteringen.
 </form> 

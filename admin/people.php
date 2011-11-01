@@ -2,10 +2,12 @@
 
 require "connect.php";
 require "checkLogin.php";
+require "checkAdmin.php";
 require "config.php";
 
+if (checkAdmin($_SESSION['username'])){
+
 if(isset($_GET["addperson"])){
-//    $team=$_GET["team"];
     $name=$_GET["name"];
     if($name!=""){
         mysql_query("INSERT into teams (`name`) VALUES ('$name')");
@@ -18,6 +20,7 @@ if(isset($_GET["removeperson"])){
     }
 }
 
+}
 $teamlist="";
 
 ?>
@@ -68,11 +71,15 @@ location = "http://" + klubadresse + "/" + klubpath + "/admin/people.php?removep
 
 <?php
 
+echo '<br><br>';
 
-echo '<br><br><form type="get">
+if (checkAdmin($_SESSION['username'])){
+
+echo '<form type="get">
 Name: <input type="text" name="name"><input name="addperson" type="submit">
-</form><br><br>
-Hold/Personer:<br><br>';
+</form><br><br>';
+}
+echo 'Hold/Personer:<br><br>';
 
 $query = mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC");
 
@@ -81,7 +88,9 @@ $query = mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC");
 while($row = mysql_fetch_assoc($query)){
     if($row['name']!="-"){
     echo $row['name'];
+    if (checkAdmin($_SESSION['username'])){
     echo ' <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
+    }
     echo "<br>";
     }
 }

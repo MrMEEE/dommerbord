@@ -3,7 +3,9 @@
 require "connect.php";
 require "getclubs.php";
 require "checkLogin.php";
+require "checkAdmin.php";
 
+if (checkAdmin($_SESSION['username'])){ 
 if(isset($_GET["klubnavn"])){
     $klubnavn = $_GET['klubnavn'];
     mysql_query("UPDATE config SET klubnavn='$klubnavn' WHERE id = 1");
@@ -29,6 +31,7 @@ if(isset($_GET["debug"])){
     mysql_query("UPDATE `config` set `debug`='$debug' WHERE id = 1");                                                                              
 }
 
+}
 require "config.php";
 
 if($debug==0){

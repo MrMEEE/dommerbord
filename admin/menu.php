@@ -1,4 +1,7 @@
 <?php
+
+require("checkAdmin.php");
+
 function getSite() {
 
  $uri = $_SERVER["REQUEST_URI"];
@@ -42,7 +45,6 @@ if (getSite() != "/people.php"){
 $link = $url . $link . "</a>";
 
 } 
- 
 echo "$link | ";
 
 $link = "Tilføj/Vis alle klubbens hold";
@@ -52,8 +54,10 @@ if (getSite() != "/addallsources.php"){
 
 $link = $url . $link . "</a>";
 
-} 
+}
  
+
+if (checkAdmin($_SESSION['username'])){ 
 echo "$link | ";
 
 $link = "Konfiguration";
@@ -64,7 +68,9 @@ if (getSite() != "/configuration.php"){
 $link = $url . $link . "</a>";  
 
 }
+}
 
+if (checkAdmin($_SESSION['username'])){
 echo "$link | ";
 
 $link = "Brugere";
@@ -74,6 +80,7 @@ if (getSite() != "/users.php"){
 
 $link = $url . $link . "</a>";
 
+}
 }
 
 echo "$link | ";

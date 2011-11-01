@@ -3,8 +3,11 @@
 require("connect.php");
 require("config.php");
 require("checkLogin.php");
+require("checkAdmin.php");
 
 $error="";
+
+if (checkAdmin($_SESSION['username'])){ 
 
 if( (isset($_POST["adduser"])) || (isset($_POST["changepasswd"])) ){
    $adduser = $_POST["adduser"];
@@ -65,7 +68,7 @@ if(isset($_GET["changeadmin"])){
     }
   }
 }
-
+}
 
 ?>
 
