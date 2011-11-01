@@ -80,7 +80,7 @@ echo "$link | ";
 
 
 $link = "Logout";
-$url = '<a href="http://logout:logout@' . $klubadresse . $klubpath . '/admin/">';
+$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/logout.php">';
 
 $link = $url . $link . "</a>";
  

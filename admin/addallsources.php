@@ -1,6 +1,7 @@
 <?php
 
 require "connect.php";
+require "checkLogin.php";
 require "config.php";
 
 ?>

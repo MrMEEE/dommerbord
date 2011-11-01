@@ -1,6 +1,7 @@
 <?php
 
 require "connect.php";
+require "checkLogin.php";
 require "config.php";
 
 if(isset($_GET["addperson"])){
@@ -69,7 +70,7 @@ location = "http://" + klubadresse + "/" + klubpath + "/admin/people.php?removep
 
 
 echo '<br><br><form type="get">
-        Name: <input type="text" name="name"><input name="addperson" type="submit">
+Name: <input type="text" name="name"><input name="addperson" type="submit">
 </form><br><br>
 Hold/Personer:<br><br>';
 

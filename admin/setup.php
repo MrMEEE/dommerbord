@@ -1,5 +1,9 @@
 <?php
 
+if(file_exists("connect.php")){
+header( "Location: index.php" );
+}
+
 $failed=0;
 
 if(isset($_GET["host"])){

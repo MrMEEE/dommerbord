@@ -2,6 +2,7 @@
 
 require "connect.php";
 require "getclubs.php";
+require "checkLogin.php";
 
 if(isset($_GET["klubnavn"])){
     $klubnavn = $_GET['klubnavn'];
