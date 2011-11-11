@@ -52,9 +52,15 @@ switch ($viewgames) {
 
 }
 
+    $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
+
 $todos = array();
 
 // Filling the $todos array with new ToDo objects:
+
+while($row = mysql_fetch_assoc($query2)){
+        $todos[] = new ToDo($row);
+}
 
 while($row = mysql_fetch_assoc($query)){
 	$todos[] = new ToDo($row);
@@ -83,6 +89,7 @@ while($row = mysql_fetch_assoc($query)){
 <div id="main">
 <?php require("menu.php"); ?>
 <?php require("gamemenu.php"); ?> 
+
 	<ul class="todoList">
 		
         <?php
@@ -96,8 +103,6 @@ while($row = mysql_fetch_assoc($query)){
 		?>
 
     </ul>
-
-<a id="addButton" class="green-button" href="#">Tilføj en Kamp</a>
 
 </div>
 

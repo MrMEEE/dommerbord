@@ -22,7 +22,14 @@ try{
 			ToDo::edit($id,$_GET['text'],"text");
 			break;
                 case 'editdate':
-                        ToDo::edit($id,$_GET['date'],"date");
+                        $fulldate = $_GET['date'];
+                        $date = substr($fulldate,6,4);
+                        $date .= "-";
+                        $date .= substr($fulldate,3,2);
+                        $date .= "-";
+                        $date .= substr($fulldate,0,2);
+                        
+                        ToDo::edit($id,$date,"date");
                         break;
                 case 'edittime':
                         ToDo::edit($id,$_GET['time'],"time");

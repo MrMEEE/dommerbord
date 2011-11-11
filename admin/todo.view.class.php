@@ -181,9 +181,10 @@ class ToDo{
 		if(mysql_num_rows($posResult))
 			list($position) = mysql_fetch_array($posResult);
 
-		if(!$position) $position = 1;
+		//if(!$position) 
+		$position = 1;
 
-		mysql_query("INSERT INTO games SET text='".$text."', position = ".$position);
+		mysql_query("INSERT INTO games SET text='".$text."',time='00:00:00',position = ".$position);
 
 		if(mysql_affected_rows($GLOBALS['link'])!=1)
 			throw new Exception("Error inserting TODO!");
@@ -194,6 +195,7 @@ class ToDo{
 			'id'	=> mysql_insert_id($GLOBALS['link']),
 			'text'	=> $text
 		)));
+		
 		
 		exit;
 	}

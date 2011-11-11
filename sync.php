@@ -177,7 +177,7 @@ $config = mysql_fetch_assoc(mysql_query("SELECT * FROM config WHERE id = '1'"));
 $lastupdated = $config['lastupdated'];
 echo $lastupdated;
 
-mysql_query("UPDATE `games` set status='3' WHERE dt_added < '$lastupdated'");
+mysql_query("UPDATE `games` set status='3' WHERE dt_added < '$lastupdated' AND position != 9999999");
 
 ?>
 <br><br>

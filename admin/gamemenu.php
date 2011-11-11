@@ -66,9 +66,20 @@ if (getGameSite() != "/index.php?view=all"){
 $link = $url . $link . "</a>";  
 
 }
+
+echo "$link | ";
+
+$link = "Tilføj Kamp Manuelt";
+$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/addgame.php">';
+
+if (getGameSite() != "/addgame.php"){
+
+$link = $url . $link . "</a>";  
+
+}
  
 echo $link;
- 
+
 
 ?>
 <br><br>

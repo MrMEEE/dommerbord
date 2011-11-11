@@ -9,9 +9,9 @@ $error="";
 
 if (checkAdmin($_SESSION['username'])){ 
 
-if( (isset($_POST["adduser"])) || (isset($_POST["changepasswd"])) ){
+if( (isset($_POST["adduser"])) || (isset($_GET["changepasswd"])) ){
    $adduser = $_POST["adduser"];
-   $changepasswd = $_POST["changepasswd"];
+   $changepasswd = $_GET["changepasswd"];
    
    if ( (isset($_POST["passwd1"])) && ($_POST["passwd1"] != "")  ){
       if ($_POST["passwd1"] == $_POST["passwd2"]) {
@@ -92,6 +92,15 @@ function ConfirmChoice(userid){
  }
    
 }
+
+function openWindow(userid){
+  
+  var path = "changePasswd.php?id=" + userid; 
+  window.open(path,"mywindow","menubar=1,resizable=1,width=350,height=250");
+  //window.open("http://www.javascript-coder.com","mywindow","menubar=1,resizable=1,width=350,height=250");
+
+}
+
 </script>
    
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -137,6 +146,7 @@ while($row = mysql_fetch_assoc($query)){
       echo 'Admin</a>';
     }
   echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
+  echo ' - <a href="javascript:openWindow('.$row['id'].')">Skift Adgangskode</a>';
   }
   echo "<br>";
   

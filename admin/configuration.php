@@ -41,6 +41,7 @@ error_reporting(0);
 if (mysql_num_rows(mysql_query("SELECT * FROM config"))==0){
 
  mysql_query("INSERT INTO `config` (`id`,`debug`) VALUES ('1','0')");
+ mysql_query("INSERT INTO `games` (`id`,`date`) VALUES ('1000000','0000-00-00')");
 
 } 
 

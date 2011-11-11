@@ -76,7 +76,7 @@ echo '<br><br>';
 if (checkAdmin($_SESSION['username'])){
 
 echo '<form type="get">
-Name: <input type="text" name="name"><input name="addperson" type="submit">
+Name: <input type="text" name="name"><input name="addperson" type="submit" value="Tilføj">
 </form><br><br>';
 }
 echo 'Hold/Personer:<br><br>';
