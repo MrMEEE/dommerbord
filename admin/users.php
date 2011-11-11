@@ -9,9 +9,9 @@ $error="";
 
 if (checkAdmin($_SESSION['username'])){ 
 
-if( (isset($_POST["adduser"])) || (isset($_GET["changepasswd"])) ){
+if( (isset($_POST["adduser"])) || (isset($_POST["changepasswd"])) ){
    $adduser = $_POST["adduser"];
-   $changepasswd = $_GET["changepasswd"];
+   $changepasswd = $_POST["changepasswd"];
    
    if ( (isset($_POST["passwd1"])) && ($_POST["passwd1"] != "")  ){
       if ($_POST["passwd1"] == $_POST["passwd2"]) {
@@ -28,7 +28,8 @@ if( (isset($_POST["adduser"])) || (isset($_GET["changepasswd"])) ){
                 mysql_query("INSERT INTO `users` (`name`,`password`,`admin`) VALUES ('$adduser',md5('$passwd'),'$isadmin')");
               }
           }else{
-            mysql_query("UPDATE `users` SET `password` = '$passwd' WHERE `id` = '$changepasswd'");
+            mysql_query("UPDATE `users` SET `password` = md5('$passwd') WHERE `id` = '$changepasswd'");
+            $error = "Kode Ændret!";
           }
       }else{
         $error="De to adgangskodefelter er ikke ens!!";
@@ -133,6 +134,12 @@ Gentag Kode: <input type="password" name="passwd2"><br>
 <input name="addperson" type="submit" value="Tilføj Bruger">        
 </form><br><br>
 Brugere:<br><br>';
+
+echo '<form method=post name="changepasswd">
+<input type="hidden" name="passwd1">
+<input type="hidden" name="passwd2">
+<input type="hidden" name="changepasswd">
+</form>';
 
 $query = mysql_query("SELECT * FROM `users` ORDER BY `name` ASC");
  
