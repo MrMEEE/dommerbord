@@ -36,34 +36,41 @@ if(isset($_GET["view"])){
 switch ($viewgames) {
     case "default":
         $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
     break;
     case "unassigned":
         $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 1 ORDER BY `date`,`time` ASC ");
     break;
     case "moved":
         $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 2 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 2 ORDER BY `date`,`time` ASC ");
     break;
     case "cancelled":
         $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 3 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 3 ORDER BY `date`,`time` ASC ");
     break;
     case "all":
         $query = mysql_query("SELECT * FROM `games` ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
     break;
 
 }
 
-    $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
 
 $todos = array();
 
 // Filling the $todos array with new ToDo objects:
 
+if(mysql_num_rows($query2)){
 while($row = mysql_fetch_assoc($query2)){
         $todos[] = new ToDo($row);
 }
-
+}
+if(mysql_num_rows($query)){
 while($row = mysql_fetch_assoc($query)){
 	$todos[] = new ToDo($row);
+}
 }
 
 ?>

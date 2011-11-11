@@ -153,8 +153,8 @@ while($row = mysql_fetch_assoc($query)){
       echo 'Admin</a>';
     }
   echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
-  echo ' - <a href="javascript:openWindow('.$row['id'].')">Skift Adgangskode</a>';
   }
+  echo ' - <a href="javascript:openWindow('.$row['id'].')">Skift Adgangskode</a>';
   echo "<br>";
   
 }
