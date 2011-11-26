@@ -1,0 +1,22 @@
+<?php
+
+/* Short and sweet */
+require($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php');
+?>
+
+
+<?php get_header(); ?>
+<?php if ( file_exists( TEMPLATEPATH . '/sidebar2.php') )
+load_template( TEMPLATEPATH . '/sidebar2.php');
+else
+load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+
+?>
+
+<?php
+require("table.php");
+?>
+
+<?php get_sidebar(); ?>
+
+<?php get_footer(); ?>
