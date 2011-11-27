@@ -100,6 +100,9 @@ class ToDo{
 		case 3:
 		    $return.= '<li id="todo-'.$this->data['id'].'" class="todo cancelled">';
 		    break;
+		case 4:
+		    $return.= '<li id="todo-'.$this->data['id'].'" class="todo moved">';
+		    break;
 		}
 		$return .= '
 				

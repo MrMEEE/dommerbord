@@ -54,7 +54,22 @@ class ToDo{
 		}
 		$string .= '
 		<tr class="row-2 even" height=45px>
-		<td class="column-1">'.$this->data['id'].'</td><td class="column-2">'.$date.'<br>'.$this->data['time'].'</td><td class="column-3">' . $description . '</td><td class="column-4">'.$this->data['tableteam1'].'</td><td class="column-5">'.$this->data['refereeteam1'].'</td><td class="column-6">'.$this->data['tableteam3'].'</td>
+		<td class="column-1">'.$this->data['id'].'</td><td class="column-2">'.$date.'<br>'.$this->data['time'].'</td><td class="column-3">';
+		
+		if(($this->data['status']==3) || ($this->data['status']==4)){
+		    $string .= '<font style="text-decoration:line-through;">';
+		}
+		$string .= $description;
+		if(($this->data['status']==3) || ($this->data['status']==4)){
+		    $string .= '</font>';
+		    if($this->data['status']==3){
+			$string .= '<br>Kamp Aflyst';
+		    }
+		    if($this->data['status']==4){
+			$string .= '<br>Kamp Udsat';
+		    }
+		}
+		$string .= '</td><td class="column-4">'.$this->data['tableteam1'].'</td><td class="column-5">'.$this->data['refereeteam1'].'</td><td class="column-6">'.$this->data['tableteam3'].'</td>
 		</tr>
 		<tr class="row-2 odd" height=45px>
 		<td class="column-1"></td><td class="column-2"></td><td class="column-3"></td><td class="column-4">'.$this->data['tableteam2'].'</td><td class="column-5">'.$this->data['refereeteam2'].'</td><td class="column-6"></td>

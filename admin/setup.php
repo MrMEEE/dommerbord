@@ -36,17 +36,10 @@ if(isset($_GET["host"])){
         $fh = fopen($filewrite, 'w') or die("can't open file");
         // Read through the file
         for ($i = 0; $i < count($lines); $i++) {
-          //$line = htmlentities($lines[$i]);
           $line = htmlentities(preg_replace($search, $replace, $lines[$i]));          
           fwrite($fh, html_entity_decode($line));
         }
     
-        /*foreach($lines as $key => $line) {
-            echo $key." ".$line;
-            $text = preg_replace($search, $replace, $line);
-            //var_dump("1: $text :1");
-            //fwrite($fh,$text);
-        }*/
         fclose($fh);
         $sql = explode(';', file_get_contents ('sql/dommerbord.sql'));
         $n = count ($sql) - 1;

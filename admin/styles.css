@@ -53,6 +53,10 @@ ul.todoList li.cancelled{
         background-color:#000099;
 }
 
+ul.todoList li.moved{
+        background-color:#ff6501;
+}
+
 ul.todoList li:hover{
 	border-color:#9be0f9;
 	

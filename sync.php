@@ -101,6 +101,17 @@ $page .= $content;
       $awayteam = str_replace("\n", "", $awayteam);
       $awayteam = str_replace("\r", "", $awayteam);
       $awayteam = str_replace(" ", "", $awayteam);
+      $place = $cols->item(4)->nodeValue;
+      $place=trim($place);
+      $place= str_replace("  ", "", $place);
+      $status = $cols->item(6)->nodeValue;   
+      $status = str_replace("\n", "", $status);      
+      $status = str_replace("\r", "", $status);      
+      $status = str_replace(" ", "", $status);
+      if($status=="UDS"){
+        $status=4;
+      }
+    
       if(substr($hometeam,0, strlen($klubnavn)) == $klubnavn){
    // echo the values    
       $id=$cols->item(0)->nodeValue;
@@ -127,13 +138,14 @@ $page .= $content;
 	$text .= $awayteam;
 
     if(mysql_num_rows(mysql_query("SELECT id FROM games WHERE id = '$id'"))) {
+      mysql_query("UPDATE `games` set place='$place' WHERE id='$id'");
       $oldtext=mysql_fetch_assoc(mysql_query("SELECT text FROM games WHERE id = '$id'"));
       $olddate=mysql_fetch_assoc(mysql_query("SELECT date FROM games WHERE id = '$id'"));
       $oldtime=mysql_fetch_assoc(mysql_query("SELECT time FROM games WHERE id = '$id'"));
       $oldtext=$oldtext['text'];
       $olddate=$olddate['date'];
       $oldtime=$oldtime['time'];
-      if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time){
+      if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time && $status!=4){
         mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
         if($debug!=0){
           print_r("Nothing Changed on '$id' <br>");
@@ -142,15 +154,22 @@ $page .= $content;
       else{
         print_r("Ændring til kamp: '$id' <br>");
         $gamechanged=1;
+        if($status != 4){
+          mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
+        }else{
+          mysql_query("UPDATE games SET status='$status' WHERE id = '$id'");
+        }
         mysql_query("UPDATE games SET text='$text' WHERE id = '$id'");
         mysql_query("UPDATE games SET date='$date' WHERE id = '$id'");
         mysql_query("UPDATE games SET time='$time' WHERE id = '$id'");
-        mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
         mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
       }
     }
     else{
-    mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`) VALUES ('$id', '$text', '$date', '$time','1',9999)");
+    if($status!=6){
+      $status=1;
+    }
+    mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place')");
     print_r("Tilføjer: '$id' <br>");
     $gamechanged=1;
     } 

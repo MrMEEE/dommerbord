@@ -32,6 +32,15 @@ if(isset($_GET["debug"])){
 }
 
 }
+
+if(isset($_GET["updatedatabase"])){
+  $sql = explode(';', file_get_contents ('sql/dommerbord.sql'));
+  $n = count ($sql) - 1;
+  for ($i = 0; $i < $n; $i++) {
+    $query = $sql[$i];
+    $result = mysql_query ($query) or die ('<p>Query: <br><tt>' . $query . '</tt><br>failed. MySQL error: ' . mysql_error());
+  }
+}
 require "config.php";
 
 if($debug==0){
@@ -69,6 +78,18 @@ function FormSubmitPath() {
 document.klubpathpost.action = 'configuration.php?klubpath=' + document.klubpathpost.klubpath.value;
 document.klubpathpost.submit();
 }
+function ConfirmDatabaseUpdate() {
+ 
+ answer = confirm("Er du sikker på at du vil opdatere databasen??")
+ 
+
+ if (answer !=0)
+ {
+document.updatedatabasepost.action = 'configuration.php?updatedatabase=1';
+ document.updatedatabasepost.submit();  
+ }
+  
+}
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -96,6 +117,12 @@ if ( ($klubadresse != "") && ($klubpath != "") && ($klubnavn != "") ){
 }else{
 
 echo '<br><br><font color="red">Sæt venligst alle indstillinger!!!</font><br><br>';
+
+}
+
+if(isset($_GET["updatedatabase"])){
+
+echo '<br><font color="red">Database Opdateret</font><br><br>';
 
 }
 
@@ -161,7 +188,11 @@ Debug:
     </select>
 </form>
 
-
+<br>
+Opdater Database:
+<form method="post" name="updatedatabasepost">
+<input type="submit" value="Opdater" onClick="ConfirmDatabaseUpdate()">
+</form>
 
 
 <?php

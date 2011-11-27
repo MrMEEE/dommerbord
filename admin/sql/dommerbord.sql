@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql6.gigahost.dk
--- Generation Time: Oct 31, 2011 at 01:58 PM
+-- Generation Time: Nov 27, 2011 at 07:02 PM
 -- Server version: 5.0.32
 -- PHP Version: 5.2.6-1+lenny13
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `calendars` (
   `address` varchar(255) NOT NULL,
   `team` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=279 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=317 ;
 
 -- --------------------------------------------------------
 
@@ -74,9 +74,10 @@ CREATE TABLE IF NOT EXISTS `games` (
   `tableteam3id` int(8) NOT NULL,
   `table3id` int(8) NOT NULL,
   `status` int(8) NOT NULL,
+  `place` text collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `position` (`position`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=104686 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000016 ;
 
 -- --------------------------------------------------------
 
@@ -101,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `id` int(8) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10001 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10005 ;
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `admin` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
