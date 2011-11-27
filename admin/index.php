@@ -97,6 +97,34 @@ while($row = mysql_fetch_assoc($query)){
 <?php require("menu.php"); ?>
 <?php require("gamemenu.php"); ?> 
 
+<center><table>
+<tr>
+<td width=300>
+<li style="color: #80FF99;list-style: square;font-size: 22px;"><font color="000000" size="2px">Kamp med påsatte bord/dommere</font></li>
+</td>
+<td width=300>
+<li style="color: #FFD633;list-style: square;font-size: 22px;"><font color="000000" size="2px">Kamp der mangler bord/dommere</font></li>
+</td>
+</tr>
+<tr>
+<td>
+<li style="color: #FF9980;list-style: square;font-size: 22px;"><font color="000000" size="2px">Ændret/Flyttet kamp</font></li>
+</td>
+<td>
+<li style="color: #000099;list-style: square;font-size: 22px;"><font color="000000" size="2px">Aflyst kamp</font></li>
+</td>   
+</tr>
+<tr>
+<td>
+<li style="color: #ff6501;list-style: square;font-size: 22px;"><font color="000000" size="2px">Udsat kamp</font></li>
+</td>
+<td>
+
+</td>   
+</tr>
+</table>
+</center>
+
 	<ul class="todoList">
 		
         <?php
