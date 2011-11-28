@@ -128,11 +128,15 @@ function openWindow(userid){
 echo '<font color="red">'.$error.'</font>';
 
 echo '<br><br><form method=post name="createuser">
-Navn: <input type="text" name="adduser"><br>
-Kode: 	     <input type="password" name="passwd1"><br>
-Gentag Kode: <input type="password" name="passwd2"><br>
-<input name="addperson" type="submit" value="Tilføj Bruger">        
+<TABLE>
+<TR><TD>Navn:</TD><TD><input type="text" name="adduser"></TD></TR>
+<TR><TD>Kode:</TD><TD><input type="password" name="passwd1"></TD></TR>
+<TR><TD>Gentag Kode:</TD><TD><input type="password" name="passwd2"></TD></TR>
+<TR><TD rowspan=2><input name="addperson" type="submit" value="Tilføj Bruger"></TD></TR>
+</TABLE>
 </form><br><br>
+<HR>
+<br><br>
 Brugere:<br><br>';
 
 echo '<form method=post name="changepasswd">
