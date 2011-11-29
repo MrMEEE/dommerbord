@@ -112,8 +112,9 @@ $page .= $content;
         $status=4;
       }
     
-      if(substr($hometeam,0, strlen($klubnavn)) == $klubnavn){
-   // echo the values    
+      $hometeam_mod = str_replace(" ", "", $hometeam);
+      $klubnavn_mod = str_replace(" ", "", $klubnavn); 
+      if(substr($hometeam_mod,0, strlen($klubnavn_mod)) == $klubnavn_mod){
       $id=$cols->item(0)->nodeValue;
       $id=str_replace("\n", "", $id);
       $id=str_replace("\r", "", $id);
