@@ -100,9 +100,11 @@ while($row = mysql_fetch_array($result)){
 <div id="main">
 <?php echo $message; ?>
 <form method="POST" action="login.php">
-Bruger: <input type="text" name="username" size="20"><br>
-Kode: <input type="password" name="password" size="20"><br>
-<input type="submit" value="Login" name="login">
+<table>
+<tr><td>Brugernavn:</td><td><input type="text" name="username" size="20"></td></tr>
+<tr><td>Password:</td><td><input type="password" name="password" size="20"></td></tr>
+<tr><td rowspan=2><input type="submit" value="Login" name="login"></td></tr>
+</table>
 </form>
 
 
