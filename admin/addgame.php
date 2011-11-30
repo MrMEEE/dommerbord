@@ -81,8 +81,10 @@ if (isset($_POST['date'])){
 <?php require("gamemenu.php"); ?>
 <?php echo '<font color="'.$color.'">'.$message.'</font>'; ?>
 <form method="post">
-Dato: <input type="text" name="date" value="<?php echo $date ?>"><br>
-Tidspunkt: <input type="text" name="time" value="<?php echo $time ?>"><br>
-Beskrivelse: <input type="text" name="description" value="<?php echo $description ?>"><br>
-<input name="addgame" type="submit" value="Tilføj">
+<table>
+<tr><td>Dato:</td><td><input type="text" name="date" value="<?php echo $date ?>"></td></tr>
+<tr><td>Tidspunkt:</td><td><input type="text" name="time" value="<?php echo $time ?>"></td></tr>
+<tr><td>Beskrivelse:</td><td><input type="text" name="description" value="<?php echo $description ?>"></td></tr>
+<tr><td rowspan=2><input name="addgame" type="submit" value="Tilføj"></td></tr>
+</table>
 </form><br><br>
