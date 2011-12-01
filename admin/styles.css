@@ -23,7 +23,7 @@ ul.todoList{
 ul.todoList li{
 	border:1px solid #EEEEEE;
 	list-style:none;
-	height:140px;
+	height:180px;
 	margin:6px;
 	padding:6px 9px;
 	position:relative;

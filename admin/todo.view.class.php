@@ -72,7 +72,7 @@ class ToDo{
 		$string .= '</td><td class="column-4">'.$this->data['tableteam1'].'</td><td class="column-5">'.$this->data['refereeteam1'].'</td><td class="column-6">'.$this->data['tableteam3'].'</td>
 		</tr>
 		<tr class="row-2 odd" height=45px>
-		<td class="column-1"></td><td class="column-2"></td><td class="column-3"></td><td class="column-4">'.$this->data['tableteam2'].'</td><td class="column-5">'.$this->data['refereeteam2'].'</td><td class="column-6"></td>
+		<td class="column-1"></td><td class="column-2"></td><td class="column-3">'.$this->data['place'].'</td><td class="column-4">'.$this->data['tableteam2'].'</td><td class="column-5">'.$this->data['refereeteam2'].'</td><td class="column-6"></td>
 		</tr>
 		<tr class="row-1 odd height=1px">
 		

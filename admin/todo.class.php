@@ -110,7 +110,8 @@ class ToDo{
 				Dato: <div class="date">'.$date.'</div>
 				Tidspunkt: <div class="time">'.$this->data['time'].'</div>
 				Beskrivelse: <div class="text">'.$this->data['text'].'</div>
-
+				Hal: <div class="text">'.$this->data['place'].'</div>
+				
 				<div class="actions">
 				
 					<div style="position:absolute; right:150px;">
