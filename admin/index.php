@@ -111,7 +111,7 @@ while($row = mysql_fetch_assoc($query)){
 <li style="color: #FF9980;list-style: square;font-size: 22px;"><font color="000000" size="2px">Ændret/Flyttet kamp</font></li>
 </td>
 <td>
-<li style="color: #000099;list-style: square;font-size: 22px;"><font color="000000" size="2px">Aflyst kamp</font></li>
+<li style="color: #1B9DE3;list-style: square;font-size: 22px;"><font color="000000" size="2px">Aflyst kamp</font></li>
 </td>   
 </tr>
 <tr>
