@@ -79,8 +79,10 @@ $page .= $content;
   
   //the table by its tag name  
   $tables = $dom->getElementsByTagName('table');   
-  
-  //get all rows from the table  
+  if( $tables->length == 0 ){  
+  echo "<br>";
+  echo "Holdet eksisterer ikke, springer over..";
+  echo "<br>";
   if ( $tables->length > 1){
   $rows = $tables->item(1)->getElementsByTagName('tr');   
   }
