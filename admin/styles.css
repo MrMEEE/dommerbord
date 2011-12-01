@@ -50,7 +50,7 @@ ul.todoList li.ok{
 	background-color:#80FF99;
 }
 ul.todoList li.cancelled{
-        background-color:#000099;
+        background-color:#1B9DE3;
 }
 
 ul.todoList li.moved{
