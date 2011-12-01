@@ -187,7 +187,14 @@ if(!file_exists("admin/connect.php")){
 
 require "admin/config.php";   
 require "admin/connect.php";
-
+if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
+  require($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php');
+  get_header();
+  if ( file_exists( TEMPLATEPATH . '/sidebar2.php') )
+    load_template( TEMPLATEPATH . '/sidebar2.php');
+  else
+    load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+}else{
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -209,6 +216,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 <div id="main" align="center">
 
 <br>';
+}
 echo '<table>
 <tr>
 <td>Kamp Kalendere</td>
@@ -237,22 +245,22 @@ foreach ($matches[2] as $urls){
 echo '</td><td VALIGN="top" width=300>';
 
 $query = mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC");
-while($row = mysql_fetch_assoc($query)){
-
-  if($row['name']!="-"){
-    echo '<a href="http://'.$klubadresse.$klubpath.'/ical.php?refId='.$row["id"].'">'.$row["name"].'</a><br>';
-
-    
-    
-    
+if(mysql_num_rows(mysql_fetch_assoc($query))){
+  while($row = mysql_fetch_assoc($query)){
+    if($row['name']!="-"){
+      echo '<a href="http://'.$klubadresse.$klubpath.'/ical.php?refId='.$row["id"].'">'.$row["name"].'</a><br>';
+    }
   }
-
 }
 
 echo '</td>';
-echo '</div><br></body>
-</html>';
-
+if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
+  get_sidebar();
+  get_footer(); 
+}else{
+  echo '</div><br></body>
+  </html>';
+}
 }
 
 ?>
