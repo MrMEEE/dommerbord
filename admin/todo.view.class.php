@@ -44,7 +44,7 @@ class ToDo{
 		      		</table>';
 		}
 		if($this->lastweek!=date("W",strtotime($dateformat))){
-		    $string .= '<table id="games" class="wp-table-reloaded wp-table-reloaded-id-1" border=1>
+		    $string .= '<table id="games" class="wp-table-reloaded wp-table-reloaded-id-1" border=1 width=540px>
 		      		<thead>
 				<tr class="row-1 odd">
 				  <th class="column-1" width=50px>Uge: '.date("W",strtotime($dateformat)).'</th><th class="column-2" width=60px>Dato</th><th class="column-3">Kamp Beskrivelse</th><th class="column-4" width=50px>Bord</th><th class="column-5" width=50px>Dommer</th><th class="column-6"width=50px>24 sek</th>
