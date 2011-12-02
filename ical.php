@@ -243,9 +243,9 @@ foreach ($matches[2] as $urls){
   $i=$i+1;  
 }      
 echo '</td><td VALIGN="top" width=300>';
-
+require("admin/connect.php");
 $query = mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC");
-if(mysql_num_rows(mysql_fetch_assoc($query))){
+if(mysql_num_rows(mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC"))){
   while($row = mysql_fetch_assoc($query)){
     if($row['name']!="-"){
       echo '<a href="http://'.$klubadresse.$klubpath.'/ical.php?refId='.$row["id"].'">'.$row["name"].'</a><br>';
