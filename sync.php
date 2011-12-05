@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 require "admin/connect.php";
 require "admin/config.php";
@@ -79,10 +79,8 @@ $page .= $content;
   
   //the table by its tag name  
   $tables = $dom->getElementsByTagName('table');   
-  if( $tables->length == 0 ){  
-  echo "<br>";
-  echo "Holdet eksisterer ikke, springer over..";
-  echo "<br>";
+  
+  //get all rows from the table  
   if ( $tables->length > 1){
   $rows = $tables->item(1)->getElementsByTagName('tr');   
   }
@@ -98,7 +96,7 @@ $page .= $content;
       $hometeam = $cols->item(2)->nodeValue;
       $hometeam = str_replace("\n", "", $hometeam);
       $hometeam = str_replace("\r", "", $hometeam);
-      $hometeam = str_replace(" ", "", $hometeam);
+      //$hometeam = str_replace(" ", "", $hometeam);
       $awayteam = $cols->item(3)->nodeValue;
       $awayteam = str_replace("\n", "", $awayteam);
       $awayteam = str_replace("\r", "", $awayteam);
@@ -113,10 +111,19 @@ $page .= $content;
       if($status=="UDS"){
         $status=4;
       }
-    
-      $hometeam_mod = str_replace(" ", "", $hometeam);
-      $klubnavn_mod = str_replace(" ", "", $klubnavn); 
-      if(substr($hometeam_mod,0, strlen($klubnavn_mod)) == $klubnavn_mod){
+      $hometeam_mod = trim($hometeam);
+      $klubnavn_mod = trim($klubnavn);
+      $hometeam_mod = explode(" ",$hometeam_mod);
+      $klubnavn_mod = explode(" ",$klubnavn_mod);   
+      //print_r("Hjemmehold: ' $hometeam' <br>");
+      //print_r("Klubnavn: ' $klubnavn' <br>");
+      //str_replace(" ", "", )
+      //$hometeam_mod = str_replace(" ", "", $hometeam);
+      //$klubnavn_mod = str_replace(" ", "", $klubnavn);
+      //if(substr($hometeam,0, strlen($klubnavn)) == $klubnavn){
+      if($hometeam_mod[0] == $klubnavn_mod[0]){
+      //if(substr($hometeam_mod,0, strlen($klubnavn_mod)) == $klubnavn_mod){
+   // echo the values    
       $id=$cols->item(0)->nodeValue;
       $id=str_replace("\n", "", $id);
       $id=str_replace("\r", "", $id);
