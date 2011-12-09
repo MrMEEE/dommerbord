@@ -89,7 +89,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
       $tablecount3 = mysql_fetch_assoc($tablequery3);
 
       echo '
-      <table id="games" class="wp-table-reloaded wp-table-reloaded-id-1">
+      <table id="games" class="wp-table-reloaded wp-table-reloaded-id-1" border ="1">
       <thead>
             <tr class="row-1 odd">
             <th class="column-1">Hold</th><th class="column-2">Dommertjanser</th><th class="column-3">Dommerbordstjanser</th>
