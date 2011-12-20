@@ -205,8 +205,7 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
     load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
   echo '<div id="content" class="narrowcolumn">    
   <div id="main">';
-
-  echo '<br><h2>'.$klubnavn.' Kamp Kalendere</h2><br>';
+  echo '<br><h2>Dommerbordsplan</h2><br>';
 
 }else{
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -231,6 +230,18 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 
 <br>';
 }
+require("admin/config.php");
+echo '<table width=545 border=0>
+   <tr>
+   <td>
+   <a href="http://'.$klubadresse.'/'.$klubpath.'/">Dommerplan</a><br>
+   <a href="http://'.$klubadresse.'/'.$klubpath.'/statistik.php">Statistik</a>
+   </td>
+   <td align="right">
+    </td>  
+    </tr>  
+    </table>
+    <br>';
 echo '<table>
 <tr>
 <td>Kamp Kalendere</td>

@@ -1,4 +1,7 @@
 <?php
+
+require("admin/config.php");
+
 if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
   require($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php');
   get_header();
@@ -40,6 +43,18 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
     ?>
    <h2>Dommerbordsplan</h2>
    <br>
+   <table width=545 border=0>
+   <tr>
+   <td>
+   <a href="http://<?php echo $klubadresse; ?>/<?php echo $klubpath; ?>/">Dommerplan</a><br>
+   <a href="http://<?php echo $klubadresse; ?>/<?php echo $klubpath; ?>/ical.php">Kalendere</a>
+   </td>
+   <td align="right">
+    </td>  
+    </tr>  
+    </table>
+    <br>
+
       <?php
       $date = mysql_fetch_assoc(mysql_query("SELECT CURDATE() as date"));
       $year = substr($date['date'],0,4);
@@ -96,25 +111,21 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
             </tr>
       </thead>
       <tbody>';
-
-      for ($i = 1; $i <= $maxteamid; $i++) {
-	  $teamname=mysql_fetch_assoc(mysql_query("SELECT name FROM teams WHERE id=$i"));
-	  $teamname=$teamname['name'];
-	  if(($refstats[$i]==0 && $tablestats[$i]==0) || $teamname=="-" ){ //hide empty	  
-	  }else{
-	  echo '<tr class="row-2 even">
-		<td class="column-1">'.$teamname.'</td><td class="column-2">'.$refstats[$i].'</td><td class="column-3">'.$tablestats[$i].'</td>
-		</tr>';
-	  }
-
+      $query=mysql_query("SELECT * FROM teams ORDER BY name ASC");
+      while($team=mysql_fetch_assoc($query)){
+        if(($refstats[$team['id']]==0 && $tablestats[$team['id']]==0) || $team['name']=="-" ){ //hide empty
+        }else{
+        echo '<tr class="row-2 even">
+              <td class="column-1">'.$team['name'].'</td><td class="column-2">'.$refstats[$team['id']].'</td><td class="column-3">'.$tablestats[$team['id']].'</td>
+              </tr>';
+        }
       }
-	  echo '<tr class="row-2 even">
-		<td class="column-1">Ikke tildelte tjanser</td><td class="column-2">'.$refstats[0].'</td><td class="column-3">'.$tablestats[0].'</td>
-		</tr>';
-      echo '</tbody>
-      </table>';
-
-
+        echo '<tr class="row-2 even">
+              <td class="column-1">Ikke tildelte tjanser</td><td class="column-2">'.$refstats[0].'</td><td class="column-3">'.$tablestats[0].'</td>
+              </tr>';
+        echo '</tbody>
+              </table>';
+      
       ?>
       
 </div>
