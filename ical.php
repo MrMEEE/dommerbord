@@ -4,8 +4,13 @@
 error_reporting(0);
 
 if(isset($_GET["HoldId"])){
+require "admin/connect.php";
 header('Content-type: text/calendar; charset=utf-8');
-header('Content-Disposition: inline; filename=calendar.ics');
+  if(isset($_GET["HoldNavn"])){
+    header('Content-Disposition: inline; filename='.$_GET["HoldNavn"].'-Kampe.ics');
+  }else{
+    header('Content-Disposition: inline; filename=calendar.ics');
+  }
 $HoldId=$_GET["HoldId"];
   // new dom object  
   $dom = new DOMDocument();  
@@ -110,8 +115,13 @@ echo $ical;
 }
 
 }elseif(isset($_GET["refId"])){
+
+require "admin/connect.php";
+
+$teamname=mysql_fetch_assoc(mysql_query("SELECT * FROM `teams` WHERE `id`=".$_GET['refId'].""));
+$team=str_replace(" ", "", $teamname['name']);
 header('Content-type: text/calendar; charset=utf-8');
-header('Content-Disposition: inline; filename=calendar.ics');
+header('Content-Disposition: inline; filename='.$team.'-Dommerplan.ics');
 
 if(!file_exists("admin/connect.php")){
  ob_start();
@@ -120,7 +130,6 @@ if(!file_exists("admin/connect.php")){
 }
    
 require "admin/config.php"; 
-require "admin/connect.php";
 
 $query = mysql_query("SELECT * FROM `games` WHERE (`refereeteam1id` = ".$_GET['refId']." OR `refereeteam2id` = ".$_GET['refId']." OR `tableteam1id` = ".$_GET['refId']." OR `tableteam2id` = ".$_GET['refId']." OR `tableteam3id` = ".$_GET['refId'].") ORDER BY `date`,`time` ASC");
 
@@ -194,6 +203,11 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
     load_template( TEMPLATEPATH . '/sidebar2.php');
   else
     load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+  echo '<div id="content" class="narrowcolumn">    
+  <div id="main">';
+
+  echo '<br><h2>'.$klubnavn.' Kamp Kalendere</h2><br>';
+
 }else{
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -236,8 +250,8 @@ preg_match_all("/$regexp2/siU", $input, $matches2);
 $i=0;
 foreach ($matches[2] as $urls){
   $name=$matches2[3][$i];
-  
-  echo '<a href="http://'.$klubadresse.$klubpath.'/ical.php?HoldId='.$urls.'">'.$name.'</a>';
+  $nameformat=str_replace(" ", "", $name);
+  echo '<a href="http://'.$klubadresse.$klubpath.'/ical.php?HoldId='.$urls.'&HoldNavn='.$nameformat.'">'.$name.'</a>';
   echo '<br>';
   
   $i=$i+1;  
@@ -253,8 +267,9 @@ if(mysql_num_rows(mysql_query("SELECT * FROM teams ORDER BY `name` ASC"))){
   }
 }
 
-echo '</td>';
+echo '</td></tr></table>';
 if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
+  echo '</div></div>';
   get_sidebar();
   get_footer(); 
 }else{
