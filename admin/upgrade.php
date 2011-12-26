@@ -2,10 +2,15 @@
 
 require("connect.php");
 require("config.php");
+require("theme.php");
+require("checkAdmin.php");
+require("checkLogin.php");
 
 function checkInstallation(){
   
   require("config.php");
+  
+  global $message;
   
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
   
@@ -15,7 +20,7 @@ function checkInstallation(){
   
   }else{
   
-    echo "Upgrades folder does not exist, creating..";
+    $message="Upgrades folder does not exist, creating.. <br>";
     shell_exec("mkdir ".$install_path."/upgrades");
   
   }
@@ -26,7 +31,7 @@ function checkInstallation(){
     
   }else{
   
-    echo "Downloads folder does not exist, creating..";
+    $message.="Downloads folder does not exist, creating.. <br>";
     shell_exec("mkdir ".$install_path."/downloads");
     
   }
@@ -37,7 +42,7 @@ function checkInstallation(){
   
   }else{
   
-    echo "Backups folder does not exist, creating..";
+    $message.="Backups folder does not exist, creating.. <br>";
     shell_exec("mkdir ".$install_path."/backups");
   
   }
@@ -78,13 +83,20 @@ function backupCurrent(){
   
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
   
-  $backup_dir=$install_path."/backups/".date('d-m-y')."-".getVersion();
+  if(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion())){
+   
+   $i=1;
+   while(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$i))
+    $i++;
+   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$i;
   
+  }else{
+   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion();
+  } 
   $backup_file="$backup_dir/admin/sql/backup.sql";
   
   if(!is_dir($backup_dir)){
     shell_exec("mkdir -p ".$backup_dir."/admin/sql");
-    echo "mysqldump --opt -h$db_host -u$db_user -p$db_pass $db_database > $backup_file";
     system("mysqldump --opt -h$db_host -u$db_user -p$db_pass $db_database > $backup_file");
     shell_exec("cp ".$install_path."/* ".$backup_dir);
     shell_exec("cp -a ".$install_path."/admin ".$backup_dir);
@@ -104,6 +116,38 @@ function backupRestore($backup){
   require("config.php");
   require("connect.php");
   
+  $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
+  
+  if(file_exists($install_path."/backup/".$backup."/admin/sql/backup.sql")){
+  
+   $sql = "SHOW TABLES FROM $db_database";
+   if($result = mysql_query($sql)){
+    while($row = mysql_fetch_row($result)){
+      $found_tables[]=$row[0];
+    }
+   }else{
+    die("Error, could not list tables. MySQL Error: " . mysql_error());
+   }
+  
+   foreach($found_tables as $table_name){
+    $sql = "DROP TABLE $db_database.$table_name";
+    if($result = mysql_query($sql)){
+      echo "Success - table $table_name deleted.";
+    }else{
+      echo "Error deleting $table_name. MySQL Error: " . mysql_error() . "";
+    }
+   }
+  
+   $sql = explode(';', file_get_contents ($install_path."/backup/".$backup."/admin/sql/backup.sql"));
+  
+   $n = count ($sql) - 1;
+   for ($i = 0; $i < $n; $i++) {
+    $query = $sql[$i];
+    $result = mysql_query ($query) or die ('<p>Query: <br><tt>' . $query . '</tt><br>failed. MySQL error: ' . mysql_error());
+   }
+  
+   shell_exec("cp -a ".$install_path."/backup/".$backup."/* ".$install_path."/");
+  }
 
 }
 
@@ -142,23 +186,105 @@ function applyUpdate($version){
   
 
 }
+
+checkInstallation();
+
+
+if(isset($_GET['doBackup'])){
+
+ backupCurrent();
+
+}
+
+if(isset($_GET['removeBackup'])){
+ 
+ $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
+ 
+ if(is_dir($install_path."/backups/".$_GET['removeBackup'])){
+  shell_exec("rm -rf ".$install_path."/backups/".$_GET['removeBackup']);
+  $message='<font color="green">Backup fjernet</font>';
+ }
+
+}
+
+getThemeHeader();
+
+getThemeTitle("Versionsstyring");
+
+require("menu.php");
+
+echo $message;
+
+if(!isset($_GET['status'])){
+
+$install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
+
+$updates = scandir($install_path."/downloads/");
+
+$backups = scandir($install_path."/backups/");
+
+echo '<center><table>';
+echo '<tr>';
+echo '<td width=300>';
+echo 'Tilgængelig Opdateringer:';
+echo '</td>';
+echo '<td width=300>';
+echo 'Backups:';
+echo '</td>';
+echo '</tr>';
+echo '<tr>';
+echo '<td valign="top">';
+foreach($updates as $update){
+  $name=explode("-",$update);
+  if($name[0]=="dommerplan")
+   echo "$update<br>";
+}
+
+echo '</td>';
+echo '<td valign="top">';
+foreach($backups as $backup){
+  $name=explode("-",$backup);
+  if($name[0]=="dommerplan"){
+   echo "Version ".$name[4]." taget d. ".$name[1]."/".$name[2]."-".$name[3];
+   if(isset($name[5]))
+    echo " rev. $name[5]";
+   echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?removeBackup='.$backup.'">   Fjern</a><br>';
+  }
+}
+
+echo '</td>';
+echo '</tr>';
+echo '<tr>';
+echo '<td height=10px>';
+echo '</td>';
+echo '<td>';
+echo '</td>';
+echo '</tr>';
+echo '<tr>';
+echo '<td>';
+echo 'hej';
+echo '</td>';
+echo '<td>';
+echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?doBackup=1">Opret ny Backup</a>';
+echo '</td>';
+echo '</tr>';
+echo '</table></center>';
+
+}
+
+
+getThemeBottom();
+
+                
 //fetchUpgrades("http://localhost/files/");
 
 //checkInstallation();
 
-applyUpdate("1.0.1");
+//backupRestore("test");
+
+//applyUpdate("1.0.1");
 
 //backupCurrent();
-/*
-$file="http://localhost/files/test.tar.gz";
-
-fetchUpgrade("$file");
-$size = round((filesize($path)/1000000), 3);
-print "transfer complete.<br>
-<a><a href=\"$file\">$file</a><br>
-<a><a href=\"$path\">$path</a> : $size MB";*/
-
-//$_SERVER['DOCUMENT_ROOT']."/path2file/";shell_exec("");
 
 
 
