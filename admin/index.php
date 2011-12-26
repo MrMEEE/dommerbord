@@ -17,6 +17,7 @@ if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubn
     ob_flush();
 }
 
+require "checkAdmin.php";
 require "checkLogin.php";
 require "todo.class.php";
 
