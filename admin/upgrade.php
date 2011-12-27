@@ -58,6 +58,8 @@ function fetchUpgrades($src){
   
   $versions=explode("<br>",$available_versions);
   
+  $numberofupdates=0;
+  
   foreach($versions as $version){
   
     $versionnumber=explode("-",$version);
@@ -69,9 +71,12 @@ function fetchUpgrades($src){
         $dst=$_SERVER['DOCUMENT_ROOT']."/downloads/".$version;
 
         copy($src.$version,$dst);
+        $numberofupdates++;
       }
     }
   }
+  
+  return $numberofupdates;
 
 }
 
@@ -221,33 +226,39 @@ if(isset($_GET['restoreBackup'])){
 
 }
 
-if(isset($_POST['message'])){
-
- switch($_POST['message']){
+if(isset($_GET['removeUpdate'])){
  
- case "restoreBackup":
-  $message='<font color="green">Backup reetableret...</font>';
-  break;
- case "removeBackup";
-  $message='<font color="green">Backup slettet...</font>';
-  break;
- }
+  $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
+   
+  if(file_exists($install_path."/updates/".$_GET['removeUpdate'])){
+   shell_exec("rm ".$install_path."/updates/".$_GET['removeUpdate']);
+   $message='<font color="green">Opdatering fjernet...</font>';
+  }
+          
+} 
+
+if(isset($_GET['doUpdateCheck'])){
+
+ $updates=fetchUpgrades($src);
+
 }
 
 getThemeHeader();
 
-echo 'function Confirm(choice,input)
-
-{
+echo 'function Confirm(choice,input){
 
 switch (choice){
 case "removeBackup": 
 question = "Er du sikker på at du vil slette denne backup??";
-parameter = "removeBackup=" + input + "&message=removeBackup";
+parameter = "removeBackup=" + input;
 break;
 case "restoreBackup":
 question = "Er du sikker på at du vil reetabler denne backup??, alle kampændringer vil gå tabt..";
-parameter = "restoreBackup=" + input + "&message=restoreBackup";
+parameter = "restoreBackup=" + input;
+break;
+case "removeUpdate": 
+question = "Er du sikker på at du vil slette denne opdatering??";
+parameter = "removeUpdate=" + input;
 break;
 default: ;
 }
@@ -265,7 +276,7 @@ getThemeTitle("Versionsstyring");
 
 require("menu.php");
 
-echo $message;
+echo $message."<br><br>";
 
 if(!isset($_GET['status'])){
 
@@ -302,8 +313,6 @@ foreach($backups as $backup){
     echo " rev. $name[5]";
     echo ' - <a href="javascript:Confirm(\'restoreBackup\',\''.$backup.'\')"">Reetabler</a>';
     echo ' - <a href="javascript:Confirm(\'removeBackup\',\''.$backup.'\')">Fjern</a><br>';
-   /*echo ' - <a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?restoreBackup='.$backup.'">Reetabler</a>';
-   echo ' - <a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?removeBackup='.$backup.'">Fjern</a><br>';*/
   }
 }
 
@@ -317,7 +326,7 @@ echo '</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<td>';
-echo 'hej';
+echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?doUpdateCheck=1">Check efter opdateringer</a>';
 echo '</td>';
 echo '<td>';
 echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?doBackup=1">Opret ny Backup</a>';

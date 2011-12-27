@@ -16,6 +16,8 @@ $klubid=$row['klubid'];
 //Klub Adresse, fx: www.bmsbasket.dk
 $klubadresse=$row['klubadresse'];
 
+$updatesurl=$row['updatesurl'];
+
 $debug=$row['debug'];
 
 ?>
