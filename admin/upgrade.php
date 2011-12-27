@@ -14,24 +14,13 @@ function checkInstallation(){
   
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
   
-  if(is_dir($install_path."/upgrades")){
-  
-    //echo "Upgrades folder exists..";
-  
-  }else{
-  
-    $message="Upgrades folder does not exist, creating.. <br>";
-    shell_exec("mkdir ".$install_path."/upgrades");
-  
-  }
-  
   if(is_dir($install_path."/downloads")){
   
     //echo "Downloads folder exists..";
     
   }else{
   
-    $message.="Downloads folder does not exist, creating.. <br>";
+    $message="Downloads folder does not exist, creating.. <br>";
     shell_exec("mkdir ".$install_path."/downloads");
     
   }
@@ -51,8 +40,8 @@ function checkInstallation(){
 
 function fetchUpgrades($src){
   
-  require("../version.php");
   require("config.php");
+  require("../version.php");
   
   $available_versions = file_get_contents($src);
   
@@ -65,12 +54,12 @@ function fetchUpgrades($src){
     $versionnumber=explode("-",$version);
     $versionnumber=explode(".tar.gz",$versionnumber[1]);
   
-    if($versionnumber[0] > getVersion()){
+    if($versionnumber[0] > $dommerplanversion){
       if(!file_exists($_SERVER['DOCUMENT_ROOT']."/downloads/".$version)){
       
         $dst=$_SERVER['DOCUMENT_ROOT']."/downloads/".$version;
 
-        copy($src.$version,$dst);
+        copy($src."/".$version,$dst);
         $numberofupdates++;
       }
     }
@@ -88,7 +77,7 @@ function backupCurrent(){
   
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
   
-  if(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion())){
+  if(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".$dommerplanversion)){
    $backups=glob($install_path."/backups/dommerplan-".date('d-m-y')."-*");
    
    foreach($backups as $backup){
@@ -98,18 +87,18 @@ function backupCurrent(){
    
    $newbackup=max($numbers) + 1;
    
-   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$newbackup;
+   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".$dommerplanversion."-".$newbackup;
    
   }else{
-   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion();
+   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".$dommerplanversion;
   } 
   $backup_file="$backup_dir/admin/sql/backup.sql";
   
   if(!is_dir($backup_dir)){
     shell_exec("mkdir -p ".$backup_dir."/admin/sql");
-    system("mysqldump --opt -h$db_host -u$db_user -p$db_pass $db_database > $backup_file");
     shell_exec("cp ".$install_path."/* ".$backup_dir);
     shell_exec("cp -a ".$install_path."/admin ".$backup_dir);
+    system("mysqldump --opt -h$db_host -u$db_user -p$db_pass $db_database > $backup_file");
     
     return "Backup created..";
 
@@ -177,9 +166,9 @@ function applyUpdate($version){
   
   shell_exec("mkdir ".$install_path."/tmp");
   
-  copy($install_path."/downloads/dommerplan-".$version.".tar.gz", $install_path."/tmp/dommerplan-".$version.".tar.gz");
+  copy($install_path."/downloads/dommerplan-".$version, $install_path."/tmp/dommerplan-".$version);
   
-  shell_exec("cd ".$install_path."/tmp && tar zxvf dommerplan-".$version.".tar.gz && rm dommerplan-".$version.".tar.gz");
+  shell_exec("cd ".$install_path."/tmp && tar zxvf dommerplan-".$version." && rm dommerplan-".$version);
   
   if(file_exists($install_path."/tmp/admin/sql/update.sql")){
   
@@ -194,12 +183,17 @@ function applyUpdate($version){
   
   shell_exec("cp -a ".$install_path."/tmp/* ".$install_path);
   
-
+  shell_exec("rm ".$install_path."/downloads/dommerplan-".$version);
+  
+  require("../version.php");
 }
 
 checkInstallation();
 
+$install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
 
+$updates = scandir($install_path."/downloads/");
+ 
 if(isset($_GET['doBackup'])){
 
  backupCurrent();
@@ -223,15 +217,16 @@ if(isset($_GET['restoreBackup'])){
  backupRestore($_GET['restoreBackup']);
  
  $message='<font color="green">System reetableret fra Backup...</font>';
+ 
+ fetchUpgrades($updatesurl);
 
 }
 
 if(isset($_GET['removeUpdate'])){
  
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
-   
-  if(file_exists($install_path."/updates/".$_GET['removeUpdate'])){
-   shell_exec("rm ".$install_path."/updates/".$_GET['removeUpdate']);
+  if(file_exists($install_path."/downloads/".$_GET['removeUpdate'])){
+   shell_exec("rm ".$install_path."/downloads/".$_GET['removeUpdate']);
    $message='<font color="green">Opdatering fjernet...</font>';
   }
           
@@ -239,9 +234,52 @@ if(isset($_GET['removeUpdate'])){
 
 if(isset($_GET['doUpdateCheck'])){
 
- $updates=fetchUpgrades($src);
+ $updates=fetchUpgrades($updatesurl);
+ $message='<font color="green">'.$updates.' opdatering(er) fundet..</font>';
 
 }
+
+if(isset($_GET['applyUpdate'])){
+
+ backupCurrent();
+ 
+ applyUpdate($_GET['applyUpdate']);
+
+ $message='<font color="green">Backup oprettet og opdatering udført...</font>';
+ 
+
+}
+
+if(isset($_GET['applyAllUpdates'])){
+
+ $updatesapplied=0;
+
+ foreach($updates as $update){
+  $name=explode("-",$update);
+  if($name[0]=="dommerplan"){
+  
+   backupCurrent();
+  
+   echo $name[1];
+   applyUpdate($name[1]);
+  
+   $updatesapplied++;
+  }
+ } 
+ 
+ $message='<font color="green">'.$updatesapplied.' opdatering(er) udført..</font>';
+
+}
+
+$updatesfetched=fetchUpgrades($updatesurl);
+
+if($updatesfetched > 0){
+ $message='<font color="green">'.$updatesfetched.' opdatering(er) fundet..</font>';
+}
+
+$updates = scandir($install_path."/downloads/");
+ 
+$backups = scandir($install_path."/backups/");
 
 getThemeHeader();
 
@@ -259,6 +297,14 @@ break;
 case "removeUpdate": 
 question = "Er du sikker på at du vil slette denne opdatering??";
 parameter = "removeUpdate=" + input;
+break;
+case "applyUpdate": 
+question = "Er du sikker på at du vil installere denne opdatering??, en backup vil også blive oprettet..";
+parameter = "applyUpdate=" + input;
+break;
+case "applyAllUpdates": 
+question = "Er du sikker på at du vil installere alle tilgængelig opdateringer??";
+parameter = "applyAllUpdates=";
 break;
 default: ;
 }
@@ -280,12 +326,6 @@ echo $message."<br><br>";
 
 if(!isset($_GET['status'])){
 
-$install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
-
-$updates = scandir($install_path."/downloads/");
-
-$backups = scandir($install_path."/backups/");
-
 echo '<center><table>';
 echo '<tr>';
 echo '<td width=400>';
@@ -297,10 +337,20 @@ echo '</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<td valign="top">';
+$firstupdate=1;
 foreach($updates as $update){
   $name=explode("-",$update);
-  if($name[0]=="dommerplan")
-   echo "$update<br>";
+  if($name[0]=="dommerplan"){
+   $version=explode(".",$name[1]);
+   echo "Version ".$version[0].".".$version[1].".".$version[2];
+   if($firstupdate){
+    echo ' - <a href="javascript:Confirm(\'applyUpdate\',\''.$name[1].'\')">Udfør opdatering</a><br>';
+    $firstupdate=0;
+   }else{
+    echo ' - <font color="grey">Udfør tidligere opdateringer først</font><br>';
+   }
+   //echo ' - <a href="javascript:Confirm(\'removeUpdate\',\''.$update.'\')">Fjern</a><br>';
+  }
 }
 
 echo '</td>';
@@ -326,7 +376,7 @@ echo '</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<td>';
-echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?doUpdateCheck=1">Check efter opdateringer</a>';
+echo '<a href="javascript:Confirm(\'applyAllUpdates\',1)"">Installer alle opdateringer</a>';
 echo '</td>';
 echo '<td>';
 echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?doBackup=1">Opret ny Backup</a>';

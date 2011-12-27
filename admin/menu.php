@@ -81,6 +81,22 @@ $link = $url . $link . "</a>";
 }
 }
 
+if (checkAdmin($_SESSION['username'])){
+echo "$link | ";
+
+$link = "Backup/Opdater";
+$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">';
+
+if (getSite() != "/upgrade.php"){
+
+$link = $url . $link . "</a>";
+ 
+}
+}
+ 
+ 
+ 
+
 echo "$link | ";
 
 

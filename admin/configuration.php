@@ -31,6 +31,11 @@ if(isset($_GET["debug"])){
     mysql_query("UPDATE `config` set `debug`='$debug' WHERE id = 1");                                                                              
 }
 
+if(isset($_GET["updatesurl"])){
+    $updatesurl=$_GET['updatesurl'];
+    mysql_query("UPDATE `config` set `updatesurl`='$updatesurl' WHERE id = 1");
+}
+        
 }
 
 if(isset($_GET["updatedatabase"])){
@@ -78,17 +83,9 @@ function FormSubmitPath() {
 document.klubpathpost.action = 'configuration.php?klubpath=' + document.klubpathpost.klubpath.value;
 document.klubpathpost.submit();
 }
-function ConfirmDatabaseUpdate() {
- 
- answer = confirm("Er du sikker på at du vil opdatere databasen??")
- 
-
- if (answer !=0)
- {
-document.updatedatabasepost.action = 'configuration.php?updatedatabase=1';
- document.updatedatabasepost.submit();  
- }
-  
+function FormSubmitUpdatesUrl() {
+document.updatesurlpost.action = 'configuration.php?updatesurl=' + document.updatesurlpost.updatesurl.value;
+document.updatesurlpost.submit();
 }
 
 </script>
@@ -189,9 +186,10 @@ Debug:
 </form>
 
 <br>
-Opdater Database:
-<form method="post" name="updatedatabasepost">
-<input type="submit" value="Opdater" onClick="ConfirmDatabaseUpdate()">
+<form method="post" name="updatesurlpost">
+URL til Opdateringer:<br>
+<input type="text" name="updatesurl" value="<?php echo $updatesurl; ?>"><br>
+<input type="submit" value="Sæt" onClick="FormSubmitUpdatesUrl()">
 </form>
 
 

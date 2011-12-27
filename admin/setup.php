@@ -47,6 +47,7 @@ if(isset($_GET["host"])){
         $query = $sql[$i];
         $result = mysql_query ($query) or die ('<p>Query: <br><tt>' . $query . '</tt><br>failed. MySQL error: ' . mysql_error());
         }
+        mysql_query("UPDATE config SET updatesurl='http://www.dommerplan.dk/updates/' WHERE id = 1")
         header( 'Location: configuration.php' );       
         $failed=10;
       }   

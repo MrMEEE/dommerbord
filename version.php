@@ -1,10 +1,5 @@
 <?php
 
-function getVersion(){
-
-  return "1.0.0";
-
-}
-
+  $dommerplanversion="1.0.0";
 
 ?>
