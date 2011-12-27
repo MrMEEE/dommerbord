@@ -84,12 +84,17 @@ function backupCurrent(){
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
   
   if(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion())){
+   $backups=glob($install_path."/backups/dommerplan-".date('d-m-y')."-*");
    
-   $i=1;
-   while(file_exists($install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$i))
-    $i++;
-   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$i;
-  
+   foreach($backups as $backup){
+    $backupexplode = explode("-",$backup);
+    $numbers[] = $backupexplode[5]; 
+   }
+   
+   $newbackup=max($numbers) + 1;
+   
+   $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion()."-".$newbackup;
+   
   }else{
    $backup_dir=$install_path."/backups/dommerplan-".date('d-m-y')."-".getVersion();
   } 
@@ -115,10 +120,10 @@ function backupRestore($backup){
 
   require("config.php");
   require("connect.php");
-  
+
   $install_path=$_SERVER['DOCUMENT_ROOT'].$klubpath;
-  
-  if(file_exists($install_path."/backup/".$backup."/admin/sql/backup.sql")){
+
+  if(file_exists($install_path."/backups/".$backup."/admin/sql/backup.sql")){
   
    $sql = "SHOW TABLES FROM $db_database";
    if($result = mysql_query($sql)){
@@ -132,13 +137,13 @@ function backupRestore($backup){
    foreach($found_tables as $table_name){
     $sql = "DROP TABLE $db_database.$table_name";
     if($result = mysql_query($sql)){
-      echo "Success - table $table_name deleted.";
+      //echo "Success - table $table_name deleted.";
     }else{
       echo "Error deleting $table_name. MySQL Error: " . mysql_error() . "";
     }
    }
   
-   $sql = explode(';', file_get_contents ($install_path."/backup/".$backup."/admin/sql/backup.sql"));
+   $sql = explode(';', file_get_contents ($install_path."/backups/".$backup."/admin/sql/backup.sql"));
   
    $n = count ($sql) - 1;
    for ($i = 0; $i < $n; $i++) {
@@ -146,7 +151,7 @@ function backupRestore($backup){
     $result = mysql_query ($query) or die ('<p>Query: <br><tt>' . $query . '</tt><br>failed. MySQL error: ' . mysql_error());
    }
   
-   shell_exec("cp -a ".$install_path."/backup/".$backup."/* ".$install_path."/");
+   shell_exec("cp -a ".$install_path."/backups/".$backup."/* ".$install_path."/");
   }
 
 }
@@ -193,6 +198,7 @@ checkInstallation();
 if(isset($_GET['doBackup'])){
 
  backupCurrent();
+ $message='<font color="green">Backup oprettet...</font>';
 
 }
 
@@ -202,12 +208,58 @@ if(isset($_GET['removeBackup'])){
  
  if(is_dir($install_path."/backups/".$_GET['removeBackup'])){
   shell_exec("rm -rf ".$install_path."/backups/".$_GET['removeBackup']);
-  $message='<font color="green">Backup fjernet</font>';
+  $message='<font color="green">Backup fjernet...</font>';
  }
 
 }
 
+if(isset($_GET['restoreBackup'])){
+
+ backupRestore($_GET['restoreBackup']);
+ 
+ $message='<font color="green">System reetableret fra Backup...</font>';
+
+}
+
+if(isset($_POST['message'])){
+
+ switch($_POST['message']){
+ 
+ case "restoreBackup":
+  $message='<font color="green">Backup reetableret...</font>';
+  break;
+ case "removeBackup";
+  $message='<font color="green">Backup slettet...</font>';
+  break;
+ }
+}
+
 getThemeHeader();
+
+echo 'function Confirm(choice,input)
+
+{
+
+switch (choice){
+case "removeBackup": 
+question = "Er du sikker på at du vil slette denne backup??";
+parameter = "removeBackup=" + input + "&message=removeBackup";
+break;
+case "restoreBackup":
+question = "Er du sikker på at du vil reetabler denne backup??, alle kampændringer vil gå tabt..";
+parameter = "restoreBackup=" + input + "&message=restoreBackup";
+break;
+default: ;
+}
+
+answer = confirm(question);
+      
+   if (answer !=0){
+                   
+      location = "http://'.$klubadresse.'/'.$klubpath.'/admin/upgrade.php?"+parameter;
+   }           
+                                                         
+}'; 
 
 getThemeTitle("Versionsstyring");
 
@@ -225,10 +277,10 @@ $backups = scandir($install_path."/backups/");
 
 echo '<center><table>';
 echo '<tr>';
-echo '<td width=300>';
+echo '<td width=400>';
 echo 'Tilgængelig Opdateringer:';
 echo '</td>';
-echo '<td width=300>';
+echo '<td width=400>';
 echo 'Backups:';
 echo '</td>';
 echo '</tr>';
@@ -248,7 +300,10 @@ foreach($backups as $backup){
    echo "Version ".$name[4]." taget d. ".$name[1]."/".$name[2]."-".$name[3];
    if(isset($name[5]))
     echo " rev. $name[5]";
-   echo '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?removeBackup='.$backup.'">   Fjern</a><br>';
+    echo ' - <a href="javascript:Confirm(\'restoreBackup\',\''.$backup.'\')"">Reetabler</a>';
+    echo ' - <a href="javascript:Confirm(\'removeBackup\',\''.$backup.'\')">Fjern</a><br>';
+   /*echo ' - <a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?restoreBackup='.$backup.'">Reetabler</a>';
+   echo ' - <a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php?removeBackup='.$backup.'">Fjern</a><br>';*/
   }
 }
 
