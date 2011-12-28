@@ -46,6 +46,7 @@ curl_setopt($ch,CURLOPT_POST,count($fields));
 curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
 curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 curl_setopt($ch,CURLOPT_HTTPHEADER,Array("Content-Type: application/x-www-form-urlencoded")); 
+curl_setopt($ch,CURLOPT_TIMEOUT,5);
 
 
 $result = curl_exec($ch);
