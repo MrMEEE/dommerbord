@@ -55,9 +55,9 @@ function fetchUpgrades($src){
     $versionnumber=explode(".tar.gz",$versionnumber[1]);
   
     if($versionnumber[0] > $dommerplanversion){
-      if(!file_exists($_SERVER['DOCUMENT_ROOT']."/downloads/".$version)){
+      if(!file_exists($_SERVER['DOCUMENT_ROOT'].$klubpath."/downloads/".$version)){
       
-        $dst=$_SERVER['DOCUMENT_ROOT']."/downloads/".$version;
+        $dst=$_SERVER['DOCUMENT_ROOT'].$klubpath."/downloads/".$version;
 
         copy($src."/".$version,$dst);
         $numberofupdates++;
