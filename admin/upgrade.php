@@ -55,9 +55,9 @@ function fetchUpgrades($src){
     $versionnumber=explode(".tar.gz",$versionnumber[1]);
   
     if($versionnumber[0] > $dommerplanversion){
-      if(!file_exists($_SERVER['DOCUMENT_ROOT'].$klubpath."/downloads/".$version)){
+      if(!file_exists($_SERVER['DOCUMENT_ROOT']."/downloads/".$version)){
       
-        $dst=$_SERVER['DOCUMENT_ROOT'].$klubpath."/downloads/".$version;
+        $dst=$_SERVER['DOCUMENT_ROOT']."/downloads/".$version;
 
         copy($src."/".$version,$dst);
         $numberofupdates++;
@@ -326,6 +326,9 @@ echo $message."<br><br>";
 
 if(!isset($_GET['status'])){
 
+require("../version.php");
+echo '<left>Dommerplan Version '.$dommerplanversion.'</left><br><br>';
+
 echo '<center><table>';
 echo '<tr>';
 echo '<td width=400>';
@@ -387,19 +390,8 @@ echo '</table></center>';
 }
 
 
+
 getThemeBottom();
 
                 
-//fetchUpgrades("http://localhost/files/");
-
-//checkInstallation();
-
-//backupRestore("test");
-
-//applyUpdate("1.0.1");
-
-//backupCurrent();
-
-
-
 ?>
