@@ -1,0 +1,18 @@
+Installations Guide..
+
+Systemkrav:
+
+Apache Web Server 2.2, PHP 5.1+ (evt. andet med php-support)..
+
+MySQL Database Server (testet med version 5.0.32)
+
+
+Installation:
+
+Opret en tom database..
+
+Kopier alle filer til en mappe på serveren, fx /dommer.
+
+Åben siden setup.php i en web-browser: (fx http://example.com/dommer/setup.php)
+
+Følg vejledningerne på skærmen..
