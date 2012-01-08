@@ -2,6 +2,7 @@
 
 require "admin/connect.php";
 require "admin/config.php";
+require_once("admin/checkAdmin.php");
 
 if($debug==0){
 error_reporting(0);
