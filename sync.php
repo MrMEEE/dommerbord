@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 require "admin/connect.php";
 require "admin/config.php";

@@ -1,6 +1,7 @@
 <?php
 
-require "connect.php";
+require("connect.php");
+require("getGame.php");
 
 //DEBUG: echo '<script language="javascript">confirm("'.$query.'")</script>;';
 
@@ -54,7 +55,7 @@ class ToDo{
 		}
 		$string .= '
 		<tr class="row-2 even" height=45px>
-		<td class="column-1">'.$this->data['id'].'</td><td class="column-2">'.$date.'<br>'.$this->data['time'].'</td><td class="column-3">';
+		<td class="column-1"><a href="admin/gotoGame.php?gameID='.$this->data['id'].'" target="_blank">'.$this->data['id'].'</a></td><td class="column-2">'.$date.'<br>'.$this->data['time'].'</td><td class="column-3">';
 		
 		if(($this->data['status']==3) || ($this->data['status']==4)){
 		    $string .= '<font style="text-decoration:line-through;">';

@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	/* The following code is executed once the DOM is loaded */
 
-	$(".todoList").sortable({
+	/*$(".todoList").sortable({
 		axis		: 'y',				// Only vertical movements allowed
 		containment	: 'window',			// Constrained by the window
 		update		: function(){		// The function is called after the todos are rearranged
@@ -20,12 +20,12 @@ $(document).ready(function(){
 			$.get('ajax.php',{action:'rearrange',positions:arr});
 		},
 		
-		/* Opera fix: */
+		/* Opera fix: 
 		
 		stop: function(e,ui) {
 			ui.item.css({'top':'0','left':'0'});
 		}
-	});
+	});*/
 	
 	// A global variable, holding a jQuery object 
 	// containing the current todo item:
@@ -173,22 +173,22 @@ $(document).ready(function(){
 		currentTODO = $(this).closest('.todo');
 		currentTODO.data('id',currentTODO.attr('id').replace('todo-',''));
 		
-		e.preventDefault();
+		//e.preventDefault();
 	});
 
 	$('.todo form').live('click',function(e){
 		currentTODO = $(this).closest('.todo');
 	        currentTODO.data('id',currentTODO.attr('id').replace('todo-',''));
 	               
-	        e.preventDefault();
+	        //e.preventDefault();
 	});
 
 	$('.todo').live('click',function(e){
                 currentTODO = $(this).closest('.todo');
                 currentTODO.data('id',currentTODO.attr('id').replace('todo-',''));
                        
-                e.preventDefault();
-        });
+                //e.preventDefault();
+        });  
 		
 	// Listening for a click on a delete button:
 

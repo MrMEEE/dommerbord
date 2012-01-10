@@ -41,8 +41,6 @@ return;
               }
         }
     ?>
-   <h2>Dommerbordsplan</h2>
-   <br>
    <table width=545 border=0> 
    <tr>
    <td>

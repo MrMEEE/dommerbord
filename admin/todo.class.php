@@ -104,9 +104,10 @@ class ToDo{
 		    $return.= '<li id="todo-'.$this->data['id'].'" class="todo moved">';
 		    break;
 		}
+		
 		$return .= '
 				
-				Kampnummer: <div class="number">'.$this->data['id'].'</div>
+				Kampnummer: <div class="number"><a href="gotoGame.php?gameID='.$this->data['id'].'" target="_blank">'.$this->data['id'].'</a></div>
 				Dato: <div class="date">'.$date.'</div>
 				Tidspunkt: <div class="time">'.$this->data['time'].'</div>
 				Beskrivelse: <div class="text">'.$this->data['text'].'</div>
