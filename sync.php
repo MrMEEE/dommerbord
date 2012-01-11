@@ -80,6 +80,9 @@ $page .= $content;
   
   //the table by its tag name  
   $tables = $dom->getElementsByTagName('table');   
+  $info = $dom->getElementsByTagName('h2');
+   
+  $pulje = explode(", ",$info->item(0)->nodeValue);
   
   //get all rows from the table  
   if ( $tables->length > 1){
@@ -101,7 +104,8 @@ $page .= $content;
       $awayteam = $cols->item(3)->nodeValue;
       $awayteam = str_replace("\n", "", $awayteam);
       $awayteam = str_replace("\r", "", $awayteam);
-      $awayteam = str_replace(" ", "", $awayteam);
+      $awayteam = trim($awayteam);
+      //$awayteam = str_replace(" ", "", $awayteam);
       $place = $cols->item(4)->nodeValue;
       $place=trim($place);
       $place= str_replace("  ", "", $place);
@@ -144,8 +148,8 @@ $page .= $content;
       $time = substr($fulldate,13,2);
       $time .= ":";
       $time .= substr($fulldate,16,2);
-	$text = $currentteam;
-	$text .= " Vs. ";
+	$text = $hometeam." i ".$currentteam.", ".$pulje[1];
+	$text .= "<br>Mod ";
 	$text .= $awayteam;
 
     if(mysql_num_rows(mysql_query("SELECT id FROM games WHERE id = '$id'"))) {
