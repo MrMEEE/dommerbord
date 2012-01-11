@@ -25,7 +25,7 @@ $link = $url . $link . "</a>";
 echo "$link | ";
 
 $link = "Opdater Kampprogram";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/sync.php">';  
+$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/sync.php">';  
 
 if (getSite() != "/sync.php"){
 
