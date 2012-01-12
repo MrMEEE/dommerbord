@@ -1,8 +1,8 @@
 <?php
 
-require "admin/connect.php";
-require "admin/config.php";
-require_once("admin/checkAdmin.php");
+require("connect.php");
+require("config.php");
+require_once("checkAdmin.php");
 
 if($debug==0){
 error_reporting(0);
@@ -19,7 +19,7 @@ error_reporting(0);
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
 
 <!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="admin/styles.css" />
+<link rel="stylesheet" type="text/css" href="styles.css" />
 
 </head>
 
@@ -29,7 +29,7 @@ error_reporting(0);
 
 <div id="main">
 
-<?php require("admin/menu.php"); ?>
+<?php require("menu.php"); ?>
 
 <?php
 
