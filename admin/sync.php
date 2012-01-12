@@ -168,7 +168,11 @@ $page .= $content;
       }
       else{
         print_r("Ændring til kamp: '$id' <br>");
-        $gamechanged=1;
+        if($oldtext!=$text && $olddate==$date && substr($oldtime,0,5)==$time){
+          // Info changed
+        }else{
+          $gamechanged=1;
+        }
         if($status != 4){
           mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
         }else{
