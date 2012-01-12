@@ -4,6 +4,8 @@ require("connect.php");
 require("config.php");
 require_once("checkAdmin.php");
 
+session_start();
+
 if($debug==0){
 error_reporting(0);
 }
