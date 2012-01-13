@@ -7,18 +7,36 @@ require "config.php";
 
 if (checkAdmin($_SESSION['username'])){
 
-if(isset($_GET["addperson"])){
-    $name=$_GET["name"];
+if(isset($_POST["addperson"])){
+    $name=$_POST["name"];
     if($name!=""){
         mysql_query("INSERT into teams (`name`) VALUES ('$name')");
     }
 }
-if(isset($_GET["removeperson"])){
-    if(isset($_GET["id"])){
-        $id=$_GET["id"];
+if(isset($_POST["removeperson"])){
+    if(isset($_POST["id"])){
+        $id=$_POST["id"];
         mysql_query("DELETE FROM `teams` WHERE `id` = $id");
     }
 }
+
+if(isset($_POST["changeperson"])){
+    if(isset($_POST["newname"])){
+        $id=$_POST["changeperson"];
+        $name = $_POST["newname"];
+        mysql_query("UPDATE `teams` SET `name` = \"$name\" WHERE `id` = $id");
+    }
+
+}
+
+if(isset($_GET["setteam"])){
+    if(isset($_GET["id"])){
+        $id=$_GET["id"];
+        $team = $_GET["setteam"];
+        mysql_query("UPDATE `teams` SET `teamid` = $team WHERE `id` = $id");
+    }
+}
+
 
 }
 $teamlist="";
@@ -39,13 +57,19 @@ answer = confirm("Er du sikker på at du vil slette denne Person/dette Hold")
 if (answer !=0)
 {
 
-var klubadresse = "<?php echo $klubadresse;?>"
-var klubpath = "<?php echo $klubpath;?>"
+document.removeperson.removeperson.value = 1;
+document.removeperson.id.value = personid;
 
-location = "http://" + klubadresse + "/" + klubpath + "/admin/people.php?removeperson=1&id=" + personid;
+document.removeperson.submit();
 
 }
 
+}
+
+function openWindow(userid,name){
+  
+    var path = "changePerson.php?id=" + userid + "&name='" + name +"'";
+    window.open(path,"mywindow","menubar=1,resizable=1,width=350,height=250");
 }
 
 </script>
@@ -75,21 +99,38 @@ echo '<br><br>';
 
 if (checkAdmin($_SESSION['username'])){
 
-echo '<form type="get">
+echo '<form method="post">
 Name: <input type="text" name="name"><input name="addperson" type="submit" value="Tilføj">
 </form><br><br>';
 }
+
+echo '<form method="post" name="changeperson">
+<input type="hidden" name="changeperson">
+<input type="hidden" name="newname">
+</form>';
+
+echo '<form method="post" name="removeperson">
+<input type="hidden" name="removeperson">
+<input type="hidden" name="id">
+</form>';
+
+
 echo 'Hold/Personer:<br><br>';
 
 $query = mysql_query("SELECT * FROM `teams` ORDER BY `name` ASC");
-
-// Filling the $todos array with new ToDo objects:
 
 while($row = mysql_fetch_assoc($query)){
     if($row['name']!="-"){
     echo $row['name'];
     if (checkAdmin($_SESSION['username'])){
-    echo ' <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
+        if ($row['teamid'] != 0){
+            $teamid = $row['teamid'];
+            $teamname_query = mysql_query("SELECT FROM `calendars` WHERE `id` = $teamid");
+            $teamname = mysql_fetch_row($teamname_query);
+            echo ' - '.$teamname['team'];
+        }
+    echo ' - <a href="javascript:openWindow('.$row['id'].',\''.$row['name'].'\')">Ændre Navn</a>';
+    echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
     }
     echo "<br>";
     }
