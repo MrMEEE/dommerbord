@@ -105,10 +105,44 @@ class ToDo{
 		    break;
 		}
 		
+		$day="";
+                $date=substr($this->data['date'],8,2);
+                $date.="/";
+                $date.=substr($this->data['date'],5,2);
+                $date.="-";
+                $date.=substr($this->data['date'],0,4);
+                $dateformat=substr($this->data['date'],0,4);
+                $dateformat.=substr($this->data['date'],5,2);
+                $dateformat.=substr($this->data['date'],8,2);
+		switch(date("D",strtotime($dateformat))){
+			case "Mon":
+				$day="Mandag";
+				break;  
+			case "Tue":
+				$day="Tirsdag";
+				break;
+			case "Wed":
+				$day="Onsdag";
+				break;
+			case "Thu":
+				$day="Torsdag";
+				break;
+			case "Fri":
+				$day="Fredag";
+				break;  
+			case "Sat":
+				$day="Lørdag";
+				break;   
+			case "Sun":
+				$day="Søndag";
+				break;
+		}
+
 		$return .= '
 				
 				Kampnummer: <div class="number"><a href="gotoGame.php?gameID='.$this->data['id'].'" target="_blank">'.$this->data['id'].'</a></div>
 				Dato: <div class="date">'.$date.'</div>
+				<div class="day">'.$day.'</div>
 				Tidspunkt: <div class="time">'.$this->data['time'].'</div>
 				Beskrivelse: <div class="text">'.$this->data['text'].'</div>
 				Hal: <div class="text">'.$this->data['place'].'</div>

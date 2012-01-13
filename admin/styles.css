@@ -23,7 +23,7 @@ ul.todoList{
 ul.todoList li{
 	border:1px solid #EEEEEE;
 	list-style:none;
-	height:200px;
+	height:225px;
 	margin:6px;
 	padding:6px 9px;
 	position:relative;
@@ -72,6 +72,11 @@ ul.todoList li:hover{
 }
 
 .todo .date{
+        color:#373333;
+        font-size:1.4em;
+}
+
+.todo .day{
         color:#373333;
         font-size:1.4em;
 }

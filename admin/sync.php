@@ -150,7 +150,7 @@ $page .= $content;
       $time = substr($fulldate,13,2);
       $time .= ":";
       $time .= substr($fulldate,16,2);
-	$text = $hometeam." i ".$currentteam.", ".$pulje[1];
+	$text = $hometeam." : ".$currentteam.", ".$pulje[1];
 	$text .= "<br>Mod ";
 	$text .= $awayteam;
 
@@ -169,16 +169,21 @@ $page .= $content;
         }
       }
       else{
-        print_r("Ændring til kamp: '$id' <br>");
         if($oldtext!=$text && $olddate==$date && substr($oldtime,0,5)==$time){
           // Info changed
+          print_r("Opdatere Info om kamp: '$id' <br>");
         }else{
+          print_r("Ændring til kamp: '$id' <br>");
           $gamechanged=1;
         }
         if($status != 4){
-          mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
+          if($gamechanged){
+            mysql_query("UPDATE games SET status='2' WHERE id = '$id'");
+          }
         }else{
-          mysql_query("UPDATE games SET status='$status' WHERE id = '$id'");
+          if($gamechanged){
+            mysql_query("UPDATE games SET status='$status' WHERE id = '$id'");
+          }
         }
         mysql_query("UPDATE games SET text='$text' WHERE id = '$id'");
         mysql_query("UPDATE games SET date='$date' WHERE id = '$id'");
