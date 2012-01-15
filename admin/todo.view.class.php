@@ -77,7 +77,7 @@ class ToDo{
 		}
 		$string .= '
 		<tr class="row-2 even" height=45px>
-		<td class="column-1">'.$this->data['id'].'</td><td class="column-2">'.$day.'<br>'.$date.'</td><td class="column-3">';
+		<td class="column-1"><a href="gotoGame.php?gameID='.$this->data['id'].'" target="_blank">'.$this->data['id'].'</a></td><td class="column-2">'.$day.'<br>'.$date.'</td><td class="column-3">';
 		
 		if(($this->data['status']==3) || ($this->data['status']==4)){
 		    $string .= '<font style="text-decoration:line-through;">';
