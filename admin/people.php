@@ -66,10 +66,16 @@ document.removeperson.submit();
 
 }
 
-function openWindow(userid,name){
+function openWindowName(userid,name){
   
     var path = "changePerson.php?id=" + userid + "&name='" + name +"'";
     window.open(path,"mywindow","menubar=1,resizable=1,width=350,height=250");
+}
+
+function openWindowTeams(userid,name){
+  
+    var path = "selectTeams.php?id=" + userid + "&name='" + name +"'";
+    window.open(path,"mywindow","menubar=1,resizable=1,scrollbars,width=700,height=500");
 }
 
 </script>
@@ -123,13 +129,8 @@ while($row = mysql_fetch_assoc($query)){
     if($row['name']!="-"){
     echo $row['name'];
     if (checkAdmin($_SESSION['username'])){
-        if ($row['teamid'] != 0){
-            $teamid = $row['teamid'];
-            $teamname_query = mysql_query("SELECT FROM `calendars` WHERE `id` = $teamid");
-            $teamname = mysql_fetch_row($teamname_query);
-            echo ' - '.$teamname['team'];
-        }
-    echo ' - <a href="javascript:openWindow('.$row['id'].',\''.$row['name'].'\')">Ændre Navn</a>';
+    echo ' - <a href="javascript:openWindowTeams('.$row['id'].',\''.$row['name'].'\')">Skift Tilknyttede Hold</a>';
+    echo ' - <a href="javascript:openWindowName('.$row['id'].',\''.$row['name'].'\')">Ændre Navn</a>';
     echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
     }
     echo "<br>";
