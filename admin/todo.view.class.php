@@ -37,7 +37,6 @@ class ToDo{
 		$dateformat.=substr($this->data['date'],8,2);
 		$pos=strpos($this->data['text'],":");
 		$teams=substr($this->data['text'],0,$pos);
-		$description=substr($this->data['text'],$pos,strlen($this->data['text'])-$pos);
 		$string = "";
 		if($this->lastweek!=0 && $this->lastweek!=date("W",strtotime($dateformat))){
 		    $string .= '</tbody>
@@ -84,7 +83,7 @@ class ToDo{
 		    $string .= '<font style="text-decoration:line-through;">';
 		}
 		
-		$string .= $description;
+		$string .= $this->data['text'];
 		
 		if(($this->data['status']==3) || ($this->data['status']==4)){
 		    $string .= '</font>';
