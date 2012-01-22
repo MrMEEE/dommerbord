@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 14, 2012 at 12:35 AM
+-- Generation Time: Jan 23, 2012 at 12:27 AM
 -- Server version: 5.1.58
 -- PHP Version: 5.3.6-13ubuntu3.3
 
@@ -65,9 +65,9 @@ CREATE TABLE IF NOT EXISTS `games` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `refereeteam1id` int(8) NOT NULL,
-  `referee1id` int(8) NOT NULL,
+  `referee1name` text COLLATE utf8_unicode_ci NOT NULL,
   `refereeteam2id` int(8) NOT NULL,
-  `referee2id` int(8) NOT NULL,
+  `referee2name` text COLLATE utf8_unicode_ci NOT NULL,
   `tableteam1id` int(8) NOT NULL,
   `table1id` int(8) NOT NULL,
   `tableteam2id` int(8) NOT NULL,
@@ -102,9 +102,9 @@ CREATE TABLE IF NOT EXISTS `people` (
 CREATE TABLE IF NOT EXISTS `teams` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `teamid` int(11) NOT NULL,
+  `teamid` text NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10018 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10019 ;
 
 -- --------------------------------------------------------
 

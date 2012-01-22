@@ -2,6 +2,7 @@
 
 require("connect.php");
 require("config.php");
+require("getGame.php");
 require_once("checkAdmin.php");
 
 session_start();
@@ -50,6 +51,17 @@ if (mysql_num_rows($calendars) == 0) {
   echo "No rows found, nothing to print so am exiting";
   exit;
 }
+
+if(!mysql_num_rows(mysql_query("SELECT * FROM teams WHERE name = 'DBBF'"))){
+
+  mysql_query("INSERT INTO teams SET name='DBBF'");
+
+}
+
+$dbbfentry=mysql_fetch_assoc(mysql_query("SELECT * FROM teams WHERE name = 'DBBF'"));
+
+$dbbfid=$dbbfentry['id'];
+
 while($icals=mysql_fetch_assoc($calendars)){
 
 $currentteam=$icals['team'];
@@ -81,7 +93,8 @@ $page .= $content;
   $dom->preserveWhiteSpace = false;   
   
   //the table by its tag name  
-  $tables = $dom->getElementsByTagName('table');   
+  $tables = $dom->getElementsByTagName('table');
+  
   $info = $dom->getElementsByTagName('h2');
    
   $pulje = explode(", ",$info->item(0)->nodeValue);
@@ -122,19 +135,54 @@ $page .= $content;
       $klubnavn_mod = trim($klubnavn);
       $hometeam_mod = explode(" ",$hometeam_mod);
       $klubnavn_mod = explode(" ",$klubnavn_mod);   
-      //print_r("Hjemmehold: ' $hometeam' <br>");
-      //print_r("Klubnavn: ' $klubnavn' <br>");
-      //str_replace(" ", "", )
-      //$hometeam_mod = str_replace(" ", "", $hometeam);
-      //$klubnavn_mod = str_replace(" ", "", $klubnavn);
-      //if(substr($hometeam,0, strlen($klubnavn)) == $klubnavn){
       if($hometeam_mod[0] == $klubnavn_mod[0]){
-      //if(substr($hometeam_mod,0, strlen($klubnavn_mod)) == $klubnavn_mod){
-   // echo the values    
       $id=$cols->item(0)->nodeValue;
       $id=str_replace("\n", "", $id);
       $id=str_replace("\r", "", $id);
       $id=str_replace(" ", "", $id);
+      
+      $basketid=getGame($id);
+      
+      $dom2 = new DOMDocument();
+      
+      $content2 = file_get_contents("http://resultater.basket.dk/tms/Turneringer-og-resultater/Kamp-Information.aspx?KampId=$basketid");
+      $page2 = '
+      <html><head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <title>Dommer Sync</title>
+      </head><body></body></html>';
+      
+      $page2 .= $content2;
+      
+      if(strstr($page2, "1. dommer")){
+      
+        $html2 = $dom2->loadHTML($page2);
+      
+        $dom2->preserveWhiteSpace = false;
+      
+        $tables2 = $dom2->getElementsByTagName('table');
+      
+        $rows2 = $tables2->item(0)->getElementsByTagName('tr');
+      
+        $refrow1 = $rows2->item(11)->getElementsByTagName('td');
+      
+        $ref1 = $refrow1->item(1)->nodeValue;
+        
+        $updatequery = "UPDATE games SET refereeteam1id='$dbbfid',referee1name='$ref1'";
+        
+        if(strstr($page2, "2. dommer")){
+        
+          $refrow2 = $rows2->item(12)->getElementsByTagName('td');
+                    
+          $ref2 = $refrow2->item(1)->nodeValue;
+          
+          $updatequery .= ",refereeteam2id='$dbbfid',referee2name='$ref2'";
+        
+        }
+        $updatequery .=" WHERE id='$id'";
+        mysql_query($updatequery);
+      
+      }
       
       $fulldate= $cols->item(1)->nodeValue;
       $fulldate = str_replace("\n", "", $fulldate);

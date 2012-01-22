@@ -137,7 +137,18 @@ class ToDo{
 				$day="Søndag";
 				break;
 		}
-
+		if($this->data['referee1name'] == "0"){
+			$dbbfref1="";
+		}else{
+			$dbbfref1=$this->data['referee1name'];
+		}
+		
+		if($this->data['referee2name'] == "0"){
+			$dbbfref2="";
+		}else{
+			$dbbfref2=$this->data['referee2name'];
+		}~
+			
 		$return .= '
 				
 				Kampnummer: <div class="number"><a href="gotoGame.php?gameID='.$this->data['id'].'" target="_blank">'.$this->data['id'].'</a></div>
@@ -169,20 +180,22 @@ class ToDo{
 					</div>
 					<div style="position:absolute; right:0px;">
 						
-						1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
-						<select name="referee1" id="referee1Select">
+						<text align="right">1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
+						<select align="left" name="referee1" id="referee1Select">
 						  <option value="0">Vælg et hold</option>
 						  '.$refereeteamlist1.'
 						</select>
-						</form>
-						<br>
+						</form>						
+						'.$dbbfref1.'
+						<br><br>
 						2.Dommer: <form name="refereeteam2" action="" class="refereeteam2">
 						<select name="referee2" id="referee2Select">
                         		          <option value="0">Vælg et hold</option>
                                 		  '.$refereeteamlist2.'
                                 		 </select>
-						</form>		
-						<br>
+						</form>
+						'.$dbbfref2.'		
+						<br></text><br>
 						24. Sekunder: <form name="tableteam3" action="" class="tableteam3">
 						<select name="table3" id="table3Select">
                                                   <option value="0">Vælg et hold</option>

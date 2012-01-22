@@ -94,10 +94,22 @@ class ToDo{
 			$string .= '<br>Kamp Udsat';
 		    }
 		}
-		$string .= '</td><td class="column-4">'.$this->data['tableteam1'].'</td><td class="column-5">'.$this->data['refereeteam1'].'</td><td class="column-6">'.$this->data['tableteam3'].'</td>
+		
+		if($this->data['refereeteam1']=="DBBF"){
+			$ref1=$this->data['referee1name'];
+		}else{
+			$ref1=$this->data['refereeteam1'];
+		}
+		if($this->data['refereeteam2']=="DBBF"){
+		        $ref2=$this->data['referee2name'];
+		}else{
+			$ref2=$this->data['refereeteam2'];
+		}
+		
+		$string .= '</td><td class="column-4">'.$this->data['tableteam1'].'</td><td class="column-5">'.$ref1.'</td><td class="column-6">'.$this->data['tableteam3'].'</td>
 		</tr>
 		<tr class="row-2 odd" height=45px>
-		<td class="column-1"></td><td class="column-2">'.$this->data['time'].'</td><td class="column-3">'.$this->data['place'].'</td><td class="column-4">'.$this->data['tableteam2'].'</td><td class="column-5">'.$this->data['refereeteam2'].'</td><td class="column-6"></td>
+		<td class="column-1"></td><td class="column-2">'.$this->data['time'].'</td><td class="column-3">'.$this->data['place'].'</td><td class="column-4">'.$this->data['tableteam2'].'</td><td class="column-5">'.$ref2.'</td><td class="column-6"></td>
 		</tr>
 		<tr class="row-1 odd height=1px">
 		
