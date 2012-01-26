@@ -96,12 +96,12 @@ class ToDo{
 		}
 		
 		if($this->data['refereeteam1']=="DBBF"){
-			$ref1=$this->data['referee1name'];
+			$ref1="DBBF:".$this->data['referee1name'];
 		}else{
 			$ref1=$this->data['refereeteam1'];
 		}
 		if($this->data['refereeteam2']=="DBBF"){
-		        $ref2=$this->data['referee2name'];
+		        $ref2="DBBF:".$this->data['referee2name'];
 		}else{
 			$ref2=$this->data['refereeteam2'];
 		}

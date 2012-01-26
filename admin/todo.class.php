@@ -140,13 +140,13 @@ class ToDo{
 		if($this->data['referee1name'] == "0"){
 			$dbbfref1="";
 		}else{
-			$dbbfref1=$this->data['referee1name'];
+			$dbbfref1="DBBF:".$this->data['referee1name'];
 		}
 		
 		if($this->data['referee2name'] == "0"){
 			$dbbfref2="";
 		}else{
-			$dbbfref2=$this->data['referee2name'];
+			$dbbfref2="DBBF:".$this->data['referee2name'];
 		}~
 			
 		$return .= '
@@ -160,7 +160,7 @@ class ToDo{
 				
 				<div class="actions">
 				
-					<div style="position:absolute; right:150px;">
+					<div style="position:absolute; right:150px; width:200px;">
 						Dommerbord: <form name="tableteam1" action="" class="tableteam1">
                                                 <select name="table1" id="table1Select">
                                                   <option value="0">Vælg et hold</option>
@@ -178,7 +178,7 @@ class ToDo{
 						<a href="#" class="delete">Delete</a>
 						<a href="#" class="edit">Edit</a>
 					</div>
-					<div style="position:absolute; right:0px;">
+					<div style="position:absolute; right:0px; width:175px;">
 						
 						<text align="right">1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
 						<select align="left" name="referee1" id="referee1Select">
