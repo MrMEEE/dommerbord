@@ -2,7 +2,9 @@ Installations Guide..
 
 Systemkrav:
 
-Apache Web Server 2.2, PHP 5.1+ (evt. andet med php-support)..
+Apache Web Server 2.2, PHP 5.1+ (evt. andet med php-support).. 
+
+Apache skal have php safe mode slået fra... Eller kommer det ikke til at virke..
 
 MySQL Database Server (testet med version 5.0.32)
 
