@@ -1,3 +1,5 @@
+<?php
+
 if(!file_exists("connect.php")){
  ob_start();
  header( "Location: setup.php" );
@@ -13,3 +15,5 @@ if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubn
  header( "Location: configuration.php" );
  ob_flush();
 }
+
+?>
