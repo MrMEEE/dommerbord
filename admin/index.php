@@ -18,6 +18,7 @@ if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubn
 }
 
 require "checkAdmin.php";
+require("checkConfig.php");
 require "checkLogin.php";
 require "todo.class.php";
 

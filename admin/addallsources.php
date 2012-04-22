@@ -1,6 +1,7 @@
 <?php
 
 require("connect.php");
+require("checkConfig.php");
 require("checkLogin.php");
 require("checkAdmin.php");
 require("config.php");

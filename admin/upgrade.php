@@ -3,6 +3,7 @@
 require("connect.php");
 require("config.php");
 require("theme.php");
+require("checkConfig.php");
 require("checkAdmin.php");
 require("checkLogin.php");
 
