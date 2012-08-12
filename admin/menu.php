@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 function getSite() {
 
@@ -8,110 +8,55 @@ function getSite() {
  }else{
    $site = $uri;
  }
- 
+
  return strrchr($site, "/");
- 
+
 }
+
+echo '<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<script src="js/menu.js" type="text/javascript"></script>
+
+<span class="preload1"></span>
+<span class="preload2"></span>
+
+<ul id="nav">';
 
 $link = "Dommerplan";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/">';
-
 if ((getSite() != "/") && (getSite() != "/index.php")){
-
-$link = $url . $link . "</a>";
-
+	$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/" class="top_link">';
+}else{
+	$url = '<a href="#" class="top_link">';
 }
 
-echo "$link | ";
+echo '
+<li class="top">'. $url .'<span>'. $link .'</span></a>
+	<ul class="sub">
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/sync.php">Opdater Kampprogram</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/">Kommende Kampe</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=unassigned">Utildelte Kampe</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=moved">Flyttede Kampe</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=cancelled">Aflyste Kampe</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=all">Sæsonens Kampe</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/addgame.php">Tilføj Kamp Manuelt</a></li>
+				
+	</ul>
+</li>
+<li class="top"><a href="#" class="top_link"><span>Klubben</span></a>	
+	<ul class="sub">
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/people.php">Tilføj/Vis Hold/Personer</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/addallsources.php">Tilføj/Vis alle klubbens hold</a></li>
+	</ul>
+</li>
+<li class="top"><a href="#" class="top_link"><span>Administration</span></a>
+	<ul class="sub">
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/configuration.php">Konfiguration</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/users.php">Brugere</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">Backup/Opdater</a></li>
+	</ul>
+</li>	
 
-$link = "Opdater Kampprogram";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/sync.php">';  
+<li class="top"><a href="http://' . $klubadresse . $klubpath . '/admin/logout.php" class="top_link"><span>Log ud</span></a></li>
 
-if (getSite() != "/sync.php"){
-
-$link = $url . $link . "</a>";
-
-} 
-  
-echo "$link | ";
-
-$link = "Tilføj/Vis Hold/Personer";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/people.php">';
-
-if (getSite() != "/people.php"){ 
-
-$link = $url . $link . "</a>";
-
-} 
-echo "$link | ";
-
-$link = "Tilføj/Vis alle klubbens hold";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/addallsources.php">';
-
-if (getSite() != "/addallsources.php"){ 
-
-$link = $url . $link . "</a>";
-
-}
- 
-
-if (checkAdmin($_SESSION['username'])){ 
-echo "$link | ";
-
-$link = "Konfiguration";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/configuration.php">';
-
-if (getSite() != "/configuration.php"){
-
-$link = $url . $link . "</a>";  
-
-}
-}
-
-if (checkAdmin($_SESSION['username'])){
-echo "$link | ";
-
-$link = "Brugere";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/users.php">';
-
-if (getSite() != "/users.php"){
-
-$link = $url . $link . "</a>";
-
-}
-}
-
-if (checkAdmin($_SESSION['username'])){
-echo "$link | ";
-
-$link = "Backup/Opdater";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">';
-
-if (getSite() != "/upgrade.php"){
-
-$link = $url . $link . "</a>";
- 
-}
-}
- 
- 
- 
-
-echo "$link | ";
-
-
-$link = "Logout";
-$url = '<a href="http://' . $klubadresse . $klubpath . '/admin/logout.php">';
-
-$link = $url . $link . "</a>";
- 
-echo $link;
-
-
- 
+<br><br><br><br>';
 
 ?>
-<br><br>
-
-
-

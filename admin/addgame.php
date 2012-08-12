@@ -46,7 +46,7 @@ getThemeHeader();
 getThemeTitle("Tilføj Kamp");
 
 require("menu.php"); 
-require("gamemenu.php"); 
+// require("gamemenu.php");
 echo '<font color="'.$color.'">'.$message.'</font>'; 
 
 ?>

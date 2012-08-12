@@ -97,7 +97,7 @@ while($row = mysql_fetch_assoc($query)){
 
 <div id="main">
 <?php require("menu.php"); ?>
-<?php require("gamemenu.php"); ?> 
+<!-- <?php require("gamemenu.php"); ?> -->
 
 <center><table>
 <tr>
