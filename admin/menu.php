@@ -53,8 +53,13 @@ echo '
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/users.php">Brugere</a></li>
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">Backup/Opdater</a></li>
 	</ul>
-</li>	
+</li>';	
 
+foreach (glob("plugins/*_pluginmenu.php") as $filename) {
+	include($filename);
+}
+
+echo'
 <li class="top"><a href="http://' . $klubadresse . $klubpath . '/admin/logout.php" class="top_link"><span>Log ud</span></a></li>
 
 <br><br><br><br>';
