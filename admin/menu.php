@@ -46,7 +46,10 @@ echo '
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/people.php">Tilføj/Vis Hold/Personer</a></li>
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/addallsources.php">Tilføj/Vis alle klubbens hold</a></li>
 	</ul>
-</li>
+</li>';
+
+if (checkAdmin($_SESSION['username'])){
+echo '
 <li class="top"><a href="#" class="top_link"><span>Administration</span></a>
 	<ul class="sub">
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/configuration.php">Konfiguration</a></li>
@@ -54,6 +57,7 @@ echo '
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">Backup/Opdater</a></li>
 	</ul>
 </li>';	
+}
 
 foreach (glob("plugins/*_pluginmenu.php") as $filename) {
 	include($filename);
