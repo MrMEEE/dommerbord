@@ -14,8 +14,8 @@ function getSite() {
 }
 
 echo '
-<link href="css/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="css/default.advanced.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://' . $klubadresse . $klubpath . '/admin/css/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://' . $klubadresse . $klubpath . '/admin/css/default.advanced.css" media="screen" rel="stylesheet" type="text/css" />
 
 <body class="vimeo-com">
 
@@ -60,7 +60,7 @@ echo '
 </li>';	
 }
 
-foreach (glob("plugins/*_pluginmenu.php") as $filename) {
+foreach (glob($_SERVER['DOCUMENT_ROOT'].$klubpath."/admin/plugins/*/*_pluginmenu.php") as $filename) {
 	include($filename);
 }
 
