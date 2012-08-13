@@ -7,8 +7,8 @@ if(!file_exists("connect.php")){
 }
 
 
-require "config.php";
-require "connect.php";
+require("config.php");
+require("connect.php");
 
 $config=mysql_fetch_assoc(mysql_query("SELECT * FROM config WHERE id = '1'"));
 if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubnavn']=="")){
@@ -17,10 +17,11 @@ if (($config['klubadresse']=="") || ($config['klubpath']=="") || ($config['klubn
     ob_flush();
 }
 
-require "checkAdmin.php";
+require("checkAdmin.php");
 require("checkConfig.php");
-require "checkLogin.php";
-require "todo.class.php";
+require("checkLogin.php");
+require("todo.class.php");
+require("theme.php");
 
 if(!mysql_num_rows(mysql_query("SELECT * FROM `teams` WHERE `name` = '-'"))){
     mysql_query("INSERT INTO `teams` (`id`, `name`) VALUES ('9999','-')");
@@ -75,29 +76,12 @@ while($row = mysql_fetch_assoc($query)){
 }
 }
 
+getThemeHeader();
+getThemeTitle("Dommerplan");
+
+require("menu.php"); 
+
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
-
-<!-- Including the jQuery UI Human Theme -->
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
-
-<!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
-</head>
-
-<body>
-
-<h1><?php echo $klubnavn; ?> Dommerplan</h1>
-
-<div id="main">
-<?php require("menu.php"); ?>
-<!-- <?php require("gamemenu.php"); ?> -->
 
 <center><table>
 <tr>
@@ -150,7 +134,9 @@ while($row = mysql_fetch_assoc($query)){
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 
-</body>
-</html>
+<?php
+getThemeBottom();
+
+?>

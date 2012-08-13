@@ -1,9 +1,10 @@
 <?php
 
-require "connect.php";
-require "getclubs.php";
-require "checkLogin.php";
-require "checkAdmin.php";
+require("connect.php");
+require("getclubs.php");
+require("checkLogin.php");
+require("checkAdmin.php");
+require("theme.php");
 
 if (checkAdmin($_SESSION['username'])){ 
 if(isset($_GET["klubnavn"])){
@@ -59,12 +60,10 @@ if (mysql_num_rows(mysql_query("SELECT * FROM config"))==0){
 
 } 
 
+getThemeHeader();
+
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<script type="text/javascript">
 function FormSubmitClub(el) {
 var clubinfo = el.value.split(':');
 document.clublist.action = 'configuration.php?klubid=' + clubinfo[0] + '&klubnavn=' + clubinfo[1];
@@ -88,25 +87,10 @@ document.updatesurlpost.action = 'configuration.php?updatesurl=' + document.upda
 document.updatesurlpost.submit();
 }
 
-</script>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
+<?php
 
-<!-- Including the jQuery UI Human Theme -->
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
+getThemeTitle("Konfiguration");
 
-<!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
-</head>
-
-<body>
-
-<h1>Konfiguration</h1>
-
-<div id="main">
-
-<?php 
 if ( ($klubadresse != "") && ($klubpath != "") && ($klubnavn != "") ){
 
  require("menu.php"); 
@@ -194,5 +178,7 @@ URL til Opdateringer:<br>
 
 
 <?php
+
+getThemeBottom();
 
 ?>

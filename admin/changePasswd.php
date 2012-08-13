@@ -15,7 +15,7 @@ function loadinparent(url,id){
        
 }
 <?php
-getThemeTitle(Skift Kodeget);
+getThemeTitle("Skift Kode");
 
 $id = $_GET["id"];
 
@@ -26,7 +26,7 @@ Gentag Kode: <input type="password" name="passwd2"><br>
 </form><br>';
 echo "</body>";
 
-getThemeBottom()
+getThemeBottom();
 
 
 ?>
