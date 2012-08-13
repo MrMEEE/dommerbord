@@ -97,5 +97,7 @@ echo $message;
 </table>
 </form>
 
-
+<?php
 getThemeBottom();
+
+?>
