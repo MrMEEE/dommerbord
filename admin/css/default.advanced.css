@@ -54,5 +54,5 @@ ul.dropdown ul a {
 /* -- Drop-down open -- */
 
 ul.dropdown li:hover > *.dir {
- color: #b0d730;
+ color: #000080;
 }

@@ -43,12 +43,12 @@ ul.dropdown {
 
 	ul.dropdown li.hover,
 	ul.dropdown li:hover {
-	 color: #b0d730;
+	 color: #000080;
 	}
 
 	ul.dropdown a:link,
 	ul.dropdown a:visited	{ color: #fff; text-decoration: none; }
-	ul.dropdown a:hover		{ color: #b0d730; }
+	ul.dropdown a:hover		{ color: #000080; }
 	ul.dropdown a:active	{ color: #0395cc; }
 
 	/* -- level mark -- */
