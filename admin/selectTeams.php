@@ -1,6 +1,7 @@
 <?php
 
 require("connect.php");
+require("theme.php");
 
 if(isset($_POST['selectteams'])){
  $teams=$GLOBALS['_POST'];
@@ -19,26 +20,8 @@ if(isset($_POST['selectteams'])){
 
 }
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<SCRIPT LANGUAGE="javascript">
-</SCRIPT>
-<!-- Including the jQuery UI Human Theme -->
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
-
-<!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="styles.css" />
-
-</head>
-
-<body>
-<h1>Tilknyt Hold</h1>
-
-
-       
-<?php
+getThemeHeader();
+getThemeTitle("Tilknyt Hold");
 
 echo 'Tilknyt hold til '.$_GET["name"].'<br><br>';
 
@@ -69,7 +52,8 @@ echo '<input name="id" value="'.$_GET["id"].'" type="hidden">';
 echo '<br><input name="selectteams" type="submit" value="Vælg Hold"><br><br>';
 
 echo '</form><br>';
-echo '</body>';
+
+getThemeBottom();
 
 ?>
 

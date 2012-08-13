@@ -13,6 +13,7 @@ $user = addslashes($_POST['username']);
 $pass = md5($_POST['password']);
 
 require("connect.php");
+require("theme.php");
 
 $dbHost = $db_host;
 $dbUser = $db_user;
@@ -79,26 +80,15 @@ while($row = mysql_fetch_array($result)){
                          }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $klubnavn; ?> Dommerbordsplan</title>
+<?php 
 
-<!-- Including the jQuery UI Human Theme -->
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
+getThemeHeader();
+getThemeTitle("Dommerplan");
 
-<!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="styles.css" />
 
-</head>
+echo $message; 
 
-<body>
-
-<h1><?php echo $klubnavn; ?> Dommerplan</h1>
-
-<div id="main">
-<?php echo $message; ?>
+?>
 <form method="POST" action="login.php">
 <table>
 <tr><td>Brugernavn:</td><td><input type="text" name="username" size="20"></td></tr>
@@ -108,5 +98,4 @@ while($row = mysql_fetch_array($result)){
 </form>
 
 
-</body>
-</html>                              
+getThemeBottom();
