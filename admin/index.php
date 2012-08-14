@@ -38,20 +38,20 @@ if(isset($_GET["view"])){
 // Select all the todos, ordered by positions
 switch ($viewgames) {
     case "default":
-        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` ORDER BY `date`,`time` ASC ");
-        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
     case "unassigned":
-        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 1 ORDER BY `date`,`time` ASC ");
-        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 1 ORDER BY `date`,`time` ASC ");
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 1 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 1 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
     case "moved":
-        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 2 ORDER BY `date`,`time` ASC ");
-        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 2 ORDER BY `date`,`time` ASC ");
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 2 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 2 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
     case "cancelled":
-        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 3 ORDER BY `date`,`time` ASC ");
-        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 3 ORDER BY `date`,`time` ASC ");
+        $query = mysql_query("SELECT * FROM `games` WHERE CURDATE() <= `date` AND `status` = 3 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 3 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
     case "all":
         $query = mysql_query("SELECT * FROM `games` ORDER BY `date`,`time` ASC ");

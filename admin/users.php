@@ -97,7 +97,6 @@ function openWindow(userid){
   
   var path = "changePasswd.php?id=" + userid; 
   window.open(path,"mywindow","menubar=1,resizable=1,width=350,height=250");
-  //window.open("http://www.javascript-coder.com","mywindow","menubar=1,resizable=1,width=350,height=250");
 
 }
 

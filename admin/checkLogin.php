@@ -13,7 +13,7 @@ if (isset($_SESSION['username'])){
 else{
 
 //the session variable isn't registered, send them back to the login page
-header( "Location: login.php" );
+header( "Location: http://' . $klubadresse . $klubpath . '/admin/login.php" );
 }
 
 ?> 

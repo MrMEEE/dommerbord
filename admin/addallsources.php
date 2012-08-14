@@ -1,10 +1,10 @@
 <?php
 
 require("connect.php");
+require("config.php");
 require("checkConfig.php");
 require("checkLogin.php");
 require("checkAdmin.php");
-require("config.php");
 require("theme.php");
 
 getThemeHeader();

@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `games` (
   `table3id` int(8) NOT NULL,
   `status` int(8) NOT NULL,
   `place` text COLLATE utf8_unicode_ci NOT NULL,
+  homegame` BOOLEAN NOT NULL,
   PRIMARY KEY (`id`),
   KEY `position` (`position`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000016 ;

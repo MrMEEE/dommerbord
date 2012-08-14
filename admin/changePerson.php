@@ -27,7 +27,7 @@ $id = $_GET["id"];
 
 echo '<form method=post name="changeperson" action="javascript:loadinparent(\'people.php\', '.$id.' ,true)">
 Nyt Navn for '.$_GET["name"].': <br><input id="newname" type="text" name="newname"><br>
-<input "name="changeperson" type="submit" value="Skift Navn"> 
+<input name="changeperson" type="submit" value="Skift Navn"> 
 </form><br>';
 
 getThemeBottom();
