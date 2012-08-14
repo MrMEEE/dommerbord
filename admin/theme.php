@@ -28,7 +28,7 @@ echo '</script>
 
 <body>
 
-<h1>'.$klubnavn.' '.$pagename.'</h1>
+<h1>'.$klubnavn.' - '.$pagename.'</h1>
 
 <div id="main">';
 

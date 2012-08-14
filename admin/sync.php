@@ -52,10 +52,11 @@ while($icals=mysql_fetch_assoc($calendars)){
 		echo $icals['address'];
 		echo "<br>";
 	}
+	$teamid = $icals['id'];
 	// new dom object  
 	$dom = new DOMDocument();  
 	//load the html  
-	$content        = file_get_contents($icals['address']);
+	$content  = file_get_contents($icals['address']);
 	$page = '<html>
 		<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -94,8 +95,11 @@ while($icals=mysql_fetch_assoc($calendars)){
 		$awayteam = str_replace("\r", "", $awayteam);
 		$awayteam = trim($awayteam);
 		$place = $cols->item(4)->nodeValue;
-		$place=trim($place);
-		$place= str_replace("  ", "", $place);
+		$place = trim($place);
+		$place = str_replace("  ", "", $place);
+		$result = $cols->item(5)->nodeValue;
+		$result = trim($result);
+		$result = str_replace("  ", "", $result);
 		$status = $cols->item(6)->nodeValue;   
 		$status = str_replace("\n", "", $status);      
 		$status = str_replace("\r", "", $status);      
@@ -171,15 +175,14 @@ while($icals=mysql_fetch_assoc($calendars)){
 
 			if(mysql_num_rows(mysql_query("SELECT id FROM games WHERE id = '$id'"))) {
 				mysql_query("UPDATE `games` set place='$place' WHERE id='$id'");
-				$oldtext=mysql_fetch_assoc(mysql_query("SELECT text FROM games WHERE id = '$id'"));
-				$olddate=mysql_fetch_assoc(mysql_query("SELECT date FROM games WHERE id = '$id'"));
-				$oldtime=mysql_fetch_assoc(mysql_query("SELECT time FROM games WHERE id = '$id'"));
-				$oldathome=mysql_fetch_assoc(mysql_query("SELECT homegame FROM games WHERE id = '$id'"));
-				$oldtext=$oldtext['text'];
-				$olddate=$olddate['date'];
-				$oldtime=$oldtime['time'];
-				$oldathome=$oldathome['homegame'];
-				if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time && $oldathome==$athome && $status!=4){
+				$query=mysql_fetch_assoc(mysql_query("SELECT * FROM games WHERE id = '$id'"));
+				$oldtext=$query['text'];
+				$olddate=$query['date'];
+				$oldtime=$query['time'];
+				$oldathome=$query['homegame'];
+				$oldteamid=$query['team'];
+				$oldresult=$query['result'];
+				if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time && $oldathome==$athome && $oldteamid==$teamid && $oldresult==$result && $status!=4){
 					mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
 					if($debug!=0){
 						print_r("Nothing Changed on '$id' <br>");
@@ -201,10 +204,7 @@ while($icals=mysql_fetch_assoc($calendars)){
 							mysql_query("UPDATE games SET status='$status' WHERE id = '$id'");
 						}
 					}
-					mysql_query("UPDATE games SET text='$text',date='$date',time='$time',dt_added=now(),homegame='$athome' WHERE id = '$id'");
-					//mysql_query("UPDATE games SET date='$date' WHERE id = '$id'");
-					//mysql_query("UPDATE games SET time='$time' WHERE id = '$id'");
-					//mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
+					mysql_query("UPDATE games SET text='$text',date='$date',time='$time',dt_added=now(),homegame='$athome',team='$teamid',result='$result' WHERE id = '$id'");
 				}
 			}else{
 				if($status!=6){
