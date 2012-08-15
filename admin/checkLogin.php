@@ -1,5 +1,7 @@
 <?php
 
+require_once("config.php");
+
 //start the session
 session_start();
 
@@ -13,7 +15,7 @@ if (isset($_SESSION['username'])){
 else{
 
 //the session variable isn't registered, send them back to the login page
-header( "Location: http://' . $klubadresse . $klubpath . '/admin/login.php" );
+header( "Location: http://$klubadresse/$klubpath/admin/login.php" );
 }
 
 ?> 
