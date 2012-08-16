@@ -17,7 +17,7 @@ echo '
 <link href="http://' . $klubadresse . $klubpath . '/admin/css/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="http://' . $klubadresse . $klubpath . '/admin/css/default.advanced.css" media="screen" rel="stylesheet" type="text/css" />
 
-<body class="vimeo-com">
+<!-- <body class="vimeo-com">-->
 
 <ul id="nav" class="dropdown dropdown-horizontal">';
 
@@ -68,6 +68,6 @@ echo'
 <li class="last"><a href="http://' . $klubadresse . $klubpath . '/admin/logout.php" class="top_link"><span>Log ud</span></a></li>
 </ul>
 <br><br><br><br>
-</body>';
+<!--</body>-->';
 
 ?>
