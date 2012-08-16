@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5deb1
+-- version 3.4.10.1deb1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jan 23, 2012 at 12:27 AM
--- Server version: 5.1.58
--- PHP Version: 5.3.6-13ubuntu3.3
+-- Vært: localhost
+-- Genereringstid: 17. 08 2012 kl. 00:11:06
+-- Serverversion: 5.5.24
+-- PHP-version: 5.3.10-1ubuntu3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `dommertest`
+-- Database: `dommerplan`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calendars`
+-- Struktur-dump for tabellen `calendars`
 --
 
 CREATE TABLE IF NOT EXISTS `calendars` (
@@ -31,12 +31,12 @@ CREATE TABLE IF NOT EXISTS `calendars` (
   `address` varchar(255) NOT NULL,
   `team` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=373 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=375 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `config`
+-- Struktur-dump for tabellen `config`
 --
 
 CREATE TABLE IF NOT EXISTS `config` (
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `config` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `games`
+-- Struktur-dump for tabellen `games`
 --
 
 CREATE TABLE IF NOT EXISTS `games` (
@@ -76,6 +76,9 @@ CREATE TABLE IF NOT EXISTS `games` (
   `table3id` int(8) NOT NULL,
   `status` int(8) NOT NULL,
   `place` text COLLATE utf8_unicode_ci NOT NULL,
+  `homegame` tinyint(1) NOT NULL,
+  `team` text COLLATE utf8_unicode_ci NOT NULL,
+  `result` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `position` (`position`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000016 ;
@@ -83,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `games` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `people`
+-- Struktur-dump for tabellen `people`
 --
 
 CREATE TABLE IF NOT EXISTS `people` (
@@ -96,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `people` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teams`
+-- Struktur-dump for tabellen `teams`
 --
 
 CREATE TABLE IF NOT EXISTS `teams` (
@@ -104,12 +107,12 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `name` varchar(255) NOT NULL,
   `teamid` text NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10019 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10020 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur-dump for tabellen `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
