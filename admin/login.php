@@ -83,6 +83,15 @@ while($row = mysql_fetch_array($result)){
 <?php 
 
 getThemeHeader();
+
+?>
+
+function formfocus() {
+  document.getElementById('username').focus();
+}
+window.onload = formfocus;
+
+<?php
 getThemeTitle("Dommerplan");
 
 
@@ -91,7 +100,7 @@ echo $message;
 ?>
 <form method="POST" action="login.php">
 <table>
-<tr><td>Brugernavn:</td><td><input type="text" name="username" size="20"></td></tr>
+<tr><td>Brugernavn:</td><td><input type="text" id="username" name="username" size="20"></td></tr>
 <tr><td>Password:</td><td><input type="password" name="password" size="20"></td></tr>
 <tr><td rowspan=2><input type="submit" value="Login" name="login"></td></tr>
 </table>
