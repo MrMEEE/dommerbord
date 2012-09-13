@@ -76,11 +76,11 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 
       $refstats=array();
       $tablestats=array();
-      $refquery1 = mysql_query("SELECT refereeteam1id, COUNT( * ) as count FROM games WHERE date >= $fromdate AND status != 3 GROUP BY refereeteam1id");
-      $refquery2 = mysql_query("SELECT refereeteam2id, COUNT( * ) as count FROM games WHERE date >= $fromdate AND status != 3 GROUP BY refereeteam2id");
-      $tablequery1 = mysql_query("SELECT tableteam1id, COUNT( * ) as count FROM games WHERE date >= $fromdate AND status != 3 GROUP BY tableteam1id");
-      $tablequery2 = mysql_query("SELECT tableteam2id, COUNT( * ) as count FROM games WHERE date >= $fromdate AND status != 3 GROUP BY tableteam2id");
-      $tablequery3 =mysql_query("SELECT tableteam3id, COUNT( * ) as count FROM games WHERE date >= $fromdate AND status != 3 GROUP BY tableteam3id");
+      $refquery1 = mysql_query("SELECT refereeteam1id, COUNT( * ) as count FROM games WHERE date >= '".$fromdate."' AND status != 3 GROUP BY refereeteam1id");
+      $refquery2 = mysql_query("SELECT refereeteam2id, COUNT( * ) as count FROM games WHERE date >= '".$fromdate."' AND status != 3 GROUP BY refereeteam2id");
+      $tablequery1 = mysql_query("SELECT tableteam1id, COUNT( * ) as count FROM games WHERE date >= '".$fromdate."' AND status != 3 GROUP BY tableteam1id");
+      $tablequery2 = mysql_query("SELECT tableteam2id, COUNT( * ) as count FROM games WHERE date >= '".$fromdate."' AND status != 3 GROUP BY tableteam2id");
+      $tablequery3 =mysql_query("SELECT tableteam3id, COUNT( * ) as count FROM games WHERE date >= '".$fromdate."' AND status != 3 GROUP BY tableteam3id");
       
       while($refcount1 = mysql_fetch_assoc($refquery1)){
 	$refstats[$refcount1['refereeteam1id']]+=$refcount1['count'];
