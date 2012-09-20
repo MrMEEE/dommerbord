@@ -210,7 +210,7 @@ while($icals=mysql_fetch_assoc($calendars)){
 				if($status!=6){
 					$status=1;
 				}
-				mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome')");
+				mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`,`team`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome','$teamid')");
 				if($athome){
 					print_r("Tilføjer Hjemmekamp: '$id' <br>");
 				}else{
