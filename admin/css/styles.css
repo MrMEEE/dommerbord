@@ -112,11 +112,11 @@ ul.todoList li:hover{
 }
 
 .todo .actions a.edit{
-	background:url("img/edit.png") no-repeat center center;
+	background:url("../img/edit.png") no-repeat center center;
 }
 
 .todo .actions a.delete{
-	background:url("img/delete.png") no-repeat center center;
+	background:url("../img/delete.png") no-repeat center center;
 }
 
 .todo .actions a.editdate{
