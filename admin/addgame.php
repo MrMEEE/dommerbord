@@ -22,7 +22,7 @@ if (isset($_POST['date'])){
    if(($_POST['description'] != "Beskrivelse af Kampen") && ($_POST['description'] != "")){
     $date = convertDate($_POST['date']);
     echo $date;
-    mysql_query("INSERT INTO games SET text='".$_POST['description']."',time='".$_POST['time']."',position = 9999999,status = 1, date='$date'");
+    mysql_query("INSERT INTO games SET text='".$_POST['description']."',time='".$_POST['time']."',position = 9999999,status = 1, date='$date', homegame = 1");
     $message = "Kamp Tilføjet";
     $color = "green";
    }else{
