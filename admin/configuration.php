@@ -1,7 +1,7 @@
 <?php
 
 require("connect.php");
-require("getclubs.php");
+require("commonFunctions.php");
 require("checkLogin.php");
 require("checkAdmin.php");
 require("theme.php");

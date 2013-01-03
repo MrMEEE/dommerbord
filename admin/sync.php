@@ -2,7 +2,6 @@
 
 require("connect.php");
 require("config.php");
-require("getGame.php");
 require_once("checkAdmin.php");
 require("theme.php");
 require("commonFunctions.php");
