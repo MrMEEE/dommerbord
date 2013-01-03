@@ -1,7 +1,7 @@
 <?php
 
 require("connect.php");
-require("config.php");
+include("config.php");
 require_once("checkAdmin.php");
 require("theme.php");
 require("commonFunctions.php");

@@ -1,6 +1,6 @@
 <?php
 
-require("connect.php");
+require_once("connect.php");
 
 $query = mysql_query("SELECT * FROM `config` WHERE `id`=1");
 
