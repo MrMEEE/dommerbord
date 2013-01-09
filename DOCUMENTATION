@@ -1,0 +1,28 @@
+Hurtig intro
+
+Log ind i administrationsdelen:
+
+http://<SITE>/<DOMMERPLANSSTI>/admin/index.php
+
+Kom hurtigt igang:
+
+1. Opret brugere: Tryk på Administration -> Brugere
+
+Opret brugere for de folk der skal have adgang til at rette i planen...
+
+
+2. Tilføj Hold: Tryk på Klubben -> Tilføj/Vis Hold/Personer
+
+Her oprettes de hold der skal kunne sættes til at dømme eller sidde ved
+dommerbord..
+
+
+3. Tildel Tjanser: Tryk på Dommerplan -> Kommende Kampe
+
+Her vælges for hver kamp, hvem der skal sidde ved dommerbord og dømme.. DBBF
+dommer bliver automatisk sat på...
+
+
+4. Opdater planen: Tryk på Dommerplan -> Opdater Kampprogram
+
+Dette sker også automatisk to gange i døgnet...
