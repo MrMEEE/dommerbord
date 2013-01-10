@@ -59,8 +59,11 @@ if(isset($_GET["removesource"])){
  mysql_query("DELETE FROM `calendars`");
  echo "Alle Hold/Puljer slettet.<br>";    
 }elseif(isset($_GET["refreshsources"])){
- $url        = "http://resultater.basket.dk/tms/Turneringer-og-resultater/Forening-Holdoversigt.aspx?ForeningsId=$klubid";
- $input = @file_get_contents($url) or die("Could not access file: $url");
+ for($i = 0, $size = count($klubids); $i < $size; ++$i){
+  $url = "http://resultater.basket.dk/tms/Turneringer-og-resultater/Forening-Holdoversigt.aspx?ForeningsId=".$klubids[$i];
+  $input .= @file_get_contents($url) or die("Could not access file: $url");
+ }
+ 
  $regexp = "PuljeId=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
  $regexp2 = "RaekkeId=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
 

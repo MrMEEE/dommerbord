@@ -10,8 +10,10 @@ $klubnavn=$row['klubnavn'];
 
 $klubpath=$row['klubpath'];
 
+$klubids=explode(',',$row['klubid']);
+
 //Klub ID.. Kan finde på: http://resultater.basket.dk/tms/Turneringer-og-resultater/Soegning.aspx
-$klubid=$row['klubid'];
+$klubid=$klubids[0];
 
 //Klub Adresse, fx: www.bmsbasket.dk
 $klubadresse=$row['klubadresse'];

@@ -6,7 +6,11 @@ require_once("checkAdmin.php");
 require("theme.php");
 require("commonFunctions.php");
 
-$courts = getCourts($klubid);
+$courts = array();
+
+for($i = 0, $size = count($klubids); $i < $size; ++$i){
+	$courts = array_merge(getCourts($klubids[$i]),$courts);
+}
 
 session_start();
 

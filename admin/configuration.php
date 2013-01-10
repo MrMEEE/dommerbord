@@ -7,39 +7,44 @@ require("checkAdmin.php");
 require("theme.php");
 
 if (checkAdmin($_SESSION['username'])){ 
-if(isset($_GET["klubnavn"])){
-    $klubnavn = $_GET['klubnavn'];
-    mysql_query("UPDATE config SET klubnavn='$klubnavn' WHERE id = 1");
+
+if(isset($_POST["clubselect0"])){
+    $clubinfo = explode(":",$_POST["clubselect0"]);
+    $clubids = $clubinfo[0];
+    $clubname = $clubinfo[1];
+    $i = 1;
+    while(isset($_POST["clubselect".$i])){
+       if($_POST["clubselect".$i] != ":"){
+          $clubinfo = explode(":",$_POST["clubselect".$i]);
+          $clubids .= ",".$clubinfo[0];
+       }
+       $i++;
+    }
+    
+    mysql_query("UPDATE config SET klubnavn='".$clubname."' WHERE id = 1");
+    mysql_query("UPDATE `config` set `klubid`='".$clubids."' WHERE id = 1");
+    
 }
 
-if(isset($_GET["klubid"])){
-    $klubid=$_GET['klubid'];
-    mysql_query("UPDATE `config` set `klubid`='$klubid' WHERE id = 1");                                                                              
+if(isset($_POST["clubpath"])){
+    mysql_query("UPDATE `config` set `klubpath`='".$_POST['clubpath']."' WHERE id = 1");                                                                              
 }
 
-if(isset($_GET["klubpath"])){
-    $klubpath=$_GET['klubpath'];
-    mysql_query("UPDATE `config` set `klubpath`='$klubpath' WHERE id = 1");                                                                              
-}
-
-if(isset($_GET["klubadresse"])){
-    $klubadresse=$_GET['klubadresse'];
-    mysql_query("UPDATE `config` set `klubadresse`='$klubadresse' WHERE id = 1");                                                                              
+if(isset($_POST["clubaddress"])){
+    mysql_query("UPDATE `config` set `klubadresse`='".$_POST['clubaddress']."' WHERE id = 1");
 }
     
-if(isset($_GET["debug"])){
-    $debug=$_GET['debug'];
-    mysql_query("UPDATE `config` set `debug`='$debug' WHERE id = 1");                                                                              
+if(isset($_POST["debug"])){
+    mysql_query("UPDATE `config` set `debug`='".$_POST['debug']."' WHERE id = 1");                                                                              
 }
 
-if(isset($_GET["updatesurl"])){
-    $updatesurl=$_GET['updatesurl'];
-    mysql_query("UPDATE `config` set `updatesurl`='$updatesurl' WHERE id = 1");
+if(isset($_POST["updatesurl"])){
+    mysql_query("UPDATE `config` set `updatesurl`='".$_POST['updatesurl']."' WHERE id = 1");
 }
         
 }
 
-if(isset($_GET["updatedatabase"])){
+if(isset($_POST["updatedatabase"])){
   $sql = explode(';', file_get_contents ('sql/dommerbord.sql'));
   $n = count ($sql) - 1;
   for ($i = 0; $i < $n; $i++) {
@@ -70,22 +75,6 @@ document.clublist.action = 'configuration.php?klubid=' + clubinfo[0] + '&klubnav
 document.clublist.submit();
 return;
 }
-function FormSubmitDebug(el) {
-document.debuglist.action = 'configuration.php?debug=' + el.value;
-document.debuglist.submit();
-}
-function FormSubmitAddress() {
-document.klubadressepost.action = 'configuration.php?klubadresse=' + document.klubadressepost.klubadresse.value;
-document.klubadressepost.submit();
-}
-function FormSubmitPath() {
-document.klubpathpost.action = 'configuration.php?klubpath=' + document.klubpathpost.klubpath.value;
-document.klubpathpost.submit();
-}
-function FormSubmitUpdatesUrl() {
-document.updatesurlpost.action = 'configuration.php?updatesurl=' + document.updatesurlpost.updatesurl.value;
-document.updatesurlpost.submit();
-}
 
 <?php
 
@@ -101,7 +90,7 @@ echo '<br><br><font color="red">Sæt venligst alle indstillinger!!!</font><br><b
 
 }
 
-if(isset($_GET["updatedatabase"])){
+if(isset($_POST["updatedatabase"])){
 
 echo '<br><font color="red">Database Opdateret</font><br><br>';
 
@@ -138,42 +127,70 @@ if ($debug == 0){
 ?>
 
 Vælg Klub:
-<form method="post" name="clublist">
-    <select name="clubselect" onChange="FormSubmitClub(this)">
+<form method="post" name="clublist" action="configuration.php">
+    <select name="clubselect0">
        <?php echo $clublist; ?>
     </select>
-</form>
+<br>
+<br>Søsterklubber:<br>
+<?php 
+for ($i = 1; $i <= count($klubids)-1; $i++){
+if($klubids[$i]==""){
+   $clublist = "<option value=\":\" selected>Ingen klub valgt/Fjern Søsterklub</option>";
+}else{
+   $clublist = "<option value=\":\">Ingen klub valgt/Fjern Søsterklub</option>";
+}
+   
+for ($k = 0; $k < count($clubs); $k++){
+   if($ids[$k]==$klubids[$i]){
+      $clublist.= "<option value=\"".$ids[$k].":".$clubs[$k]."\" selected>".$clubs[$k]."</option>";
+   }else{
+      $clublist.= "<option value=\"".$ids[$k].":".$clubs[$k]."\">".$clubs[$k]."</option>";
+   }
+}
+
+echo '<select name="clubselect'.$i.'">
+          '.$clublist.' 
+      </select><br>';
+
+}
+
+if(isset($_GET['addsisterclub'])){
+
+$clublist = "<option value=\":\" selected>Ingen klub valgt/Fjern Søsterklub</option>";
+
+for ($k = 0; $k < count($clubs); $k++){
+   $clublist.= "<option value=\"".$ids[$k].":".$clubs[$k]."\">".$clubs[$k]."</option>";
+}
+
+echo '<select name="clubselect'.$i.'">
+          '.$clublist.' 
+      </select><br>';
+
+}
+
+echo '<br><a href="configuration.php?addsisterclub"><img width="15px" src="img/add.png"></a>Tilføj Søsterklub<br>';
+?>
+<br>
+<br>Adresse på side:<br>
+<input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
 
 <br>
 
-<form method="post" name="klubadressepost">
-Adresse på side:<br>
-<input type="text" name="klubadresse" value="<?php echo $klubadresse; ?>"><br>
-<input type="submit" value="Sæt" onClick="FormSubmitAddress()">
-</form>
+<br>Installationssti:<br>
+<input type="text" name="clubpath" value="<?php echo $klubpath; ?>"><br>
 
 <br>
 
-<form method="post" name="klubpathpost">
-Installationssti:<br>
-<input type="text" name="klubpath" value="<?php echo $klubpath; ?>"><br>
-<input type="submit" value="Sæt" onClick="FormSubmitPath()">
-</form>
-
-<br>
-
-Debug:
-<form method="post" name="debuglist">
-    <select name="debugselect" onChange="FormSubmitDebug(this)">
+<br>Debug:
+    <select name="debug" onChange="FormSubmitDebug(this)">
        <?php echo $debuglist; ?>
     </select>
-</form>
 
 <br>
-<form method="post" name="updatesurlpost">
-URL til Opdateringer:<br>
+<br>URL til Opdateringer:<br>
 <input type="text" name="updatesurl" value="<?php echo $updatesurl; ?>"><br>
-<input type="submit" value="Sæt" onClick="FormSubmitUpdatesUrl()">
+<br><input type="submit" value="Gem Indstillinger">
 </form>
 
 
