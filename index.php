@@ -5,8 +5,10 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
   get_header();
   if ( file_exists( TEMPLATEPATH . '/sidebar2.php') )
     load_template( TEMPLATEPATH . '/sidebar2.php');
-  else
+  else{
+    if ( file_exists( ABSPATH . 'wp-content/themes/default/sidebar.php' ) )
     load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+  }
 }else{
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

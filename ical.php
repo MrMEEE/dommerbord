@@ -1,5 +1,6 @@
 <?php
 
+require("admin/commonFunctions.php");
 
 error_reporting(0);
 
@@ -67,7 +68,29 @@ $page .= $content;
       $fulldate = str_replace("\n", "", $fulldate);
       $fulldate = str_replace("\r", "", $fulldate);
       $fulldate = str_replace(" ", "", $fulldate );
-
+      
+      $dom2 = new DOMDocument();
+      $content2 = file_get_contents("http://resultater.basket.dk/tms/Turneringer-og-resultater/Kamp-Information.aspx?KampId=".getGame($id));
+      $page2 = '<html><head>
+               <meta http-equiv="content-type" content="text/html; charset=utf-8">
+               <title>Dommer Sync</title>
+               </head><body></body></html>';
+               
+      $page2 .= $content2;
+      $page2 = str_replace("<br />",",",$page2);
+      $page2 = str_replace("  "," ",$page2);
+      $html2 = $dom2->loadHTML($page2);
+      $dom2->preserveWhiteSpace = false;
+      $tables2 = $dom2->getElementsByTagName('table');
+      $rows2 = $tables2->item(0)->getElementsByTagName('tr'); 
+      $placerow = $rows2->item(5)->getElementsByTagName('td');
+      $place = $placerow->item(1)->nodeValue;
+      $place = str_replace("  "," ",$place);
+      
+      $placeshort = $cols->item(4)->nodeValue;                  
+      $placeshort = trim($placeshort);
+//      $placeshort = str_replace("  ", "", $placeshort);
+      
       $year = "20";
       $year .= substr($fulldate,6,2);
       $month = substr($fulldate,3,2);
@@ -107,7 +130,9 @@ UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
 DTSTAMP:".$year."".$month."".$day."T".$time."00\r
 DTSTART:".$year."".$month."".$day."T".$time."00\r
 DTEND:".$year."".$month."".$day."T".$endtime."00\r
-SUMMARY: $text\r
+SUMMARY: $id: $text\r
+LOCATION: $placeshort\r
+DESCRIPTION: $place\r
 END:VEVENT\r
 END:VCALENDAR\r\n";
       
@@ -136,6 +161,7 @@ $query = mysql_query("SELECT * FROM `games` WHERE (`refereeteam1id` = ".$_GET['r
 while($row = mysql_fetch_assoc($query)){
   $fulldate=$row['date'];
   $fulltime=$row['time'];
+  $place=$row['place'];
   $refs = ($row['refereeteam1id'] == $_GET["refId"]) + ($row['refereeteam2id'] == $_GET["refId"]);
   $tables = ($row['tableteam1id'] == $_GET["refId"]) + ($row['tableteam2id'] == $_GET["refId"]) + ($row['tableteam3id'] == $_GET["refId"]);
   $text = "";
@@ -182,6 +208,7 @@ DTSTAMP:".$year."".$month."".$day."T".$time."00\r
 DTSTART:".$year."".$month."".$day."T".$time."00\r
 DTEND:".$year."".$month."".$day."T".$endtime."00\r
 SUMMARY: $text\r
+LOCATION: $place\r
 END:VEVENT\r
 END:VCALENDAR\r\n";
 }
@@ -194,18 +221,18 @@ if(!file_exists("admin/connect.php")){
  ob_flush();
 }
 
-require "admin/config.php";   
-require "admin/connect.php";
 if (file_exists($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php')){
   require($_SERVER['DOCUMENT_ROOT'].'/wp-blog-header.php');
   get_header();
   if ( file_exists( TEMPLATEPATH . '/sidebar2.php') )
     load_template( TEMPLATEPATH . '/sidebar2.php');
-  else
-    load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
+  else{
+    if ( file_exists( ABSPATH . 'wp-content/themes/default/sidebar.php' ) )
+      load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
   echo '<div id="content" class="narrowcolumn">    
   <div id="main">';
   echo '<br><h2>Dommerbordsplan</h2><br>';
+  }
 
 }else{
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
