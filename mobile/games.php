@@ -53,7 +53,7 @@ $games = mysql_query($games_query);
 ?>
 
 
-<table cellpadding="0">
+<table cellpadding="0" table-layout: fixed;>
 
 <?php
 
@@ -73,13 +73,13 @@ $ref1 = mysql_fetch_assoc($ref1_query);
 $ref2 = mysql_fetch_assoc($ref2_query);
 
 if($ref1['name'] == "DBBF"){
-  $ref1name = $ref1['name'].": ".$game['referee1name'];
+  $ref1name = $ref1['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee1name']));
 }else{
   $ref1name = $ref1['name'];
 }
 
 if($ref2['name'] == "DBBF"){
-  $ref2name = $ref2['name'].": ".$game['referee2name'];
+  $ref2name = $ref2['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee2name']));
 }else{ 
   $ref2name = $ref2['name'];          
 }
