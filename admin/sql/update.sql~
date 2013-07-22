@@ -1,3 +1,0 @@
-ALTER TABLE `games` ADD `ref1confirmed` BOOLEAN NOT NULL 
-ALTER TABLE `games` ADD `ref2confirmed` BOOLEAN NOT NULL 
-ALTER TABLE `config` ADD `mobileaddress` TEXT NOT NULL 
