@@ -15,7 +15,7 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
 require("config.php");
 require("connect.php");
 
-if($detect->isMobile()){
+if($detect->isMobile() && $mobileaddress != ""){
 
     ob_start();
     header("Location: http://" . $mobileaddress . "/");

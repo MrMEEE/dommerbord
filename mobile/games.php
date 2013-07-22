@@ -1,7 +1,7 @@
 <?php
 
-require("../admin/config.php");
-require("../admin/connect.php");
+require("config.php");
+require("connect.php");
 
 require("checkLogin.php");
 require("theme.php");

@@ -37,6 +37,10 @@ if(isset($_POST["clubaddress"])){
 if(isset($_POST["mobileaddress"])){
     mysql_query("UPDATE `config` set `mobileaddress`='".$_POST['mobileaddress']."' WHERE id = 1");
 }
+
+if($_POST["clearmobile"] == "true"){
+    mysql_query("UPDATE `config` set `mobileaddress`='' WHERE id = 1");
+}
     
 if(isset($_POST["debug"])){
     mysql_query("UPDATE `config` set `debug`='".$_POST['debug']."' WHERE id = 1");                                                                              
@@ -78,6 +82,18 @@ var clubinfo = el.value.split(':');
 document.clublist.action = 'configuration.php?klubid=' + clubinfo[0] + '&klubnavn=' + clubinfo[1];
 document.clublist.submit();
 return;
+}
+
+function enableMobile(){
+
+ if(document.clublist.enablemobile.checked){
+  document.clublist.mobileaddress.disabled = false;
+  document.clublist.clearmobile.value = "";
+ }else{
+  document.clublist.mobileaddress.value = "";
+  document.clublist.mobileaddress.disabled = true;
+  document.clublist.clearmobile.value = "true";
+ }
 }
 
 <?php
@@ -179,9 +195,23 @@ echo '<br><a href="configuration.php?addsisterclub"><img width="15px" src="img/a
 <br>Adresse på side:<br>
 <input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
 
+<?php 
+if ($mobileaddress != ""){
+  $mobileaddresstext = $mobileaddress.'"';
+  $mobilecheck = "checked";
+}else{
+  $mobileaddresstext = '" disabled';
+} 
+?>
+
+<br>
+<br>Aktiver Mobilside <br>
+<input type="checkbox" name="enablemobile" onchange="enableMobile();" <?php echo $mobilecheck ?>>
 <br>
 <br>Adresse på Mobilside:<br>
-<input type="text" name="mobileaddress" value="<?php echo $mobileaddress; ?>"><br>
+<input type="text" name="mobileaddress" value="<?php echo $mobileaddresstext ?>>
+<input type="hidden" name="clearmobile" value="">
+<br>
 
 <br>
 

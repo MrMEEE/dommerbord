@@ -4,7 +4,7 @@
 $user = addslashes($_POST['username']);
 $pass = md5($_POST['password']);
 
-require("../admin/connect.php");
+require("connect.php");
 require("theme.php");
 
 $dbHost = $db_host;
