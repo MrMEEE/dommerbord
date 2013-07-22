@@ -22,4 +22,6 @@ $updatesurl=$row['updatesurl'];
 
 $debug=$row['debug'];
 
+$mobileaddress=$row['mobileaddress'];
+
 ?>

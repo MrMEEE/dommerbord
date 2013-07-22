@@ -33,6 +33,10 @@ if(isset($_POST["clubpath"])){
 if(isset($_POST["clubaddress"])){
     mysql_query("UPDATE `config` set `klubadresse`='".$_POST['clubaddress']."' WHERE id = 1");
 }
+
+if(isset($_POST["mobileaddress"])){
+    mysql_query("UPDATE `config` set `mobileaddress`='".$_POST['mobileaddress']."' WHERE id = 1");
+}
     
 if(isset($_POST["debug"])){
     mysql_query("UPDATE `config` set `debug`='".$_POST['debug']."' WHERE id = 1");                                                                              
@@ -174,6 +178,10 @@ echo '<br><a href="configuration.php?addsisterclub"><img width="15px" src="img/a
 <br>
 <br>Adresse på side:<br>
 <input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
+
+<br>
+<br>Adresse på Mobilside:<br>
+<input type="text" name="mobileaddress" value="<?php echo $mobileaddress; ?>"><br>
 
 <br>
 

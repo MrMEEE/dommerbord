@@ -147,7 +147,32 @@ class ToDo{
 			$dbbfref2="";
 		}else{
 			$dbbfref2="DBBF:".$this->data['referee2name'];
-		}~
+		}
+		
+		$confirmed1 = '<img width="15px" src="img/';
+		
+		if($this->data['ref1confirmed'] == "1"){
+		
+			$confirmedstatus1 = "disabled";		
+			$confirmed1 .= 'add.png" title="Dommertjansen er bekræftet">';
+			
+		}else{
+		
+			$confirmed1 .= 'delete.png" title="Dommertjansen er IKKE bekræftet">';
+		
+		}
+		
+		$confirmed2 = '<img width="15px" src="img/';
+		
+		if($this->data['ref2confirmed'] == "1"){
+		
+			$confirmedstatus2 = "disabled";
+			$confirmed2 .= 'add.png" title="Dommertjansen er bekræftet">';
+		}else{
+		
+			$confirmed2 .= 'delete.png" title="Dommertjansen er IKKE bekræftet">';
+		
+		}
 			
 		$return .= '
 				
@@ -173,7 +198,7 @@ class ToDo{
                                                   <option value="0">Vælg et hold</option>
                                                   '.$tableteamlist2.'
                                                  </select>
-                                                 </form>	
+                                                 </form>
 								
 						<a href="#" class="delete">Delete</a>
 						<a href="#" class="edit">Edit</a>
@@ -181,18 +206,20 @@ class ToDo{
 					<div style="position:absolute; right:0px; width:175px;">
 						
 						<text align="right">1.Dommer: <form name="refereeteam1" action="" class="refereeteam1">
-						<select align="left" name="referee1" id="referee1Select">
+						<select align="left" name="referee1" id="referee1Select" '.$confirmedstatus1.'>
 						  <option value="0">Vælg et hold</option>
 						  '.$refereeteamlist1.'
 						</select>
+						'.$confirmed1.'
 						</form>						
 						'.$dbbfref1.'
 						<br><br>
 						2.Dommer: <form name="refereeteam2" action="" class="refereeteam2">
-						<select name="referee2" id="referee2Select">
+						<select name="referee2" id="referee2Select" '.$confirmedstatus2.'>
                         		          <option value="0">Vælg et hold</option>
                                 		  '.$refereeteamlist2.'
                                 		 </select>
+                                		 '.$confirmed2.'
 						</form>
 						'.$dbbfref2.'		
 						<br></text><br>

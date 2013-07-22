@@ -8,6 +8,22 @@ if(!file_exists("connect.php")){
  ob_flush();
 }
 
+require_once 'Mobile-Detect/Mobile_Detect.php';
+$detect = new Mobile_Detect;
+$deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+
+require("config.php");
+require("connect.php");
+
+if($detect->isMobile()){
+
+    ob_start();
+    header("Location: http://" . $mobileaddress . "/");
+    ob_flush();
+         
+}
+            
+
 //add slashes to the username and md5() the password
 $user = addslashes($_POST['username']);
 $pass = md5($_POST['password']);

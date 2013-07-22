@@ -100,6 +100,11 @@ function openWindow(userid){
 
 }
 
+function openWindowTeams(userid,name){
+  
+  var path = "selectTeams.php?id=" + userid + "&name='" + name +"&user=1'";
+  window.open(path,"mywindow","menubar=1,resizable=1,scrollbars,width=700,height=500");
+}
 
 <?php 
 
@@ -140,6 +145,7 @@ while($row = mysql_fetch_assoc($query)){
     }
   echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
   }
+  echo ' - <a href="javascript:openWindowTeams('.$row['id'].',\''.$row['name'].'\')">Hold</a>';
   echo ' - <a href="javascript:openWindow('.$row['id'].')">Skift Adgangskode</a>';
   echo "<br>";
   

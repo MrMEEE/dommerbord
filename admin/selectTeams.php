@@ -4,7 +4,11 @@ require("connect.php");
 require("theme.php");
 
 if(isset($_POST['selectteams'])){
+
+
  $teams=$GLOBALS['_POST'];
+ var_dump($GLOBALS['_POST']);
+ array_pop($teams);
  array_pop($teams);
  $id=array_pop($teams);
  $teamstring="";
@@ -12,8 +16,20 @@ if(isset($_POST['selectteams'])){
    $teamstring .= $team;
    $teamstring .= ",";
  }
+ 
+ 
+ if($_POST['user']){ 
+
+ $query = "UPDATE `users` SET `teams` = '$teamstring' WHERE `id` = $id"; 
+ 
+ }else{
+ 
  $query = "UPDATE `teams` SET `teamid` = '$teamstring' WHERE `id` = $id";
+ 
+ }
+ 
  mysql_query($query);
+ 
  echo "<SCRIPT LANGUAGE=\"javascript\">";
  echo "window.close();";
  echo "</SCRIPT>";
@@ -23,15 +39,23 @@ if(isset($_POST['selectteams'])){
 getThemeHeader();
 getThemeTitle("Tilknyt Hold");
 
-echo 'Tilknyt hold til '.$_GET["name"].'<br><br>';
+echo 'Tilknyt hold til ' . $_GET["name"] . '<br><br>';
 
 $id = $_GET['id'];
 
-$query = mysql_query("SELECT * FROM `teams` WHERE `id` = $id");
+if($_GET['user']){
 
-$team = mysql_fetch_assoc($query);
+ $query = mysql_query("SELECT * FROM `users` WHERE `id` = $id");
+ $team = mysql_fetch_assoc($query);
+ $teamarray = explode(",", $team['teams']);
 
-$teamarray = explode(",", $team['teamid']);
+}else{
+
+ $query = mysql_query("SELECT * FROM `teams` WHERE `id` = $id");
+ $team = mysql_fetch_assoc($query);
+ $teamarray = explode(",", $team['teamid']);
+
+}
 
 $query = mysql_query("SELECT * FROM `calendars` ORDER by `team`");
 
@@ -48,8 +72,10 @@ if(in_array($teams["id"], $teamarray)){
 echo '>'.$teams['team'].'</font><br>';
 
 }
-echo '<input name="id" value="'.$_GET["id"].'" type="hidden">';
+echo '<input name="id" value="'.$id.'" type="hidden">';
 echo '<br><input name="selectteams" type="submit" value="Vælg Hold"><br><br>';
+
+echo '<input name=user type="hidden" value="'.$_GET["user"].'">';
 
 echo '</form><br>';
 
