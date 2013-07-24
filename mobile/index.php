@@ -6,6 +6,8 @@ require("connect.php");
 require("checkLogin.php");
 require("theme.php");
 
+require("mobile.common.functions.php");
+
 getThemeHeader();
 
 getThemeTitle("Dommerplan Mobil");
@@ -14,13 +16,13 @@ getThemeTitle("Dommerplan Mobil");
 
 ?>
 <table width="100%">
-<tr>
-<td width="2%">
-</td>
-<td>
-<input type="submit" value="Kampe" style="font-size:60px;height: 200px; width:96%;" onclick="location.href='games.php';">
-</td>
-</tr>
+<?php
+
+createMenuItem("Bekræft tjanser","confirm.php");
+createMenuItem("Kampe","games.php");
+createMenuItem("Dommer/Dommerbordstjanser","duties.php");
+?>
+
 </table>
 
 <?php
