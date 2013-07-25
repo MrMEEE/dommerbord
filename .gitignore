@@ -3,3 +3,4 @@ admin/connect.php
 update.sql
 admin/sql/update.sql
 mobile/connect.php
+admin/plugins/bball*
