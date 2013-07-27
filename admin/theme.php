@@ -23,7 +23,7 @@ echo '</script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/themes/humanity/jquery-ui.css" type="text/css" media="all" />
 
 <!-- Our own stylesheet -->
-<link rel="stylesheet" type="text/css" href="http://' . $klubadresse . $klubpath . '/admin/css/styles.css" />
+<link rel="stylesheet" type="text/css" href="http://' . $klubadresse . $klubpath . '/admin/css/styles.css" /> 
 
 </head>
 

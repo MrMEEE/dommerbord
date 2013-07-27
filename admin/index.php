@@ -54,8 +54,8 @@ switch ($viewgames) {
         $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `status` = 3 AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
     case "all":
-        $query = mysql_query("SELECT * FROM `games` ORDER BY `date`,`time` ASC ");
-        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' ORDER BY `date`,`time` ASC ");
+        $query = mysql_query("SELECT * FROM `games` WHERE `homegame`= 1 ORDER BY `date`,`time` ASC ");
+        $query2 = mysql_query("SELECT * FROM `games` WHERE `date` = '0000-00-00' AND `homegame`= 1 ORDER BY `date`,`time` ASC ");
     break;
 
 }
