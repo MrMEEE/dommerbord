@@ -39,6 +39,12 @@ if(isset($_GET["setteam"])){
     }
 }
 
+if(isset($_POST["changetype"])){
+
+    mysql_query("UPDATE `teams` SET `person`='".$_POST['value']."' WHERE `id`='".$_POST['id']."'");
+
+}
+
 
 }
 $teamlist="";
@@ -78,6 +84,14 @@ function openWindowTeams(userid,name){
     window.open(path,"mywindow","menubar=1,resizable=1,scrollbars,width=700,height=500");
 }
 
+function changeType(userid,set){
+
+    document.change.id.value = userid;
+    document.change.value.value = set;
+    document.change.submit();
+
+}
+
 
 <?php 
 
@@ -104,6 +118,12 @@ echo '<form method="post" name="removeperson">
 <input type="hidden" name="id">
 </form>';
 
+echo '<form method="post" name="change">
+        <input type="hidden" name="id">
+        <input type="hidden" name="changetype" value="1">
+        <input type="hidden" name="value">
+    </form>';
+
 
 echo 'Hold/Personer:<br><br>';
 
@@ -113,11 +133,17 @@ while($row = mysql_fetch_assoc($query)){
     if($row['name']!="-"){
     echo $row['name'];
     if (checkAdmin($_SESSION['username'])){
-    echo ' - <a href="javascript:openWindowTeams('.$row['id'].',\''.$row['name'].'\')">Skift Tilknyttede Hold</a>';
-    echo ' - <a href="javascript:openWindowName('.$row['id'].',\''.$row['name'].'\')">Ændre Navn</a>';
-    echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
+        echo ' - <a href="javascript:changeType('.$row['id'].'';
+        if($row['person']){
+            echo ',0)">Person</a>';
+        }else{
+            echo ',1)">Hold</a>';
+        }
+        echo ' - <a href="javascript:openWindowTeams('.$row['id'].',\''.$row['name'].'\')">Skift Tilknyttede Hold</a>';
+        echo ' - <a href="javascript:openWindowName('.$row['id'].',\''.$row['name'].'\')">Ændre Navn</a>';
+        echo ' - <a href="javascript:void(ConfirmChoice('.$row['id'].'))">Fjern</a>';
     }
-    echo "<br>";
+        echo "<br>";
     }
 }
 

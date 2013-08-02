@@ -5,6 +5,7 @@ require("connect.php");
 
 require("checkLogin.php");
 require("theme.php");
+require("mobile.common.functions.php");
 
 getThemeHeader();
 
@@ -54,6 +55,8 @@ $year = date("Y") - 1;
 $fromdate = $year."-08-01";
 
 }
+
+createBackButton();
 
 if($_POST['showall'] != "yes"){
     $games_query = "SELECT * FROM `games` WHERE ((".substr($ref1_query,0,-3).") OR (".substr($ref2_query,0,-3).") OR (".substr($table1_query,0,-3).") OR (".substr($table2_query,0,-3).") OR (".substr($table3_query,0,-3).")) AND `date`>='".$fromdate."' AND `homegame`='1' ORDER BY `date`,`time`";

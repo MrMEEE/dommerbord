@@ -4,7 +4,9 @@ require("config.php");
 require("connect.php");
 
 require("checkLogin.php");
+require("checkAdmin.php");
 require("theme.php");
+require("mobile.common.functions.php");
 
 getThemeHeader();
 
@@ -50,7 +52,6 @@ foreach($teams as $team){
   if($team != ""){
       $team_query .= "`team`='".$team."' OR ";
   }
-
 }
 
 
@@ -65,6 +66,7 @@ $fromdate = $year."-08-01";
 
 }
 
+createBackButton();
 
 if($_POST['showall'] != "yes"){
     $games_query = "SELECT * FROM `games` WHERE (".substr($team_query,0,-3).") AND `homegame`='1' AND `date`>='".$fromdate."' ORDER BY `date`,`time`";
@@ -109,24 +111,40 @@ $ref2 = mysql_fetch_assoc($ref2_query);
 
 if($ref1['name'] == "DBBF"){
   $ref1name = $ref1['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee1name']));
+}elseif($ref1['name'] == "-" || $ref1['name'] == ""){
+  $ref1name = "Ikke påsat";
 }else{
   $ref1name = $ref1['name'];
 }
 
 if($ref2['name'] == "DBBF"){
   $ref2name = $ref2['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee2name']));
+}elseif($ref2['name'] == "-" || $ref2['name'] == ""){
+  $ref2name = "Ikke påsat";
 }else{ 
   $ref2name = $ref2['name'];          
 }
 
 if($game['ref1confirmed']){
   $ref1confirmed = 'Bekræftet" disabled';
+}elseif (strtotime(date('Y-m-d')) > strtotime(date('Y-m-d',strtotime($game['date']. ' + 7 days')))){
+  if(!checkAdmin($_SESSION['username'])){
+    $ref1confirmed = 'Kan ikke bekræftes" disabled';
+  }else{
+    $ref1confirmed = 'Bekræft"';
+  }
 }else{
   $ref1confirmed = 'Bekræft"';
 }
 
 if($game['ref2confirmed']){
   $ref2confirmed = 'Bekræftet" disabled';
+}elseif (strtotime(date('Y-m-d')) > strtotime(date('Y-m-d',strtotime($game['date']. ' + 7 days')))){
+  if(!checkAdmin($_SESSION['username'])){
+    $ref2confirmed = 'Kan ikke bekræftes" disabled';
+  }else{
+    $ref2confirmed = 'Bekræft"';  
+  }
 }else{
   $ref2confirmed = 'Bekræft"';           
 }
@@ -136,8 +154,18 @@ echo'</td>
 
 echo '<tr>
       <td width=2%></td>
-      <td width="48%">Dommer 1:<br>'.$ref1name.'<br><input onclick="confirmRef('.$game['id'].',1,\''.$ref1name.'\');" type="submit" style="font-size:40px;height: 80px; width:95%;" value="'.$ref1confirmed.'></td>
-      <td width="48%">Dommer 2:<br>'.$ref2name.'<br><input onclick="confirmRef('.$game['id'].',2,\''.$ref2name.'\');" type="submit" style="font-size:40px;height: 80px; width:95%;" value="'.$ref2confirmed.'></td>
+      <td width="48%">Dommer 1:<br>'.$ref1name.'';
+   
+      if($ref1['name'] != "DBBF" && $ref1['name'] != "" && $ref1['name'] != "-"){
+            echo '<br><input onclick="confirmRef('.$game['id'].',1,\''.$ref1name.'\');" type="submit" style="font-size:30px;height: 80px; width:95%;" value="'.$ref1confirmed.'>';
+      }      
+      echo '</td>
+      <td width="48%">Dommer 2:<br>'.$ref2name.'';
+   
+      if($ref2['name'] != "DBBF" && $ref2['name'] != "" && $ref2['name'] != "-"){
+            echo '<br><input onclick="confirmRef('.$game['id'].',2,\''.$ref2name.'\');" type="submit" style="font-size:30px;height: 80px; width:95%;" value="'.$ref2confirmed.'>';
+      }      
+      echo '</td>
       </tr>';
 
 echo '<tr>

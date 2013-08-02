@@ -5,6 +5,7 @@ require("connect.php");
 
 require("checkLogin.php");
 require("theme.php");
+require("mobile.common.functions.php");
 
 getThemeHeader();
 
@@ -51,6 +52,7 @@ $fromdate = $year."-08-01";
 
 }
 
+createBackButton();
 
 if($_POST['showall'] != "yes"){
     $games_query = "SELECT * FROM `games` WHERE (".substr($team_query,0,-3).") AND `date`>='".$fromdate."' ORDER BY `date`,`time`";
@@ -101,14 +103,36 @@ $table3 = mysql_fetch_assoc($table3_query);
 
 if($ref1['name'] == "DBBF"){
   $ref1name = $ref1['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee1name']));
+}elseif($ref1['name'] == "-" || $ref1['name'] == ""){
+  $ref1name = "Ikke påsat";
 }else{
   $ref1name = $ref1['name'];
 }
 
 if($ref2['name'] == "DBBF"){
   $ref2name = $ref2['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee2name']));
+}elseif($ref2['name'] == "-" || $ref2['name'] == ""){
+  $ref2name = "Ikke påsat";
 }else{ 
   $ref2name = $ref2['name'];          
+}
+
+if($table1['name'] == "-" || $table1['name'] == ""){
+  $table1name = "Ikke påsat";
+}else{
+  $table1name = $table1['name'];
+}
+
+if($table2['name'] == "-" || $table2['name'] == ""){
+  $table2name = "Ikke påsat";
+}else{ 
+  $table2name = $table2['name'];
+}
+
+if($table3['name'] == "-" || $table3['name'] == ""){
+  $table3name = "Ikke påsat";
+}else{ 
+  $table3name = $table3['name'];
 }
 
 echo'</td>
@@ -124,15 +148,15 @@ echo '<tr><td height="15px"></td></tr>';
       
 echo '<tr>
       <td width=2%></td>
-      <td width="48%">Dommerbord:<br>'.$table1['name'].'</td>
-      <td width="48%">Dommerbord:<br>'.$table2['name'].'</td>
+      <td width="48%">Dommerbord:<br>'.$table1name.'</td>
+      <td width="48%">Dommerbord:<br>'.$table2name.'</td>
       </tr>';
 
 echo '<tr><td height="15px"></td></tr>';
 
 echo '<tr>
       <td width=2%></td>
-      <td width="48%">24 Sekunder:<br>'.$table3['name'].'</td>
+      <td width="48%">24 Sekunder:<br>'.$table3name.'</td>
       <td width="48%"></td>
       </tr>';
 }

@@ -179,19 +179,11 @@ while($icals=mysql_fetch_assoc($calendars)){
 			$text = $hometeam." : ".$currentteam.", ".$pulje[1];
 			$text .= "<br>Mod ";
 			$text .= $awayteam;
-			//echo "!!!".str_replace(array("\r\n","\r"),"",strtok($place, "\n"))."!!!";
-			
-			/*if(in_array(str_replace(array("\r\n","\r"),"",strtok($place, "\n")),$courts)){
-				$athome=1;
+			if (stristr($currentteam,"grandprix")){
+				$grandprix = 1;
 			}else{
-				$athome=0;
+				$grandprix = 0;
 			}
-			
-			/*if($hometeam_mod[0] == $klubnavn_mod[0]){
-				$athome=1;
-			}else{
-				$athome=0;
-			}*/
 
 			if(mysql_num_rows(mysql_query("SELECT id FROM games WHERE id = '$id'"))) {
 				mysql_query("UPDATE `games` set place='$place' WHERE id='$id'");
@@ -202,7 +194,8 @@ while($icals=mysql_fetch_assoc($calendars)){
 				$oldathome=$query['homegame'];
 				$oldteamid=$query['team'];
 				$oldresult=$query['result'];
-				if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time && $oldathome==$athome && $oldteamid==$teamid && $oldresult==$result && $status!=4){
+				$oldgrandprix=$query['grandprix'];
+				if($oldtext==$text && $olddate==$date && substr($oldtime,0,5)==$time && $oldathome==$athome && $oldteamid==$teamid && $oldresult==$result && $oldgrandprix==$grandprix&& $status!=4){
 					mysql_query("UPDATE `games` set dt_added=now() WHERE id='$id'");
 					if($debug!=0){
 						print_r("Nothing Changed on '$id' <br>");
@@ -224,13 +217,13 @@ while($icals=mysql_fetch_assoc($calendars)){
 							mysql_query("UPDATE games SET status='$status' WHERE id = '$id'");
 						}
 					}
-					mysql_query("UPDATE games SET text='$text',date='$date',time='$time',dt_added=now(),homegame='$athome',team='$teamid',result='$result' WHERE id = '$id'");
+					mysql_query("UPDATE games SET text='$text',date='$date',time='$time',dt_added=now(),homegame='$athome',team='$teamid',result='$result',grandprix='$grandprix' WHERE id = '$id'");
 				}
 			}else{
 				if($status!=6){
 					$status=1;
 				}
-				mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`,`team`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome','$teamid')");
+				mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`,`team`,`grandprix`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome','$teamid','$grandprix')");
 				if($athome){
 					print_r("Tilføjer Hjemmekamp: '$id' <br>");
 				}else{

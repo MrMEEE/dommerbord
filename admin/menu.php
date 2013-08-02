@@ -39,6 +39,7 @@ echo '
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=cancelled">Aflyste Kampe</a></li>
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/index.php?view=all">Sæsonens Kampe</a></li>
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/statistic.php">Dommer Statistik</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/statistic_month.php">Dommer Statistik (Måned)</a></li>
 		<li class="last"><a href="http://' . $klubadresse . $klubpath . '/admin/addgame.php">Tilføj Kamp Manuelt</a></li>
 				
 	</ul>
