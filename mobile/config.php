@@ -22,6 +22,10 @@ $updatesurl=$row['updatesurl'];
 
 $debug=$row['debug'];
 
+if($debug!=1){
+    error_reporting(E_ERROR);
+}
+
 $mobileaddress=$row['mobileaddress'];
 
 ?>

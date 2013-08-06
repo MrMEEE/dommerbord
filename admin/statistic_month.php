@@ -250,12 +250,14 @@ if(isset($_POST['referee'])){
                if($confirmed == 1 ){
                    echo $game_info;
                    $arrow = "img/unconfirm.jpg";
+                   $text = "Afkræft dommertjans";
                }else{
                    $arrow = "img/confirm.jpg";
+                   $text = "Bekræft dommertjans";
                }
                echo '</td>
                      <td width="10%">
-                     <a href="#" onClick="changeConfirm('.$game['id'].','.$ref['id'].')"><img src="'.$arrow.'" width="40px"></a>
+                     <a href="#" onClick="changeConfirm('.$game['id'].','.$ref['id'].')"><img src="'.$arrow.'" width="40px" title="'.$text.'"></a>
                      </td>
                      <td width="45%">';
                if($confirmed != 1 ){ 
