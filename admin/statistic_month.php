@@ -106,7 +106,7 @@ if(isset($_POST['changeconfirmstatus'])){
 
 require("menu.php"); 
 
-$referees = mysql_query("SELECT * FROM `teams` WHERE `name`!='-'");
+$referees = mysql_query("SELECT * FROM `teams` WHERE `name`!='-' AND `person`='1'");
 
 
 echo '<form name="refereeform" method="post">
