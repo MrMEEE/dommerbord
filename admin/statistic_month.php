@@ -49,8 +49,60 @@ function checkMonth(){
 
 }
 
+function changeConfirm(gameid,refid){
+
+   answer = confirm("Er du sikker på at du vil ændre status for denne dommertjans??")
+   
+   if (answer !=0){
+   
+       document.changeconfirm.changeconfirmstatus.value = 1;
+       document.changeconfirm.refid.value = refid;
+       document.changeconfirm.gameid.value = gameid;
+       document.changeconfirm.submit();
+   
+   }   
+}
+
 <?php
+
 getThemeTitle("Dommer Statistik");
+
+if(isset($_POST['changeconfirmstatus'])){
+   $game = mysql_fetch_assoc(mysql_query("SELECT * FROM `games` WHERE `id`='".$_POST['gameid']."'"));
+   
+   if($game['ref1confirmed'] == 0 || $game['ref1confirmed'] == ""){
+       $ref1new = 1;
+   }else{
+       $ref1new = 0;
+   }
+   
+   if($game['ref2confirmed'] == 0 || $game['ref2confirmed'] == ""){
+       $ref2new = 1;
+   }else{
+       $ref2new = 0;
+   }
+   
+   if($game['refereeteam1id'] == $_POST['refid']){
+       $update = "`ref1confirmed`='".$ref1new."'";
+   }
+   
+   if($game['refereeteam2id'] == $_POST['refid']){
+       if($update==""){
+           $update = "`ref2confirmed`='".$ref2new."'";
+       }else{
+           $update .= ",`ref2confirmed`='".$ref2new."'";
+       }
+   }
+   
+   if($update !=""){
+       
+       $query = "UPDATE `games` SET ".$update." WHERE `id`='".$game['id']."'";
+       mysql_query($query);
+   
+   }
+   
+
+}
 
 require("menu.php"); 
 
@@ -136,43 +188,112 @@ if(isset($_POST['referee'])){
   }
 
   if($_POST['referee'] != "all"){
-     $games = mysql_query("SELECT * FROM `games` WHERE (`refereeteam1id`='".$_POST['referee']."' OR `refereeteam2id`='".$_POST['referee']."') AND `homegame`='1' AND `date`>'".$fromdate."' AND `date`<'".$todate."'");
+     $refs = mysql_query("SELECT * FROM `teams` WHERE `id`='".$_POST['referee']."'");
   }else{
-     $games = mysql_query("SELECT * FROM `games` WHERE AND `homegame`='1' AND `date`>'".$fromdate."' AND `date`<'".$todate."'");
+     $refs = mysql_query("SELECT * FROM `teams` WHERE `person`='1'");
+  }   
+     while($ref=mysql_fetch_assoc($refs)){
+       $confirmed_games = 0;
+       $nonconfirmed_games = 0;
+       $confirmed_grandprix = 0;
+       $nonconfirmed_grandprix = 0;
+       $games = mysql_query("SELECT * FROM `games` WHERE `homegame`='1' AND `date`>'".$fromdate."' AND `date`<'".$todate."'");;
+       echo 'Dommer: <font color="blue">'.$ref['name'].'</font><br><br>';
+       echo '<table width="100%">';
+       while($game = mysql_fetch_assoc($games)){
+           $confirmed = 0;
+           if(($game['refereeteam1id']==$ref['id']) || ($game['refereeteam2id']==$ref['id'])){
+               $game_info = $game['id']." : ".$game['date']." ".$game['time']."<br>".preg_replace('/\s+/', ' ',$game['text'])."<br>";
+               if($game['grandprix']==1){
+                   $game_info .= '<font color="darkblue">GrandPrix Kamp</font><br>';
+               }
+               if($game['refereeteam1id']==$ref['id']){
+                   if($game['ref1confirmed']==1){
+                       $confirmed = 1;
+                       if($game['grandprix']==1){
+                           $confirmed_grandprix++;
+                       }else{
+                           $confirmed_games++;
+                       }
+                       $game_info .= '<font color="green">Bekræftet</font><br>';
+                   }else{
+                       if($game['grandprix']==1){
+                           $nonconfirmed_grandprix++;
+                       }else{
+                           $nonconfirmed_games++;
+                       }
+                       $game_info .= '<font color="red">Ikke Bekræftet</font><br>';
+                   }
+               }
+               if($game['refereeteam2id']==$ref['id']){
+                   if($game['ref2confirmed']==1){
+                       $confirmed = 1;
+                       if($game['grandprix']==1){
+                           $confirmed_grandprix++;
+                       }else{
+                           $confirmed_games++;
+                       }
+                       $game_info .= '<font color="green">Bekræftet</font><br>';
+                   }else{
+                       if($game['grandprix']==1){
+                           $nonconfirmed_grandprix++;
+                       }else{    
+                           $nonconfirmed_games++;
+                       }
+                       $game_info .= '<font color="red">Ikke Bekræftet</font><br>';
+                   }
+               }
+               if($game_info != ""){		
+               echo '<tr width="100%">
+                     <td width="45%">
+                     ';
+               if($confirmed == 1 ){
+                   echo $game_info;
+                   $arrow = "img/unconfirm.jpg";
+               }else{
+                   $arrow = "img/confirm.jpg";
+               }
+               echo '</td>
+                     <td width="10%">
+                     <a href="#" onClick="changeConfirm('.$game['id'].','.$ref['id'].')"><img src="'.$arrow.'" width="40px"></a>
+                     </td>
+                     <td width="45%">';
+               if($confirmed != 1 ){ 
+                   echo $game_info;
+               }
+       
+               echo '</td>
+                     </tr>
+                     <tr height="15px"></tr>';
+                     
+               }
+             
+           } 
+       }
+       echo '<tr>
+             <td>'.$confirmed_games.' Bekræftede kampe<br>
+             '.$nonconfirmed_games.' Ikke bekræftede kampe<br>
+             '.$confirmed_grandprix.' Bekræftede GrandPrix kampe<br>
+             '.$nonconfirmed_grandprix.' Ikke bekræftede GrandPrix kampe<br>
+             </td>
+             </tr>
+             <tr height="25px"></tr>';
+             
+       echo '</table>';
   }
      
   
-  $confirmed_games = 0;
-  $nonconfirmed_games = 0;
-
-  while($game = mysql_fetch_assoc($games)){
-     echo $game['id']." : ".$game['date']." ".$game['time']."<br>".preg_replace('/\s+/', ' ',$game['text'])."<br>";
-     if($game['refereeteam1id']==$_POST['referee']){
-        if($game['ref1confirmed']==1){
-           $confirmed_games++;
-           echo '<font color="green">Bekræftet</font><br>';
-        }else{
-           $nonconfirmed_games++;
-           echo '<font color="red">Ikke Bekræftet</font><br>';
-        }
-     }
-     if($game['refereeteam2id']==$_POST['referee']){
-        if($game['ref2confirmed']==1){
-           $confirmed_games++;
-           echo '<font color="green">Bekræftet</font><br>';
-        }else{
-           $nonconfirmed_games++;
-           echo '<font color="red">Ikke Bekræftet</font><br>';
-        }
-     }
-     
-     echo '<br><br>';
-  }
-  
-  echo $confirmed_games." Bekræftede kampe<br>";
-  echo $nonconfirmed_games." Ikke bekræftede kampe";
-
 }
+
+echo '<form name="changeconfirm" method="post">
+       <input name="changeconfirmstatus" type="hidden">
+       <input name="gameid" type="hidden">
+       <input name="refid" type="hidden" value="">
+       <input name="referee" type="hidden" value="'.$_POST['referee'].'">
+       <input name="month" type="hidden" value="'.$_POST['month'].'">
+       <input name="year" type="hidden" value="'.$_POST['year'].'">
+      </form>';
+
 getThemeBottom();
 
 ?>
