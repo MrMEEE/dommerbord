@@ -277,8 +277,10 @@ echo '<table>
 <tr>
 <td VALIGN="top" width=300>';
 
-$url = "http://resultater.basket.dk/tms/Turneringer-og-resultater/Forening-Holdoversigt.aspx?ForeningsId=$klubid";
-$input = @file_get_contents($url) or die("Could not access file: $url");
+foreach ($klubids as $clubid){
+  $url = "http://resultater.basket.dk/tms/Turneringer-og-resultater/Forening-Holdoversigt.aspx?ForeningsId=$clubid";
+  $input .= @file_get_contents($url) or die("Could not access file: $url");
+}
 $regexp = "HoldId=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";  
 $regexp2 = "RaekkeId=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
 
