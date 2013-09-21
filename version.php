@@ -1,5 +1,5 @@
 <?php
 
-  $dommerplanversion="1.5.5";
+  $dommerplanversion="1.5.6";
 
 ?>

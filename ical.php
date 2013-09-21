@@ -43,7 +43,30 @@ $page .= $content;
   else{
   $rows = $tables->item(0)->getElementsByTagName('tr');
   }
-  
+  $ical = "BEGIN:VCALENDAR\r
+VERSION:2.0\r
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r
+CALSCALE:GREGORIAN\r
+BEGIN:VTIMEZONE\r
+TZID:Europe/Copenhagen\r
+X-LIC-LOCATION:Europe/Copenhagen\r
+BEGIN:DAYLIGHT\r
+TZOFFSETFROM:+0100\r
+TZOFFSETTO:+0200\r
+TZNAME:GMT\r
+DTSTART:19700329T020000\r
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r
+END:DAYLIGHT\r
+BEGIN:STANDARD\r
+TZOFFSETFROM:+0200\r
+TZOFFSETTO:+0100\r
+TZNAME:GMT\r
+DTSTART:19701025T030000\r
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
+END:STANDARD\r
+END:VTIMEZONE\r";
+
+echo $ical;
   // loop over the table rows  
   foreach ($rows as $row)   
   {   
@@ -86,6 +109,7 @@ $page .= $content;
       $placerow = $rows2->item(5)->getElementsByTagName('td');
       $place = $placerow->item(1)->nodeValue;
       $place = str_replace("  "," ",$place);
+      $place = str_replace(",","\,",$place);
       
       $placeshort = $cols->item(4)->nodeValue;                  
       $placeshort = trim($placeshort);
@@ -103,29 +127,7 @@ $page .= $content;
         $text .= " Vs. ";
         $text .= $awayteam;
 
-$ical = "BEGIN:VCALENDAR\r
-VERSION:2.0\r
-PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r
-CALSCALE:GREGORIAN\r
-BEGIN:VTIMEZONE\r
-TZID:Europe/Copenhagen\r
-X-LIC-LOCATION:Europe/Copenhagen\r
-BEGIN:DAYLIGHT\r
-TZOFFSETFROM:+0100\r
-TZOFFSETTO:+0200\r
-TZNAME:GMT\r
-DTSTART:19700329T020000\r
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r
-END:DAYLIGHT\r
-BEGIN:STANDARD\r
-TZOFFSETFROM:+0200\r
-TZOFFSETTO:+0100\r
-TZNAME:GMT\r
-DTSTART:19701025T030000\r
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
-END:STANDARD\r
-END:VTIMEZONE\r
-BEGIN:VEVENT\r
+$ical = "BEGIN:VEVENT\r
 UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
 DTSTAMP:".$year."".$month."".$day."T".$time."00\r
 DTSTART:".$year."".$month."".$day."T".$time."00\r
@@ -134,10 +136,12 @@ SUMMARY: $id: $text\r
 LOCATION: $placeshort\r
 DESCRIPTION: $place\r
 END:VEVENT\r
-END:VCALENDAR\r\n";
+";
       
 echo $ical;        
 }
+$ical = "END:VCALENDAR\r\n";
+echo $ical;
 
 }elseif(isset($_GET["refId"])){
 
