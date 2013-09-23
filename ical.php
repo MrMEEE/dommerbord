@@ -208,9 +208,9 @@ END:STANDARD\r
 END:VTIMEZONE\r
 BEGIN:VEVENT\r
 UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
-DTSTAMP:".$year."".$month."".$day."T".$time."00\r
-DTSTART:".$year."".$month."".$day."T".$time."00\r
-DTEND:".$year."".$month."".$day."T".$endtime."00\r
+DTSTAMP;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
+DTSTART;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
+DTEND;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$endtime."00\r
 SUMMARY: $text\r
 LOCATION: $place\r
 END:VEVENT\r
