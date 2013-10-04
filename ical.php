@@ -66,7 +66,6 @@ RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
 END:STANDARD\r
 END:VTIMEZONE\r";
 
-echo $ical;
   // loop over the table rows  
   foreach ($rows as $row)   
   {   
@@ -113,7 +112,6 @@ echo $ical;
       
       $placeshort = $cols->item(4)->nodeValue;                  
       $placeshort = trim($placeshort);
-//      $placeshort = str_replace("  ", "", $placeshort);
       
       $year = "20";
       $year .= substr($fulldate,6,2);
@@ -127,7 +125,7 @@ echo $ical;
         $text .= " Vs. ";
         $text .= $awayteam;
 
-$ical = "BEGIN:VEVENT\r
+$ical .= "BEGIN:VEVENT\r
 UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
 DTSTAMP:".$year."".$month."".$day."T".$time."00\r
 DTSTART:".$year."".$month."".$day."T".$time."00\r
@@ -138,9 +136,8 @@ DESCRIPTION: $place\r
 END:VEVENT\r
 ";
       
-echo $ical;        
 }
-$ical = "END:VCALENDAR\r\n";
+$ical .= "END:VCALENDAR\r\n";
 echo $ical;
 
 }elseif(isset($_GET["refId"])){
@@ -161,6 +158,30 @@ if(!file_exists("admin/connect.php")){
 require "admin/config.php"; 
 
 $query = mysql_query("SELECT * FROM `games` WHERE (`refereeteam1id` = ".$_GET['refId']." OR `refereeteam2id` = ".$_GET['refId']." OR `tableteam1id` = ".$_GET['refId']." OR `tableteam2id` = ".$_GET['refId']." OR `tableteam3id` = ".$_GET['refId'].") ORDER BY `date`,`time` ASC");
+
+  $ical = "BEGIN:VCALENDAR\r
+VERSION:2.0\r
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r
+CALSCALE:GREGORIAN\r
+BEGIN:VTIMEZONE\r
+TZID:Europe/Copenhagen\r
+X-LIC-LOCATION:Europe/Copenhagen\r
+BEGIN:DAYLIGHT\r
+TZOFFSETFROM:+0100\r
+TZOFFSETTO:+0200\r
+TZNAME:GMT\r
+DTSTART:19700329T020000\r
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r
+END:DAYLIGHT\r  
+BEGIN:STANDARD\r
+TZOFFSETFROM:+0200\r
+TZOFFSETTO:+0100\r
+TZNAME:GMT\r
+DTSTART:19701025T030000\r
+RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
+END:STANDARD\r   
+END:VTIMEZONE\r";
+
 
 while($row = mysql_fetch_assoc($query)){
   $fulldate=$row['date'];
@@ -183,40 +204,23 @@ while($row = mysql_fetch_assoc($query)){
     if($tables>0){
       $text .= $tables." x Dommerbord, ";
     }
-    $text .= "til: ".$row['text'];
-echo "BEGIN:VCALENDAR\r
-VERSION:2.0\r
-PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r
-CALSCALE:GREGORIAN\r
-BEGIN:VTIMEZONE\r
-TZID:Europe/Copenhagen\r
-X-LIC-LOCATION:Europe/Copenhagen\r
-BEGIN:DAYLIGHT\r
-TZOFFSETFROM:+0100\r
-TZOFFSETTO:+0200\r
-TZNAME:GMT\r
-DTSTART:19700329T020000\r
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r
-END:DAYLIGHT\r
-BEGIN:STANDARD\r
-TZOFFSETFROM:+0200\r
-TZOFFSETTO:+0100\r
-TZNAME:GMT\r
-DTSTART:19701025T030000\r
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
-END:STANDARD\r
-END:VTIMEZONE\r
-BEGIN:VEVENT\r
+    $text .= "til: ".str_replace("<br>",",",$row['text']);;
+
+
+$ical .= "BEGIN:VEVENT\r
 UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
 DTSTAMP;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
 DTSTART;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
 DTEND;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$endtime."00\r
 SUMMARY: $text\r
 LOCATION: $place\r
-END:VEVENT\r
-END:VCALENDAR\r\n";
+END:VEVENT\r";
 }
+
 }
+
+$ical .= "END:VCALENDAR\r\n";
+echo $ical;
 
 }else{
 if(!file_exists("admin/connect.php")){
