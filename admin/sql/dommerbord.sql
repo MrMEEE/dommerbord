@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `config` (
   `debug` tinyint(1) NOT NULL,
   `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatesurl` text NOT NULL,
+  `mobileaddress` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -79,6 +80,9 @@ CREATE TABLE IF NOT EXISTS `games` (
   `homegame` tinyint(1) NOT NULL,
   `team` text COLLATE utf8_unicode_ci NOT NULL,
   `result` text COLLATE utf8_unicode_ci NOT NULL,
+  `ref1confirmed` text NOT NULL,
+  `ref2confirmed` text NOT NULL,
+  `grandprix` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `position` (`position`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1000016 ;
@@ -106,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `teamid` text NOT NULL,
+  `person` tinyint(1) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10020 ;
 
@@ -121,6 +126,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `email` text NOT NULL,
+  `teams` text NOT NULL,
+  `refs` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 

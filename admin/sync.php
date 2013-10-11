@@ -52,7 +52,6 @@ $dbbfid=$dbbfentry['id'];
 
 while($icals=mysql_fetch_assoc($calendars)){
 	$currentteam=$icals['team'];
-	$gamechanged=0;
 	echo "<br>Opdaterer: $currentteam<br>";
 	if($debug!=0){
 		echo $icals['address'];
@@ -91,6 +90,7 @@ while($icals=mysql_fetch_assoc($calendars)){
 	}
 	// loop over the table rows  
 	foreach ($rows as $row){   
+		$gamechanged=0;
 		// get each column by tag name  
 		$cols = $row->getElementsByTagName('td');   
 		$hometeam = $cols->item(2)->nodeValue;
