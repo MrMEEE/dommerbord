@@ -6,6 +6,8 @@ require_once("checkAdmin.php");
 require("theme.php");
 require("commonFunctions.php");
 
+$teamnames=getTeamNames();
+ 
 $courts = array();
 
 for($i = 0, $size = count($klubids); $i < $size; ++$i){
@@ -122,8 +124,22 @@ while($icals=mysql_fetch_assoc($calendars)){
 		$hometeam_mod = explode(" ",$hometeam_mod);
 		$klubnavn_mod = explode(" ",$klubnavn_mod);   
 
+		if (stristr($currentteam,"grandprix")){
+                        $grandprix = 1;
+		}else{
+			$grandprix = 0;
+		}
+
 		if(in_array(str_replace(array("\r\n","\r"),"",strtok($place, "\n")),$courts)){
-		        $athome=1;
+			if($grandprix){
+		        	$athome=1;
+			}else{
+				if(in_array(trim($hometeam),$teamnames)){
+					$athome=1;
+				}else{
+					$athome=0;
+				}
+			}
 		}else{                                
 			$athome=0;                                                        
 		}
@@ -179,11 +195,6 @@ while($icals=mysql_fetch_assoc($calendars)){
 			$text = $hometeam." : ".$currentteam.", ".$pulje[1];
 			$text .= "<br>Mod ";
 			$text .= $awayteam;
-			if (stristr($currentteam,"grandprix")){
-				$grandprix = 1;
-			}else{
-				$grandprix = 0;
-			}
 
 			if(mysql_num_rows(mysql_query("SELECT id FROM games WHERE id = '$id'"))) {
 				mysql_query("UPDATE `games` set place='$place' WHERE id='$id'");

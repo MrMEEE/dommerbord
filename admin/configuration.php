@@ -225,6 +225,46 @@ echo '<select name="clubselect'.$i.'">
 
 echo '<br><a href="configuration.php?addsisterclub"><img width="15px" src="img/add.png"></a>Tilføj Søsterklub<br>';
 ?>
+<br>
+<br>Adresse på side:<br>
+<input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
+
+<?php 
+if ($mobileaddress != ""){
+  $mobileaddresstext = $mobileaddress.'"';
+  $mobilecheck = "checked";
+}else{
+  $mobileaddresstext = '" disabled';
+} 
+?>
+
+<br>
+<br>Aktiver Mobilside <br>
+<input type="checkbox" name="enablemobile" onchange="enableMobile();" <?php echo $mobilecheck ?>>
+<br>
+<br>Adresse på Mobilside:<br>
+<input type="text" name="mobileaddress" value="<?php echo $mobileaddresstext ?>>
+<input type="hidden" name="clearmobile" value="">
+<br>
+
+<br>
+
+<br>Installationssti:<br>
+<input type="text" name="clubpath" value="<?php echo $klubpath; ?>"><br>
+
+<br>
+
+<br>Debug:
+    <select name="debug" onChange="FormSubmitDebug(this)">
+       <?php echo $debuglist; ?>
+    </select>
+
+<br>
+<br>URL til Opdateringer:<br>
+<input type="text" name="updatesurl" value="<?php echo $updatesurl; ?>"><br>
+<br><input type="submit" value="Gem Indstillinger">
+</form>
+
 <br>Haller:<br>
 <br>
 <?php
@@ -258,46 +298,6 @@ foreach($gyms as $gym){
 <br>
 <input type="submit" value="Tilføj">
 </form>
-<br>
-<br>Adresse på side:<br>
-<input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
-
-<?php 
-if ($mobileaddress != ""){
-  $mobileaddresstext = $mobileaddress.'"';
-  $mobilecheck = "checked";
-}else{
-  $mobileaddresstext = '" disabled';
-} 
-?>
-
-<br>
-<br>Aktiver Mobilside <br>
-<input type="checkbox" name="enablemobile" onchange="enableMobile();" <?php echo $mobilecheck ?>>
-<br>
-<br>Adresse på Mobilside:<br>
-<input type="text" name="mobileaddress" value="<?php echo $mobileaddresstext ?>">
-<input type="hidden" name="clearmobile" value="">
-<br>
-
-<br>
-
-<br>Installationssti:<br>
-<input type="text" name="clubpath" value="<?php echo $klubpath; ?>"><br>
-
-<br>
-
-<br>Debug:
-    <select name="debug" onChange="FormSubmitDebug(this)">
-       <?php echo $debuglist; ?>
-    </select>
-
-<br>
-<br>URL til Opdateringer:<br>
-<input type="text" name="updatesurl" value="<?php echo $updatesurl; ?>"><br>
-<br><input type="submit" value="Gem Indstillinger">
-</form>
-
 
 <?php
 

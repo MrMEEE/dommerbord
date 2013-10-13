@@ -347,4 +347,58 @@ curl_close($ch);
 
 }
 
+function getTeamNames(){
+
+
+include("config.php");
+foreach ($klubids as $clubid){
+
+$url = "http://resultater.basket.dk/tms/Turneringer-og-resultater/Forening-Holdoversigt.aspx?ForeningsId=".$clubid;
+
+$ch = curl_init();
+curl_setopt($ch,CURLOPT_URL,$url);
+curl_setopt($ch,CURLOPT_POST,count($fields));
+curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch,CURLOPT_HTTPHEADER,Array("Content-Type: application/x-www-form-urlencoded")); 
+curl_setopt($ch,CURLOPT_TIMEOUT,5);
+
+
+$result = curl_exec($ch);
+
+$dom = new DOMDocument();
+    
+//load the html  
+$page = '
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Dommer Sync</title>
+</head>
+<body></body>
+</html>
+';
+
+$page .= $result;
+
+$html = @$dom->loadHTML($page);
+
+$xpath = new DOMXPath($dom);
+    
+$tags = $xpath->query("//a[contains(@id,'hlTeam')]");
+
+foreach($tags as $tag){
+  if(!in_array(trim($tag->nodeValue),$teams)){
+    $teams[] = trim($tag->nodeValue);
+  }
+
+
+}
+
+}
+
+return $teams;
+
+}
+
 ?>
