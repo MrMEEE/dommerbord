@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `config` (
   `lastupdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatesurl` text NOT NULL,
   `mobileaddress` text NOT NULL,
+  `gyms` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 

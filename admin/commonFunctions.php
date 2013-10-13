@@ -253,4 +253,89 @@ return array ($clubnames,$clubids);
 
 }
 
+function getAllCourts(){
+
+require_once("config.php");
+  
+if($debug==0){
+        error_reporting(0);
+}
+
+$validation = setBasketDKValidation();
+
+$url = $validation['url'];
+
+$fields = array(
+            '__VIEWSTATE'=>$validation['viewstate'],
+            '__EVENTTARGET'=>$validation['eventtarget'],
+            '__EVENTARGUMENT'=>$validation['eventargument'],
+            '__EVENTVALIDATION'=>$validation['eventvalidation'],
+            'ctl00%24ContentPlaceHolder1%24Soegning%24Search'=>'rbStadium',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtSelectedCenterSearchModule'=>'3',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24ddlGender'=>'1',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24ddlDivision'=>'2',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24ddlSeason'=>'0',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtClubName'=>'',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtStadiumName'=>'',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24btnSearchStadium'=>'S%C3%B8g',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtCommitteeName'=>'',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtMatchNumber'=>'',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24txtRefereeName'=>'',
+            'ctl00%24ContentPlaceHolder1%24Soegning%24ddlTournaments_Tournament'=>'0'
+);
+
+foreach($fields as $key=>$value){ 
+        $fields_string .= $key.'='.$value.'&'; 
+}
+
+rtrim($fields_string,'&');
+
+$ch = curl_init();
+
+curl_setopt($ch,CURLOPT_URL,$url);
+curl_setopt($ch,CURLOPT_POST,count($fields));
+curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+curl_setopt($ch,CURLOPT_HTTPHEADER,Array("Content-Type: application/x-www-form-urlencoded")); 
+curl_setopt($ch,CURLOPT_TIMEOUT,5);
+
+
+$result = curl_exec($ch);
+
+$dom = new DOMDocument();
+    
+//load the html  
+$page = '
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Dommer Sync</title>
+</head>
+<body></body>
+</html>
+';
+
+$page .= $result;
+$html = @$dom->loadHTML($page);
+
+$dom->preserveWhiteSpace = false;
+
+$tables = $dom->getElementsByTagName('table');
+
+$xpath = new DOMXPath($dom);
+
+$tags = $xpath->query("//a[contains(@id,'hlStadium')]");
+
+foreach($tags as $tag){
+
+$courts[] = trim($tag->nodeValue);
+
+}
+
+return $courts;
+
+curl_close($ch);
+
+}
+
 ?>

@@ -179,8 +179,6 @@ while($icals=mysql_fetch_assoc($calendars)){
 			$text = $hometeam." : ".$currentteam.", ".$pulje[1];
 			$text .= "<br>Mod ";
 			$text .= $awayteam;
-			$text =  str_replace("'", "\'", $text);
-			
 			if (stristr($currentteam,"grandprix")){
 				$grandprix = 1;
 			}else{
@@ -191,7 +189,6 @@ while($icals=mysql_fetch_assoc($calendars)){
 				mysql_query("UPDATE `games` set place='$place' WHERE id='$id'");
 				$query=mysql_fetch_assoc(mysql_query("SELECT * FROM games WHERE id = '$id'"));
 				$oldtext=$query['text'];
-				$oldtext =  str_replace("'", "\'", $oldtext);
 				$olddate=$query['date'];
 				$oldtime=$query['time'];
 				$oldathome=$query['homegame'];
@@ -227,7 +224,6 @@ while($icals=mysql_fetch_assoc($calendars)){
 					$status=1;
 				}
 				mysql_query("INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`,`team`,`grandprix`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome','$teamid','$grandprix')");
-				echo "INSERT INTO games (`id`, `text`, `date`, `time`, `status`, `tableteam3id`, `place`, `homegame`,`team`,`grandprix`) VALUES ('$id', '$text', '$date', '$time','$status',9999,'$place','$athome','$teamid','$grandprix')";
 				if($athome){
 					print_r("Tilføjer Hjemmekamp: '$id' <br>");
 				}else{

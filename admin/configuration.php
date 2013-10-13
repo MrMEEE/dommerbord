@@ -62,6 +62,29 @@ if(isset($_POST["updatedatabase"])){
 }
 require "config.php";
 
+if(isset($_POST["addgym"])){
+  $gyms = mysql_fetch_assoc(mysql_query("SELECT * FROM `config` WHERE `id`='1'"));
+  $gyms = explode(",",$gyms['gyms']);
+  if(!in_array($_POST["addgym"],$gyms)){
+     array_push($gyms,$_POST["addgym"]);
+     $gyms = implode(",",$gyms);
+     mysql_query("UPDATE `config` SET `gyms`='".$gyms."'");
+  }
+}
+
+if(isset($_POST["removegym"])){
+
+  $gyms = mysql_fetch_assoc(mysql_query("SELECT * FROM `config` WHERE `id`='1'"));
+  $gyms = explode(",",$gyms['gyms']);
+  $key = array_search($_POST["removegym"],$gyms);
+  if($key!==false){
+   unset($gyms[$key]);
+   $gyms = implode(",",$gyms);
+   mysql_query("UPDATE `config` SET `gyms`='".$gyms."'");
+  }
+
+}
+
 if($debug==0){
 error_reporting(0);
 }
@@ -76,6 +99,13 @@ if (mysql_num_rows(mysql_query("SELECT * FROM config"))==0){
 getThemeHeader();
 
 ?>
+
+function removeGym(gymname){
+
+document.gyms.removegym.value = gymname;
+document.gyms.submit();
+
+}
 
 function FormSubmitClub(el) {
 var clubinfo = el.value.split(':');
@@ -146,6 +176,10 @@ if ($debug == 0){
 
 ?>
 
+<form method="post" name="gyms">
+<input type="hidden" name="removegym">
+</form>
+
 Vælg Klub:
 <form method="post" name="clublist" action="configuration.php">
     <select name="clubselect0">
@@ -191,6 +225,39 @@ echo '<select name="clubselect'.$i.'">
 
 echo '<br><a href="configuration.php?addsisterclub"><img width="15px" src="img/add.png"></a>Tilføj Søsterklub<br>';
 ?>
+<br>Haller:<br>
+<br>
+<?php
+
+$config = mysql_fetch_assoc(mysql_query("SELECT * FROM `config` WHERE `id`='1'"));
+
+$gyms = explode(",",$config['gyms']);
+
+foreach($gyms as $gym){
+  if($gym != ""){
+    echo '<img src="img/delete.png" onclick="javascript:removeGym(\''.$gym.'\')">'.$gym."<br>";
+  }
+}
+
+
+?>
+<br>
+
+<form method="post">
+<select name="addgym">
+<option selected>Vælg Hal</option>
+<?php
+
+  $allcourts = getAllCourts();
+  foreach($allcourts as $court){
+     echo '<option value="'.$court.'">'.$court.'</option>';
+  }
+
+?>
+</select>
+<br>
+<input type="submit" value="Tilføj">
+</form>
 <br>
 <br>Adresse på side:<br>
 <input type="text" name="clubaddress" value="<?php echo $klubadresse; ?>"><br>
@@ -209,7 +276,7 @@ if ($mobileaddress != ""){
 <input type="checkbox" name="enablemobile" onchange="enableMobile();" <?php echo $mobilecheck ?>>
 <br>
 <br>Adresse på Mobilside:<br>
-<input type="text" name="mobileaddress" value="<?php echo $mobileaddresstext ?>>
+<input type="text" name="mobileaddress" value="<?php echo $mobileaddresstext ?>">
 <input type="hidden" name="clearmobile" value="">
 <br>
 
