@@ -36,6 +36,15 @@ foreach ($tags as $tag) {
     $courts[] = (trim($tag->nodeValue));
 }
 
+$gyms = mysql_fetch_assoc(mysql_query("SELECT * FROM `config` WHERE `id`='1'"));
+$gyms = explode(",",$gyms['gyms']);
+
+foreach ($gyms as $gym){
+
+  $courts[] = trim($gym);
+
+}
+
 return $courts;
 
 }
