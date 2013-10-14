@@ -172,21 +172,27 @@ TZOFFSETTO:+0200\r
 TZNAME:GMT\r
 DTSTART:19700329T020000\r
 RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\r
-END:DAYLIGHT\r  
+END:DAYLIGHT\r
 BEGIN:STANDARD\r
 TZOFFSETFROM:+0200\r
 TZOFFSETTO:+0100\r
 TZNAME:GMT\r
 DTSTART:19701025T030000\r
 RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\r
-END:STANDARD\r   
-END:VTIMEZONE\r";
+END:STANDARD\r
+END:VTIMEZONE\r
+";
 
 
 while($row = mysql_fetch_assoc($query)){
   $fulldate=$row['date'];
   $fulltime=$row['time'];
   $place=$row['place'];
+  $place = str_replace("  "," ",$place);
+  $place = str_replace(",","\,",$place);
+  $place = str_replace("\r"," ",$place);
+  $place = str_replace("\n"," ",$place);
+  $placeshort = trim($placeshort);
   $refs = ($row['refereeteam1id'] == $_GET["refId"]) + ($row['refereeteam2id'] == $_GET["refId"]);
   $tables = ($row['tableteam1id'] == $_GET["refId"]) + ($row['tableteam2id'] == $_GET["refId"]) + ($row['tableteam3id'] == $_GET["refId"]);
   $text = "";
@@ -209,12 +215,13 @@ while($row = mysql_fetch_assoc($query)){
 
 $ical .= "BEGIN:VEVENT\r
 UID:" . md5(uniqid(mt_rand(), true)) . "@basket.dk\r
-DTSTAMP;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
-DTSTART;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$time."00\r
-DTEND;TZID=Europe/Copenhagen:".$year."".$month."".$day."T".$endtime."00\r
+DTSTAMP:".$year."".$month."".$day."T".$time."00\r
+DTSTART:".$year."".$month."".$day."T".$time."00\r
+DTEND:".$year."".$month."".$day."T".$endtime."00\r
 SUMMARY: $text\r
 LOCATION: $place\r
-END:VEVENT\r";
+END:VEVENT\r
+";
 }
 
 }
