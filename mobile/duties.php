@@ -60,18 +60,7 @@ createBackButton();
 
 if($_POST['showall'] != "yes"){
     $games_query = "SELECT * FROM `games` WHERE ((".substr($ref1_query,0,-3).") OR (".substr($ref2_query,0,-3).") OR (".substr($table1_query,0,-3).") OR (".substr($table2_query,0,-3).") OR (".substr($table3_query,0,-3).")) AND `date`>='".$fromdate."' AND `homegame`='1' ORDER BY `date`,`time`";
-    echo '<table width="100%">
-    <tr>
-    <td width="2%">
-    </td>
-    <td bgcolor="#FFFFFF" width="96%">
-    <input type="submit" value="Vis Alle Kampe" style="font-size:60px;height: 100px; width:100%;" onclick="showAll();">
-    </td>
-    </tr>
-    <tr>
-    <td height="20px"></td>
-    </tr>   
-    </table>';
+    createShowAllButton();
 }else{
     $games_query = "SELECT * FROM `games` WHERE ((".substr($ref1_query,0,-3).") OR (".substr($ref2_query,0,-3).") OR (".substr($table1_query,0,-3).") OR (".substr($table2_query,0,-3).") OR (".substr($table3_query,0,-3).")) AND `homegame`='1' ORDER BY `date`,`time`";
 }

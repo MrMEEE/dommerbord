@@ -11,6 +11,20 @@ getThemeHeader();
 
 ?>
 
+function confirmRequest(gameid,refid){
+
+  answer = confirm("Bekræft at du vil ansøge om at dømme kamp nummer: "+gameid);
+
+  if (answer !=0){
+
+  document.confirmref.gameid.value = gameid;
+  document.confirmref.refid.value = refid;
+  document.confirmref.submit();
+
+  }
+
+}
+
 function showAll(){
 
   document.confirmref.showall.value = "yes";
@@ -22,7 +36,7 @@ function showAll(){
 
 if(isset($_POST['refid'])){
 
-  mysql_query("UPDATE `games` SET `ref".$_POST['refid']."confirmed`='1' WHERE `id`='".$_POST['gameid']."'");
+  mysql_query("INSERT INTO `requests` (`ref`,`game`,`status`) VALUES ('".$_POST['refid']."','".$_POST['gameid']."','1')");
 
 }
 
@@ -30,36 +44,11 @@ getThemeTitle("Dommerplan Mobil");
 
 $user = mysql_fetch_assoc(mysql_query("SELECT * FROM `users` WHERE `name`='".$_SESSION['username']."'"));
 
-$teams = explode(",",$user['teams']);
-
-foreach($teams as $team){
-
-  if($team != ""){
-      $team_query .= "`team`='".$team."' OR ";
-  }
-
-}
-
-
-if(date("m") > 7){
-
-$fromdate = date("Y")."-08-01";
-
-}else{
-
-$year = date("Y") - 1;
-$fromdate = $year."-08-01";
-
-}
+$fromdate = date("Y-m-d");
 
 createBackButton();
 
-if($_POST['showall'] != "yes"){
-    $games_query = "SELECT * FROM `games` WHERE (".substr($team_query,0,-3).") AND `date`>='".$fromdate."' ORDER BY `date`,`time`";
-    createShowAllButton();
-}else{
-    $games_query = "SELECT * FROM `games` WHERE (".substr($team_query,0,-3).") ORDER BY `date`,`time`";
-}
+$games_query = "SELECT * FROM `games` WHERE (`refereeteam1id`='0' OR `refereeteam1id`='0' OR `refereeteam2id`='9999' OR `refereeteam2id`='9999') AND `date`>='".$fromdate."' AND `homegame`='1' ORDER BY `date`,`time`";
 
 $games = mysql_query($games_query);
 
@@ -80,15 +69,9 @@ echo $game['id']." : ".$game['date']." ".$game['time']."<br>".preg_replace('/\s+
 
 $ref1_query = mysql_query("SELECT * FROM `teams` WHERE `id`='".$game['refereeteam1id']."'");
 $ref2_query = mysql_query("SELECT * FROM `teams` WHERE `id`='".$game['refereeteam2id']."'");
-$table1_query = mysql_query("SELECT * FROM `teams` WHERE `id`='".$game['tableteam1id']."'");
-$table2_query = mysql_query("SELECT * FROM `teams` WHERE `id`='".$game['tableteam2id']."'");
-$table3_query = mysql_query("SELECT * FROM `teams` WHERE `id`='".$game['tableteam3id']."'");
 
 $ref1 = mysql_fetch_assoc($ref1_query);
 $ref2 = mysql_fetch_assoc($ref2_query);
-$table1 = mysql_fetch_assoc($table1_query);
-$table2 = mysql_fetch_assoc($table2_query);
-$table3 = mysql_fetch_assoc($table3_query);
 
 if($ref1['name'] == "DBBF"){
   $ref1name = $ref1['name'].": ".trim(preg_replace('/\s+/', ' ', $game['referee1name']));
@@ -106,49 +89,30 @@ if($ref2['name'] == "DBBF"){
   $ref2name = $ref2['name'];          
 }
 
-if($table1['name'] == "-" || $table1['name'] == ""){
-  $table1name = "Ikke påsat";
-}else{
-  $table1name = $table1['name'];
-}
-
-if($table2['name'] == "-" || $table2['name'] == ""){
-  $table2name = "Ikke påsat";
-}else{ 
-  $table2name = $table2['name'];
-}
-
-if($table3['name'] == "-" || $table3['name'] == ""){
-  $table3name = "Ikke påsat";
-}else{ 
-  $table3name = $table3['name'];
-}
-
 echo'</td>
 </tr>';
-if($game['homegame'] == "1"){
+
+$query = mysql_query("SELECT * FROM `requests` WHERE `ref`='".$user['refs']."' AND `game`='".$game['id']."'");
+
+if(mysql_num_rows($query)==0){
+    $value = "Anmod om kamp";
+    $disabled = "";
+}else{
+    $value = "Anmodning sendt";
+    $disabled = "disabled";
+}
 echo '<tr>
       <td width=2%></td>
       <td width="48%">Dommer 1:<br>'.$ref1name.'</td>
       <td width="48%">Dommer 2:<br>'.$ref2name.'</td>
-      </tr>';
-
-echo '<tr><td height="15px"></td></tr>';
-      
-echo '<tr>
+      </tr>
+      <tr>
       <td width=2%></td>
-      <td width="48%">Dommerbord:<br>'.$table1name.'</td>
-      <td width="48%">Dommerbord:<br>'.$table2name.'</td>
+      <td colspan=2>
+      <input onclick="confirmRequest('.$game['id'].','.$user['refs'].');" type="submit" style="font-size:30px;height: 80px; width:95%;" value="'.$value.'" '.$disabled.'>
+      </td>
       </tr>';
 
-echo '<tr><td height="15px"></td></tr>';
-
-echo '<tr>
-      <td width=2%></td>
-      <td width="48%">24 Sekunder:<br>'.$table3name.'</td>
-      <td width="48%"></td>
-      </tr>';
-}
 echo '<tr><td height="40px"></td></tr>';
 
 }
@@ -156,6 +120,8 @@ echo '<tr><td height="40px"></td></tr>';
 </table>
 
 <form name="confirmref" method="post">
+<input type="hidden" name="gameid" value="">
+<input type="hidden" name="refid" value="">
 <input type="hidden" name="showall" value="<?php echo $_POST['showall']?>">
 </form>
 

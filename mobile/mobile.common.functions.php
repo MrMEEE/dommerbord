@@ -31,4 +31,20 @@ function createBackButton(){
 
 }
 
+function createShowAllButton(){
+
+    echo '<table width="100%">
+    <tr>  
+    <td width="2%">
+    </td>
+    <td bgcolor="#FFFFFF" width="96%">
+    <input type="submit" value="Vis Alle Kampe" style="font-size:60px;height: 100px; width:100%;" onclick="showAll();">
+    </td>
+    </tr>
+    <tr>
+    <td height="20px"></td>
+    </tr>   
+    </table>';
+                                                
+}
 ?>

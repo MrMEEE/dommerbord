@@ -19,8 +19,9 @@ getThemeTitle("Dommerplan Mobil");
 <?php
 
 createMenuItem("Bekræft tjanser","confirm.php");
-createMenuItem("Kampe","games.php");
+createMenuItem("Mine holds kampe","games.php");
 createMenuItem("Dommer/Dommerbordstjanser","duties.php");
+createMenuItem("Frie Dommertjanser","opengames.php");
 ?>
 
 </table>
