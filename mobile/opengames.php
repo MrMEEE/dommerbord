@@ -48,7 +48,7 @@ $fromdate = date("Y-m-d");
 
 createBackButton();
 
-$games_query = "SELECT * FROM `games` WHERE (`refereeteam1id`='0' OR `refereeteam1id`='0' OR `refereeteam2id`='9999' OR `refereeteam2id`='9999') AND `date`>='".$fromdate."' AND `homegame`='1' ORDER BY `date`,`time`";
+$games_query = "SELECT * FROM `games` WHERE (`refereeteam1id`='0' OR `refereeteam2id`='0' OR `refereeteam1id`='9999' OR `refereeteam2id`='9999') AND (`refereeteam1id`!='".$user['refs']."' OR `refereeteam2id`!='".$user['refs']."') AND `date`>='".$fromdate."' AND `homegame`='1' ORDER BY `date`,`time`";
 
 $games = mysql_query($games_query);
 
@@ -114,7 +114,6 @@ echo '<tr>
       </tr>';
 
 echo '<tr><td height="40px"></td></tr>';
-
 }
 ?>
 </table>

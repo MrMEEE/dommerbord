@@ -57,6 +57,7 @@ echo '
 	<ul>
 		<li class="first"><a href="http://' . $klubadresse . $klubpath . '/admin/configuration.php">Konfiguration</a></li>
 		<li><a href="http://' . $klubadresse . $klubpath . '/admin/users.php">Brugere</a></li>
+		<li><a href="http://' . $klubadresse . $klubpath . '/admin/gamerequests.php">Kampanmodninger</a></li>
 		<li class="last"><a href="http://' . $klubadresse . $klubpath . '/admin/upgrade.php">Backup/Opdater</a></li>
 	</ul>
 </li>';	
