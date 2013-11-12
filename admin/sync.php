@@ -2,9 +2,8 @@
 
 require("connect.php");
 include("config.php");
-require_once("checkAdmin.php");
 require("theme.php");
-require("commonFunctions.php");
+require_once("commonFunctions.php");
 
 $teamnames=getTeamNames();
  

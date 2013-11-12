@@ -4,74 +4,43 @@ require("connect.php");
 require("config.php");
 require("checkConfig.php");
 require("checkLogin.php");
-require("checkAdmin.php");
 require("theme.php");
+require_once("commonFunctions.php");
 
 $error="";
 
-if (checkAdmin($_SESSION['username'])){ 
-
 if( (isset($_POST["adduser"])) || (isset($_POST["changepasswd"])) ){
-   $adduser = $_POST["adduser"];
-   $changepasswd = $_POST["changepasswd"];
-   
-   if ( (isset($_POST["passwd1"])) && ($_POST["passwd1"] != "")  ){
-      if ($_POST["passwd1"] == $_POST["passwd2"]) {
-          $passwd = $_POST["passwd1"];
-          if ( $_POST["isadmin"] ==  1){
-              $admin = 1;
-          }else{
-              $admin = 0;
-          }
-          if(isset($_POST["adduser"])){
-            if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `name` = '$adduser'"))) {
-                $error="Brugeren eksistere allerede!";
-              }else{
-                mysql_query("INSERT INTO `users` (`name`,`password`,`admin`) VALUES ('$adduser',md5('$passwd'),'$isadmin')");
-              }
-          }else{
-            mysql_query("UPDATE `users` SET `password` = md5('$passwd') WHERE `id` = '$changepasswd'");
-            $error = "Kode Ændret!";
-          }
-      }else{
-        $error="De to adgangskodefelter er ikke ens!!";
-      }
-   }else{
-     $error="Indtast venligst adgangskoden i begge felter!!";
-   }
+
+  switch(userVerifyPassword($_POST["passwd1"],$_POST["passwd2"])){
+      case "0":
+            $error="De to adgangskodefelter er ikke ens!!";
+      break;
+      case "1":
+            $error="Indtast venligst adgangskoden i begge felter!!";
+      break;
+      default:
+            if(isset($_POST["adduser"])){
+                  $error = userAdd($_POST["adduser"],$_POST["passwd1"],$_POST["isadmin"]);
+            }else{
+                  $error = userChangePassword($_POST["changepasswd"],$_POST["passwd1"]);
+            }
+      break;    
+  }
 }
 
+
 if(isset($_GET["deluser"])){
-  $deluser = $_GET["deluser"];
-  if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `id` = '$deluser'"))){
-    if($deluser == 1){
-      $error = "Adminbrugeren kan ikke slettes!!";
-    }else{
-      mysql_query("DELETE FROM `users` WHERE `id` = '$deluser'"); 
-    }
-  }else{
-    $error = "Brugeren eksistere ikke!!";
-  }
+
+    $error = userDelete($_GET["deluser"]);
+
 }
 
 if(isset($_GET["changeadmin"])){
-  $changeadmin = $_GET["changeadmin"];
-  if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `id` = '$changeadmin'"))){
-    if($changeadmin == 1){
-      $error = "Adminbrugerens rettigheder kan ikke ændres!!";
-    }else{
-      $oldadmin = mysql_fetch_assoc(mysql_query("SELECT admin FROM users WHERE id = '$changeadmin'"));
-      $oldadmin = $oldadmin['admin'];
-      if($oldadmin == 0){
-        $admin = 1;
-      }else{
-        $admin = 0;
-      }
-    mysql_query("UPDATE `users` SET `admin` = '$admin' WHERE `id` = '$changeadmin'");
-    }
-  }
+
+    $error = userChangeAdmin($_GET["changeadmin"]);
+
 }
-}
+
 
 getThemeHeader();
 

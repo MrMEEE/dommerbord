@@ -1,9 +1,8 @@
 <?php
 
 require("connect.php");
-require("commonFunctions.php");
+require_once("commonFunctions.php");
 require("checkLogin.php");
-require("checkAdmin.php");
 require("theme.php");
 
 if (checkAdmin($_SESSION['username'])){ 

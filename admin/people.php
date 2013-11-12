@@ -4,7 +4,7 @@ require("connect.php");
 require("config.php");
 require("checkConfig.php");
 require("checkLogin.php");
-require("checkAdmin.php");
+require_once("commonFunctions.php");
 require("theme.php");
 
 if (checkAdmin($_SESSION['username'])){

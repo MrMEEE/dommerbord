@@ -401,4 +401,101 @@ return $teams;
 
 }
 
+function userCheckRights($user){
+   
+   $currentuser = mysql_fetch_assoc(mysql_query("SELECT * FROM `users` WHERE `name`='".$_SESSION['username']."'"));
+   
+   if ((checkAdmin($_SESSION['username'])) || ($currentuser['id'] == $user)){
+      return 1;
+   }else{
+      return 0;
+   }
+
+}
+
+function userVerifyPassword($password1,$password2){
+
+   if ($password1 == $password2) {
+         return $password1;
+   }elseif ($password1 == "" || $password2 == ""){
+         return 1;
+   }else{
+         return 0;
+   }
+
+}
+
+function userChangePassword($user,$password){
+
+  if (userCheckRights($user)){
+     mysql_query("UPDATE `users` SET `password` = md5('$password') WHERE `id` = '$user'");  
+     return "Kode Ændret!";
+  }else{
+     return "Du har ikke rettigheder til at ændre koden!";      
+  }
+
+}
+
+function userAdd($user,$password,$admin){
+  if (userCheckRights($user)){
+     if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `name` = '$user'"))) {
+         return "Brugeren eksistere allerede!";
+     }else{
+         mysql_query("INSERT INTO `users` (`name`,`password`,`admin`) VALUES ('$user',md5('$password'),'$admin')");
+         return "Brugeren blev oprettet.";
+     }
+  }else{
+     return "Du er ikke administrator!!";
+  }
+}
+
+function userDelete($user){
+  if (userCheckRights($user)){
+       if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `id` = '$user'"))){
+           if($deluser == 1){
+               return "Adminbrugeren kan ikke slettes!!";
+           }else{
+               mysql_query("DELETE FROM `users` WHERE `id` = '$user'");
+               return "Brugeren blev slettet.";
+           }
+       }else{
+           return "Brugeren eksistere ikke!!";
+       }
+  }
+}
+
+function userChangeAdmin($user){
+   if (userCheckRights($user)){
+       if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE `id` = '$user'"))){
+           if($user == 1){
+               return "Adminbrugerens rettigheder kan ikke ændres!!";
+           }else{
+               $oldadmin = mysql_fetch_assoc(mysql_query("SELECT admin FROM users WHERE id = '$user'"));
+               $oldadmin = $oldadmin['admin'];
+               if($oldadmin == 0){
+                  $admin = 1;
+               }else{
+                  $admin = 0;
+               }
+               mysql_query("UPDATE `users` SET `admin` = '$admin' WHERE `id` = '$user'");
+           }
+       
+       }
+   }
+}
+
+function checkAdmin($username){
+   $user=mysql_query("SELECT * FROM users WHERE name = '$username'");
+
+   if(mysql_num_rows($user)){
+      $user = mysql_fetch_assoc($user);
+      $admin = $user['admin'];
+   }else{
+      $admin = 0;
+   }
+
+   return $admin;
+}
+
+
 ?>

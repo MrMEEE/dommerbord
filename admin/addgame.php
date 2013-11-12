@@ -4,9 +4,8 @@ require("config.php");
 require("connect.php");
 require("checkConfig.php");
 require("checkLogin.php");
-require("checkAdmin.php");
 require("todo.class.php");
-require("commonFunctions.php");
+require_once("commonFunctions.php");
 require("theme.php");
 
 $message = "";

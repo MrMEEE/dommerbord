@@ -4,8 +4,8 @@ require("connect.php");
 require("config.php");
 require("checkConfig.php");
 require("checkLogin.php");
-require("checkAdmin.php");
 require("theme.php");
+require_once("commonFunctions.php");
 
 $error="";
 

@@ -2,10 +2,10 @@
 
 require("config.php"); 
 require("connect.php");
-require("checkAdmin.php");
 require("checkConfig.php");
 require("checkLogin.php");
 require("theme.php");
+require_once("commonFunctions.php");
 
 require_once('calendar/classes/tc_calendar.php');
 

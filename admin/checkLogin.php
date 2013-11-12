@@ -11,8 +11,7 @@ if (isset($_SESSION['username'])){
 
 //the session variable is registered, the user is allowed to see anything that follows
 
-}
-else{
+}else{
 
 //the session variable isn't registered, send them back to the login page
 if(($klubadresse!="") && ($klubpath!="")){

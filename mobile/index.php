@@ -22,6 +22,7 @@ createMenuItem("Bekræft tjanser","confirm.php");
 createMenuItem("Mine holds kampe","games.php");
 createMenuItem("Dommer/Dommerbordstjanser","duties.php");
 createMenuItem("Frie Dommertjanser","opengames.php");
+createMenuItem("Log Ud","logout.php");
 ?>
 
 </table>

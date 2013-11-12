@@ -1,6 +1,6 @@
 <?php
 
-require("commonFunctions.php");
+require_once("commonFunctions.php");
 
 if(isset($_GET['gameID'])){
   $basketdkid=getGame($_GET['gameID']);

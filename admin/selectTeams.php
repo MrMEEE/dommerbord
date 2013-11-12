@@ -20,7 +20,7 @@ if(isset($_POST['selectteams'])){
  
  switch($_POST['user']){ 
     case "1":
-     $query = "UPDATE `users` SET `teams` = '$teamstring' WHERE `id` = $id"; 
+     $query = "UPDATE `users` SET `teams` = '$teamstring' WHERE `id` = ".$_POST['id']; 
      break;
     case "2":
      $query = "UPDATE `users` SET `refs` = '".$_POST['ref']."' WHERE `id` = ".$_POST['id'];

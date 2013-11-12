@@ -66,7 +66,15 @@ echo '
 foreach (glob($_SERVER['DOCUMENT_ROOT'].$klubpath."/admin/plugins/*/*_pluginmenu.php") as $filename) {
 	include($filename);
 }
-
+if (!checkAdmin($_SESSION['username'])){
+echo '
+<li class="dir">Din bruger
+        <ul>
+                <li class="first"><a href="http://' . $klubadresse . $klubpath . '/admin/useroptions.php">Min Konfiguration</a></li>
+                <li class="last"><a href="http://' . $klubadresse . $klubpath . '/admin/userteams.php">Bruger Info</a></li>
+        </ul>
+</li>';
+}
 echo'
 <li class="last"><a href="http://' . $klubadresse . $klubpath . '/admin/logout.php" class="top_link"><span>Log ud</span></a></li>
 </ul>
