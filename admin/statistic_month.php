@@ -197,7 +197,7 @@ if(isset($_POST['referee'])){
        $nonconfirmed_games = 0;
        $confirmed_grandprix = 0;
        $nonconfirmed_grandprix = 0;
-       $games = mysql_query("SELECT * FROM `games` WHERE `homegame`='1' AND `date`>='".$fromdate."' AND `date`=<'".$todate."'");;
+       $games = mysql_query("SELECT * FROM `games` WHERE `homegame`='1' AND `date`>='".$fromdate."' AND `date`<='".$todate."'");;
        echo 'Dommer: <font color="blue">'.$ref['name'].'</font><br><br>';
        echo '<table width="100%">';
        while($game = mysql_fetch_assoc($games)){
